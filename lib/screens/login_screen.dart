@@ -103,13 +103,14 @@ class _LoginScreenState extends State<LoginScreen>
     final isDark = context.isDarkTheme;
     final gradientColors = isDark
         ? const [
-            Color(0xFF111827),
-            Color(0xFF1F2937),
-            Color(0xFF111827),
+            Color(0xFF0F172A),
+            Color(0xFF1E3A8A),
+            Color(0xFF134E4A),
           ]
         : const [
-            Color(0xFFECFDF5),
-            Color(0xFFFECACB),
+            Color(0xFF60A5FA),
+            Color(0xFF6EE7B7),
+            Color(0xFF2DD4BF),
           ];
 
     return Scaffold(
@@ -121,9 +122,12 @@ class _LoginScreenState extends State<LoginScreen>
               animation: _backgroundController,
               builder: (context, _) {
                 final t = _backgroundController.value;
-                final circle1Scale = 1 + 0.2 * (1 - math.cos(t * 2 * math.pi));
-                final circle2Scale =
-                    1 + 0.3 * (1 - math.cos((t + 0.3) * 2 * math.pi));
+                final s1 = 1 + 0.3 * math.sin(t * 2 * math.pi);
+                final s2 = 1 + 0.2 * math.cos((t + 0.3) * 2 * math.pi);
+                final dx1 = 40 * math.sin(t * 2 * math.pi);
+                final dy1 = -20 * math.cos(t * 2 * math.pi);
+                final dx2 = -40 * math.cos((t + 0.4) * 2 * math.pi);
+                final dy2 = 30 * math.sin((t + 0.4) * 2 * math.pi);
 
                 return Stack(
                   children: [
@@ -137,26 +141,32 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                     ),
                     Align(
-                      alignment: const Alignment(-1.2, -0.1),
-                      child: Transform.scale(
-                        scale: circle1Scale,
-                        child: _BlurCircle(
-                          color: (isDark
-                                  ? const Color(0xFF14B8A6)
-                                  : const Color(0xFF6EE7B7))
-                              .withOpacity(0.3),
+                      alignment: const Alignment(-1, -0.1),
+                      child: Transform.translate(
+                        offset: Offset(dx1, dy1),
+                        child: Transform.scale(
+                          scale: s1,
+                          child: _BlurCircle(
+                            color: (isDark
+                                    ? const Color(0xFF2563EB)
+                                    : const Color(0xFF93C5FD))
+                                .withOpacity(0.3),
+                          ),
                         ),
                       ),
                     ),
                     Align(
-                      alignment: const Alignment(1.2, 0.2),
-                      child: Transform.scale(
-                        scale: circle2Scale,
-                        child: _BlurCircle(
-                          color: (isDark
-                                  ? const Color(0xFF2563EB)
-                                  : const Color(0xFF93C5FD))
-                              .withOpacity(0.3),
+                      alignment: const Alignment(1, 0.1),
+                      child: Transform.translate(
+                        offset: Offset(dx2, dy2),
+                        child: Transform.scale(
+                          scale: s2,
+                          child: _BlurCircle(
+                            color: (isDark
+                                    ? const Color(0xFF14B8A6)
+                                    : const Color(0xFF6EE7B7))
+                                .withOpacity(0.3),
+                          ),
                         ),
                       ),
                     ),
@@ -181,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen>
             ),
           ),
           SafeArea(
-            minimum: const EdgeInsets.only(top: 88),
+            minimum: const EdgeInsets.only(top: 116),
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
               physics: const BouncingScrollPhysics(),
@@ -257,12 +267,12 @@ class _BlurCircle extends StatelessWidget {
       width: 260,
       height: 260,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
         color: color,
+        shape: BoxShape.circle,
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 64, sigmaY: 64),
-        child: Container(),
+        filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+        child: const SizedBox.expand(),
       ),
     );
   }
@@ -275,30 +285,54 @@ class _LogoHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: 88,
-          height: 88,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.1),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.2),
-              width: 2,
-            ),
-          ),
-          child: const Icon(
-            Icons.school_rounded,
-            size: 48,
+        TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.8, end: 1),
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeOutBack,
+          builder: (context, scale, child) {
+            return Transform.scale(
+              scale: scale,
+              child: Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 40,
+                      offset: Offset(0, 20),
+                      color: Colors.black26,
+                    ),
+                  ],
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.school_rounded,
+                    color: Colors.white,
+                    size: 36,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 12),
+        Text(
+          context.tr('auth.welcome'),
+          style: const TextStyle(
             color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 4),
         Text(
-          'Noti School',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
+          context.tr('app.tagline'),
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.82),
+            fontSize: 14,
+          ),
         ),
       ],
     );
@@ -316,67 +350,55 @@ class _RoleSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.2),
-        ),
-      ),
-      child: Row(
-        children: [
-          for (final role in UserRole.values)
-            Expanded(
-              child: _RoleButton(
-                role: role,
-                isSelected: current == role,
-                onTap: () => onChanged(role),
+    const roles = UserRole.values;
+
+    return Row(
+      children: [
+        for (final role in roles) ...[
+          Expanded(
+            child: GestureDetector(
+              onTap: () => onChanged(role),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOut,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: current == role
+                      ? Colors.white
+                      : Colors.white.withOpacity(0.18),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: current == role
+                        ? Colors.transparent
+                        : Colors.white.withOpacity(0.3),
+                  ),
+                  boxShadow: current == role
+                      ? const [
+                          BoxShadow(
+                            blurRadius: 18,
+                            offset: Offset(0, 8),
+                            color: Colors.black26,
+                          ),
+                        ]
+                      : null,
+                ),
+                child: Center(
+                  child: Text(
+                    context.strings.role(role),
+                    style: TextStyle(
+                      color: current == role
+                          ? const Color(0xFF2ECC71)
+                          : Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
             ),
+          ),
+          if (role != roles.last) const SizedBox(width: 8),
         ],
-      ),
-    );
-  }
-}
-
-class _RoleButton extends StatelessWidget {
-  final UserRole role;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _RoleButton({
-    required this.role,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final icon = switch (role) {
-      UserRole.teacher => Icons.person_outline,
-      UserRole.student => Icons.school_outlined,
-      UserRole.parent => Icons.family_restroom_outlined,
-      UserRole.admin => Icons.admin_panel_settings_outlined,
-    };
-
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color:
-              isSelected ? Colors.white.withOpacity(0.2) : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 20,
-        ),
-      ),
+      ],
     );
   }
 }
@@ -406,115 +428,142 @@ class _GlassLoginCard extends StatelessWidget {
     required this.onLogin,
   });
 
+  InputDecoration _inputDecoration(BuildContext context, String label, IconData icon) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: Colors.white70),
+      prefixIcon: Icon(icon, color: Colors.white70),
+      filled: true,
+      fillColor: Colors.white.withOpacity(0.2),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: const BorderSide(color: Colors.white, width: 1.2),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: const BorderSide(color: Color(0xFFFECACA)),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: const BorderSide(color: Color(0xFFFECACA)),
+      ),
+      contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.2),
-          width: 1.5,
-        ),
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(28),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                context.tr('auth.login'),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                ),
+        filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.12),
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(
+              color: Colors.white.withOpacity(0.2),
+            ),
+            boxShadow: const [
+              BoxShadow(
+                blurRadius: 30,
+                offset: Offset(0, 18),
+                color: Colors.black26,
               ),
-              const SizedBox(height: 20),
-              _AnimatedFieldWrapper(
-                focusNode: emailFocusNode,
-                child: TextFormField(
-                  controller: emailController,
+            ],
+          ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _AnimatedFieldWrapper(
                   focusNode: emailFocusNode,
-                  cursorColor: Colors.white,
-                  style: const TextStyle(color: Colors.white),
-                  validator: (value) =>
-                      InputValidators.validateEmail(context, value),
-                  decoration: _inputDecoration(
-                    context.tr('auth.email'),
-                    Icons.email_outlined,
+                  child: TextFormField(
+                    controller: emailController,
+                    focusNode: emailFocusNode,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.white),
+                    validator: (value) =>
+                        InputValidators.validateEmail(context, value),
+                    decoration: _inputDecoration(
+                      context,
+                      context.tr('auth.email'),
+                      Icons.email_outlined,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              _AnimatedFieldWrapper(
-                focusNode: passwordFocusNode,
-                child: TextFormField(
-                  controller: passwordController,
+                const SizedBox(height: 16),
+                _AnimatedFieldWrapper(
                   focusNode: passwordFocusNode,
-                  cursorColor: Colors.white,
-                  style: const TextStyle(color: Colors.white),
-                  inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
-                  obscureText: !showPassword,
-                  validator: (value) =>
-                      InputValidators.validatePassword(context, value),
-                  decoration: _inputDecoration(
-                    context.tr('auth.password'),
-                    Icons.lock_outline,
-                  ).copyWith(
-                    hintText: '••••••••',
-                    hintStyle: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: onTogglePassword,
-                      icon: Icon(
-                        showPassword
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: Colors.white70,
+                  child: TextFormField(
+                    controller: passwordController,
+                    focusNode: passwordFocusNode,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.white),
+                    inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
+                    obscureText: !showPassword,
+                    validator: (value) =>
+                        InputValidators.validatePassword(context, value),
+                    decoration: _inputDecoration(
+                      context,
+                      context.tr('auth.password'),
+                      Icons.lock_outline,
+                    ).copyWith(
+                      suffixIcon: IconButton(
+                        onPressed: onTogglePassword,
+                        icon: Icon(
+                          showPassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.white70,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: onForgotPassword,
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white.withOpacity(0.9),
-                  ),
-                  child: Text(context.tr('auth.forgotPassword')),
-                ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: onLogin,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: onForgotPassword,
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white.withOpacity(0.9),
                     ),
-                    backgroundColor: Colors.white,
-                  ),
-                  child: Text(
-                    context.tr('auth.login'),
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
+                    child: Text(context.tr('auth.forgotPassword')),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: onLogin,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: Text(
+                      context.tr('auth.login'),
+                      style: const TextStyle(
+                        color: Color(0xFF111827),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -522,7 +571,7 @@ class _GlassLoginCard extends StatelessWidget {
   }
 }
 
-class _AnimatedFieldWrapper extends StatefulWidget {
+class _AnimatedFieldWrapper extends StatelessWidget {
   final FocusNode focusNode;
   final Widget child;
 
@@ -532,37 +581,16 @@ class _AnimatedFieldWrapper extends StatefulWidget {
   });
 
   @override
-  State<_AnimatedFieldWrapper> createState() => _AnimatedFieldWrapperState();
-}
-
-class _AnimatedFieldWrapperState extends State<_AnimatedFieldWrapper> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.focusNode,
-      builder: (context, child) {
-        return Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: widget.focusNode.hasFocus
-                  ? Colors.white.withOpacity(0.6)
-                  : Colors.white.withOpacity(0.2),
-              width: 1.5,
-            ),
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white.withOpacity(0.05),
-          ),
-          child: widget.child,
+      animation: focusNode,
+      builder: (context, _) {
+        final focused = focusNode.hasFocus;
+        return AnimatedScale(
+          scale: focused ? 1.02 : 1,
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOut,
+          child: child,
         );
       },
     );
@@ -705,17 +733,4 @@ class _RegisterFooter extends StatelessWidget {
   }
 }
 
-InputDecoration _inputDecoration(String label, IconData icon) {
-  return InputDecoration(
-    prefixIcon: Icon(
-      icon,
-      color: Colors.white70,
-    ),
-    hintText: label,
-    hintStyle: TextStyle(
-      color: Colors.white.withOpacity(0.6),
-    ),
-    border: InputBorder.none,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-  );
-}
+
