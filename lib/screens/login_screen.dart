@@ -571,7 +571,7 @@ class _GlassLoginCard extends StatelessWidget {
   }
 }
 
-class _AnimatedFieldWrapper extends StatefulWidget {
+class _AnimatedFieldWrapper extends StatelessWidget {
   final FocusNode focusNode;
   final Widget child;
 
@@ -581,37 +581,16 @@ class _AnimatedFieldWrapper extends StatefulWidget {
   });
 
   @override
-  State<_AnimatedFieldWrapper> createState() => _AnimatedFieldWrapperState();
-}
-
-class _AnimatedFieldWrapperState extends State<_AnimatedFieldWrapper> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.focusNode,
-      builder: (context, child) {
-        return Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: widget.focusNode.hasFocus
-                  ? Colors.white.withOpacity(0.6)
-                  : Colors.white.withOpacity(0.2),
-              width: 1.5,
-            ),
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white.withOpacity(0.05),
-          ),
-          child: widget.child,
+      animation: focusNode,
+      builder: (context, _) {
+        final focused = focusNode.hasFocus;
+        return AnimatedScale(
+          scale: focused ? 1.02 : 1,
+          duration: const Duration(milliseconds: 160),
+          curve: Curves.easeOut,
+          child: child,
         );
       },
     );
