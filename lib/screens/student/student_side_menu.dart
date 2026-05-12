@@ -12,6 +12,7 @@ enum StudentSection {
   teachers,
   classmates,
   files,
+  chat,
   settings,
 }
 
@@ -152,6 +153,12 @@ class StudentSideMenu extends StatelessWidget {
             label: context.tr('section.files'),
             isActive: current == StudentSection.files,
             onTap: () => onSelect(StudentSection.files),
+          ),
+          _MenuTile(
+            icon: Icons.chat_outlined,
+            label: context.tr('section.chat'),
+            isActive: current == StudentSection.chat,
+            onTap: () => onSelect(StudentSection.chat),
           ),
           _MenuTile(
             icon: Icons.settings_outlined,

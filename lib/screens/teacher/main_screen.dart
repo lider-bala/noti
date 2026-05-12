@@ -14,6 +14,7 @@ import 'teachers_screen.dart';
 import 'grades_screen.dart';
 import 'files_screen.dart';
 import 'settings_screen.dart';
+import '../chat/chat_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final VoidCallback onLogout;
@@ -46,6 +47,8 @@ class _MainScreenState extends State<MainScreen> {
         return context.tr('section.teachers');
       case MainSection.files:
         return context.tr('section.files');
+      case MainSection.chat:
+        return context.tr('section.chat');
       case MainSection.settings:
         return context.tr('section.settings');
     }
@@ -157,15 +160,22 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                          child: SingleChildScrollView(
-                            child: AnimatedSectionSwitcher(
-                              switchKey: _section,
-                              child: _buildSection(),
-                            ),
-                          ),
-                        ),
+                        child: _section == MainSection.chat
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: _buildSection(),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: SingleChildScrollView(
+                                  child: AnimatedSectionSwitcher(
+                                    switchKey: _section,
+                                    child: _buildSection(),
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -260,6 +270,8 @@ class _MainScreenState extends State<MainScreen> {
         return const GradesScreen();
       case MainSection.files:
         return const FilesScreen();
+      case MainSection.chat:
+        return const ChatScreen();
       case MainSection.settings:
         return const SettingsScreen();
     }

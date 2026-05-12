@@ -10,6 +10,7 @@ enum AdminSection {
   classSchedule,
   teacherSchedule,
   analytics,
+  chat,
   settings,
 }
 
@@ -129,6 +130,12 @@ class AdminSideMenu extends StatelessWidget {
             label: context.tr('section.analytics'),
             isActive: current == AdminSection.analytics,
             onTap: () => onSelect(AdminSection.analytics),
+          ),
+          _MenuTile(
+            icon: Icons.chat_outlined,
+            label: context.tr('section.chat'),
+            isActive: current == AdminSection.chat,
+            onTap: () => onSelect(AdminSection.chat),
           ),
           _MenuTile(
             icon: Icons.settings_outlined,

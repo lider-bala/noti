@@ -11,6 +11,7 @@ import 'admin_schedule_views.dart';
 import 'admin_settings_screen.dart';
 import 'admin_side_menu.dart';
 import 'admin_users_screen.dart';
+import '../chat/admin_chat_screen.dart';
 
 class AdminMainScreen extends StatefulWidget {
   final VoidCallback onLogout;
@@ -52,6 +53,8 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
         return context.tr('Расписание учителей');
       case AdminSection.analytics:
         return context.tr('section.analytics');
+      case AdminSection.chat:
+        return context.tr('section.chat');
       case AdminSection.settings:
         return context.tr('section.settings');
     }
@@ -124,15 +127,22 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
                           ),
                         ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                          child: SingleChildScrollView(
-                            child: AnimatedSectionSwitcher(
-                              switchKey: _section,
-                              child: _buildSection(),
-                            ),
-                          ),
-                        ),
+                        child: _section == AdminSection.chat
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: _buildSection(),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: SingleChildScrollView(
+                                  child: AnimatedSectionSwitcher(
+                                    switchKey: _section,
+                                    child: _buildSection(),
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -209,6 +219,8 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
         return const AdminTeacherScheduleScreen();
       case AdminSection.analytics:
         return const AdminAnalyticsScreen();
+      case AdminSection.chat:
+        return const AdminChatScreen();
       case AdminSection.settings:
         return const AdminSettingsScreen();
     }

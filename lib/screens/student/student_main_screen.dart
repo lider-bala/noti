@@ -12,6 +12,7 @@ import 'student_schedule_screen.dart';
 import 'student_settings_screen.dart';
 import 'student_teachers_screen.dart';
 import 'student_side_menu.dart';
+import '../chat/chat_screen.dart';
 import '../../widgets/animated_section_switcher.dart';
 
 class StudentMainScreen extends StatefulWidget {
@@ -46,6 +47,8 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
         return context.tr('section.classmates');
       case StudentSection.files:
         return context.tr('section.files');
+      case StudentSection.chat:
+        return context.tr('section.chat');
       case StudentSection.settings:
         return context.tr('section.settings');
     }
@@ -149,15 +152,22 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
                           ),
                         ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 16, 8, 24),
-                          child: SingleChildScrollView(
-                            child: AnimatedSectionSwitcher(
-                              switchKey: _section,
-                              child: _buildSection(),
-                            ),
-                          ),
-                        ),
+                        child: _section == StudentSection.chat
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(8, 16, 8, 24),
+                                child: _buildSection(),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(8, 16, 8, 24),
+                                child: SingleChildScrollView(
+                                  child: AnimatedSectionSwitcher(
+                                    switchKey: _section,
+                                    child: _buildSection(),
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -246,6 +256,8 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
         return const StudentClassmatesScreen();
       case StudentSection.files:
         return const StudentFilesScreen();
+      case StudentSection.chat:
+        return const ChatScreen();
       case StudentSection.settings:
         return const StudentSettingsScreen();
     }

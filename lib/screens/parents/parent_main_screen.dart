@@ -13,6 +13,7 @@ import 'parent_schedule_screen.dart';
 import 'parent_settings_screen.dart';
 import 'parent_side_menu.dart';
 import 'parent_teachers_screen.dart';
+import '../chat/chat_screen.dart';
 
 class ParentMainScreen extends StatefulWidget {
   final VoidCallback onLogout;
@@ -46,6 +47,8 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
         return context.tr('section.notifications');
       case ParentSection.teachers:
         return context.tr('section.teachers');
+      case ParentSection.chat:
+        return context.tr('section.chat');
       case ParentSection.settings:
         return context.tr('section.settings');
     }
@@ -149,15 +152,22 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
                           ),
                         ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                          child: SingleChildScrollView(
-                            child: AnimatedSectionSwitcher(
-                              switchKey: _section,
-                              child: _buildSection(),
-                            ),
-                          ),
-                        ),
+                        child: _section == ParentSection.chat
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: _buildSection(),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: SingleChildScrollView(
+                                  child: AnimatedSectionSwitcher(
+                                    switchKey: _section,
+                                    child: _buildSection(),
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -244,6 +254,8 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
         return const ParentNotificationsScreen();
       case ParentSection.teachers:
         return const ParentTeachersScreen();
+      case ParentSection.chat:
+        return const ChatScreen();
       case ParentSection.settings:
         return const ParentSettingsScreen();
     }

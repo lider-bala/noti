@@ -260,6 +260,38 @@ class AppLocalizations {
       AppLanguage.russian: 'Отчёты',
       AppLanguage.kyrgyz: 'Отчеттор',
     },
+    'section.chat': {
+      AppLanguage.russian: 'Сообщения',
+      AppLanguage.kyrgyz: 'Кабарлар',
+    },
+    'chat.writeToAdmin': {
+      AppLanguage.russian: 'Написать администратору',
+      AppLanguage.kyrgyz: 'Админге жазуу',
+    },
+    'chat.noMessages': {
+      AppLanguage.russian: 'Нет сообщений',
+      AppLanguage.kyrgyz: 'Кабарлар жок',
+    },
+    'chat.startConversation': {
+      AppLanguage.russian: 'Начните диалог с администратором',
+      AppLanguage.kyrgyz: 'Админ менен сүйлөшүүнү баштаңыз',
+    },
+    'chat.typeMessage': {
+      AppLanguage.russian: 'Напишите сообщение...',
+      AppLanguage.kyrgyz: 'Кабар жазыңыз...',
+    },
+    'chat.conversations': {
+      AppLanguage.russian: 'Диалоги',
+      AppLanguage.kyrgyz: 'Сүйлөшүүлөр',
+    },
+    'chat.noConversations': {
+      AppLanguage.russian: 'Нет диалогов',
+      AppLanguage.kyrgyz: 'Сүйлөшүүлөр жок',
+    },
+    'chat.noConversationsHint': {
+      AppLanguage.russian: 'Когда пользователи напишут вам, диалоги появятся здесь',
+      AppLanguage.kyrgyz: 'Колдонуучулар жазганда, сүйлөшүүлөр бул жерде пайда болот',
+    },
     'common.logout': {
       AppLanguage.russian: 'Выйти',
       AppLanguage.kyrgyz: 'Чыгуу',

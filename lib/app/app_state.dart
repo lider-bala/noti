@@ -299,6 +299,18 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<String> get allChatContactKeys =>
+      _chatMessagesByContact.keys.toList();
+
+  Map<String, List<AppChatMessage>> get allChatMessages =>
+      Map.unmodifiable(_chatMessagesByContact);
+
+  AppUser? get firstAdmin =>
+      _accounts
+          .map((a) => a.user)
+          .where((u) => u.role == UserRole.admin && u.isActive)
+          .firstOrNull;
+
   void setThemePreference(AppThemePreference value) {
     if (themePreference == value) {
       return;

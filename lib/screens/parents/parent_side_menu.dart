@@ -12,6 +12,7 @@ enum ParentSection {
   attendance,
   notifications,
   teachers,
+  chat,
   settings,
 }
 
@@ -150,6 +151,12 @@ class ParentSideMenu extends StatelessWidget {
             label: context.tr('section.teachers'),
             isActive: current == ParentSection.teachers,
             onTap: () => onSelect(ParentSection.teachers),
+          ),
+          _MenuTile(
+            icon: Icons.chat_outlined,
+            label: context.tr('section.chat'),
+            isActive: current == ParentSection.chat,
+            onTap: () => onSelect(ParentSection.chat),
           ),
           _MenuTile(
             icon: Icons.settings_outlined,
