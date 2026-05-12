@@ -1,0 +1,96 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function accountPath(schoolId, userId) {
+      return /databases/(default)/documents/schools/$(schoolId)/accounts/$(userId);
+    }
+
+    function account(schoolId, userId) {
+      return firestore.get(accountPath(schoolId, userId)).data;
+    }
+
+    function active(schoolId) {
+      return signedIn() &&
+        firestore.exists(accountPath(schoolId, request.auth.uid)) &&
+        account(schoolId, request.auth.uid).status == 'active';
+    }
+
+    function role(schoolId) {
+      return account(schoolId, request.auth.uid).role;
+    }
+
+    function isAdmin(schoolId) {
+      return active(schoolId) && role(schoolId) == 'admin';
+    }
+
+    function isTeacher(schoolId) {
+      return active(schoolId) && role(schoolId) == 'teacher';
+    }
+
+    function isStudent(schoolId) {
+      return active(schoolId) && role(schoolId) == 'student';
+    }
+
+    function isParent(schoolId) {
+      return active(schoolId) && role(schoolId) == 'parent';
+    }
+
+    function teachesClass(schoolId, classId) {
+      return isTeacher(schoolId) &&
+        firestore.exists(/databases/(default)/documents/schools/$(schoolId)/teacherClasses/$(request.auth.uid + '_' + classId));
+    }
+
+    function parentOfStudent(schoolId, studentId) {
+      return isParent(schoolId) &&
+        firestore.exists(/databases/(default)/documents/schools/$(schoolId)/parentStudents/$(request.auth.uid + '_' + studentId));
+    }
+
+    function sameClassAsUser(schoolId, classId) {
+      return (isStudent(schoolId) && account(schoolId, request.auth.uid).schoolClass == classId);
+    }
+
+    function allowedMime() {
+      return request.resource.contentType in [
+        'application/pdf',
+        'image/png',
+        'image/jpeg',
+        'image/webp',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+    }
+
+    function validUpload() {
+      return request.resource.size <= 5 * 1024 * 1024 && allowedMime();
+    }
+
+    match /schools/{schoolId}/teacher-files/{ownerId}/{fileName} {
+      allow read: if active(schoolId);
+      allow write: if validUpload() &&
+        (isAdmin(schoolId) || (isTeacher(schoolId) && request.auth.uid == ownerId));
+    }
+
+    match /schools/{schoolId}/class-files/{classId}/{ownerId}/{fileName} {
+      allow read: if isAdmin(schoolId) ||
+        teachesClass(schoolId, classId) ||
+        sameClassAsUser(schoolId, classId);
+      allow write: if validUpload() &&
+        (isAdmin(schoolId) ||
+         (isTeacher(schoolId) && request.auth.uid == ownerId && teachesClass(schoolId, classId)));
+    }
+
+    match /schools/{schoolId}/homework-submissions/{studentId}/{fileName} {
+      allow read: if isAdmin(schoolId) ||
+        (isStudent(schoolId) && request.auth.uid == studentId) ||
+        parentOfStudent(schoolId, studentId) ||
+        teachesClass(schoolId, account(schoolId, studentId).schoolClass);
+      allow write: if validUpload() && isStudent(schoolId) && request.auth.uid == studentId;
+    }
+  }
+}

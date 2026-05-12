@@ -1,0 +1,29 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "flutter": {
+    "platforms": {
+      "ios": {
+        "default": {
+          "projectId": "noti-c3136",
+          "appId": "1:570949749316:ios:b9e49eeda0ac33f3f60a11",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      }
+    },
+    "dart": {
+      "lib/firebase_options.dart": {
+        "projectId": "noti-c3136",
+        "configurations": {
+          "ios": "1:570949749316:ios:b9e49eeda0ac33f3f60a11",
+          "web": "1:570949749316:web:3a08b6bcab8673fff60a11"
+        }
+      }
+    }
+  }
+}

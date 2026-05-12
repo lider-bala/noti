@@ -1,0 +1,33 @@
+name: noti_flutter_converted
+description: "Converted UI from React Noti project to Flutter."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  flutter_screenutil: ^5.9.0
+  firebase_core: ^4.7.0
+  firebase_auth: ^6.1.2
+  cloud_firestore: ^6.3.0
+  crypto: ^3.0.7
+  firebase_storage: ^13.3.0
+  file_picker: ^11.0.2
+  url_launcher: ^6.3.2
+  firebase_analytics: ^12.3.0
+  firebase_crashlytics: ^5.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true

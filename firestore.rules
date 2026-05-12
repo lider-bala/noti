@@ -1,0 +1,246 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function accountPath(schoolId, userId) {
+      return /databases/$(database)/documents/schools/$(schoolId)/accounts/$(userId);
+    }
+
+    function account(schoolId, userId) {
+      return get(accountPath(schoolId, userId)).data;
+    }
+
+    function myAccount(schoolId) {
+      return account(schoolId, request.auth.uid);
+    }
+
+    function active(schoolId) {
+      return signedIn() &&
+        exists(accountPath(schoolId, request.auth.uid)) &&
+        myAccount(schoolId).status == 'active';
+    }
+
+    function role(schoolId) {
+      return myAccount(schoolId).role;
+    }
+
+    function isAdmin(schoolId) {
+      return active(schoolId) && request.auth.token.role == 'admin';
+    }
+
+    function isSuperAdmin(schoolId) {
+      return request.auth != null && request.auth.token.superAdmin == true;
+    }
+
+    function isTeacher(schoolId) {
+      return active(schoolId) && request.auth.token.role == 'teacher';
+    }
+
+    function isStudent(schoolId) {
+      return active(schoolId) && request.auth.token.role == 'student';
+    }
+
+    function isParent(schoolId) {
+      return active(schoolId) && request.auth.token.role == 'parent';
+    }
+
+    function teachesClass(schoolId, classId) {
+      return isTeacher(schoolId) &&
+        exists(/databases/$(database)/documents/schools/$(schoolId)/teacherClasses/$(request.auth.uid + '_' + classId));
+    }
+
+    function ownClass(schoolId, classId) {
+      return isStudent(schoolId) && myAccount(schoolId).schoolClass == classId;
+    }
+
+    function parentOfStudent(schoolId, studentId) {
+      return isParent(schoolId) &&
+        exists(/databases/$(database)/documents/schools/$(schoolId)/parentStudents/$(request.auth.uid + '_' + studentId));
+    }
+
+    function parentOfClass(schoolId, classId) {
+      return isParent(schoolId) &&
+        exists(/databases/$(database)/documents/schools/$(schoolId)/parentClasses/$(request.auth.uid + '_' + classId));
+    }
+
+    function isSafeRoleChange() {
+      let reqSuper = 'superAdmin' in request.resource.data ? request.resource.data.superAdmin : false;
+      let resSuper = resource != null && 'superAdmin' in resource.data ? resource.data.superAdmin : false;
+      let reqRole = 'role' in request.resource.data ? request.resource.data.role : '';
+      let resRole = resource != null && 'role' in resource.data ? resource.data.role : '';
+      
+      let changingSuper = reqSuper == true && resSuper != true;
+      let changingAdminRole = reqRole == 'admin' && resRole != 'admin';
+      
+      return !changingSuper && !changingAdminRole;
+    }
+
+    function isSafeProfileUpdate() {
+      let diff = request.resource.data.diff(resource.data);
+      return !diff.affectedKeys().hasAny(['role', 'status', 'superAdmin', 'schoolClass', 'linkedStudentIds', 'linkedStudentId']);
+    }
+
+    function safeSubmissionUpdate() {
+      let diff = request.resource.data.diff(resource.data);
+      return !diff.affectedKeys().hasAny(['grade', 'late', 'checkedAt', 'checkedBy', 'teacherComment', 'status']);
+    }
+
+    match /schools/{schoolId} {
+      allow read: if active(schoolId);
+      allow create, update, delete: if isSuperAdmin(schoolId);
+
+      match /accounts/{userId} {
+        allow read: if isAdmin(schoolId) ||
+          (active(schoolId) && request.auth.uid == userId) ||
+          parentOfStudent(schoolId, userId);
+        allow create: if isSuperAdmin(schoolId) || 
+          (isAdmin(schoolId) && !('superAdmin' in request.resource.data || request.resource.data.get('role', '') == 'admin'));
+        allow update: if isSuperAdmin(schoolId) || 
+          (isAdmin(schoolId) && isSafeRoleChange()) || 
+          (active(schoolId) && request.auth.uid == userId && isSafeProfileUpdate());
+        allow delete: if isSuperAdmin(schoolId);
+      }
+
+      match /parentStudents/{docId} {
+        allow read: if active(schoolId) && (isAdmin(schoolId) || docId.split('_')[0] == request.auth.uid);
+        allow create, update, delete: if isSuperAdmin(schoolId) || isAdmin(schoolId);
+      }
+
+      match /parentClasses/{docId} {
+        allow read: if active(schoolId) && (isAdmin(schoolId) || docId.split('_')[0] == request.auth.uid);
+        allow create, update, delete: if isSuperAdmin(schoolId) || isAdmin(schoolId);
+      }
+
+      match /registrationRequests/{requestId} {
+        allow read, update: if isAdmin(schoolId);
+        allow create: if true;
+        allow delete: if isSuperAdmin(schoolId);
+      }
+
+      match /classes/{classId} {
+        allow read: if active(schoolId);
+        allow create, update: if isAdmin(schoolId);
+        allow delete: if isSuperAdmin(schoolId);
+      }
+
+      match /lessons/{lessonId} {
+        allow read: if isAdmin(schoolId) ||
+          teachesClass(schoolId, resource.data.classId) ||
+          ownClass(schoolId, resource.data.classId) ||
+          parentOfClass(schoolId, resource.data.classId);
+        allow create, update: if isAdmin(schoolId);
+        allow delete: if isSuperAdmin(schoolId);
+      }
+
+      match /teacherClasses/{linkId} {
+        allow read: if active(schoolId);
+        allow create, update, delete: if isAdmin(schoolId);
+      }
+
+      match /grades/{gradeId} {
+        allow read: if isAdmin(schoolId) ||
+          teachesClass(schoolId, resource.data.classId) ||
+          (isStudent(schoolId) && resource.data.studentId == request.auth.uid) ||
+          parentOfStudent(schoolId, resource.data.studentId);
+        allow create, update: if isTeacher(schoolId) &&
+          request.resource.data.teacherId == request.auth.uid &&
+          teachesClass(schoolId, request.resource.data.classId) &&
+          get(accountPath(schoolId, request.resource.data.studentId)).data.schoolClass == request.resource.data.classId;
+        allow delete: if isAdmin(schoolId);
+      }
+
+      match /attendanceSessions/{sessionId} {
+        allow read: if isAdmin(schoolId) ||
+          teachesClass(schoolId, resource.data.classId) ||
+          ownClass(schoolId, resource.data.classId) ||
+          parentOfClass(schoolId, resource.data.classId);
+        allow create, update: if isTeacher(schoolId) &&
+          request.resource.data.teacherId == request.auth.uid &&
+          teachesClass(schoolId, request.resource.data.classId);
+        allow delete: if isAdmin(schoolId);
+      }
+
+      match /homeworkAssignments/{assignmentId} {
+        allow read: if isAdmin(schoolId) ||
+          teachesClass(schoolId, resource.data.classId) ||
+          ownClass(schoolId, resource.data.classId) ||
+          parentOfClass(schoolId, resource.data.classId);
+        allow create, update: if isTeacher(schoolId) &&
+          request.resource.data.teacherId == request.auth.uid &&
+          teachesClass(schoolId, request.resource.data.classId);
+        allow delete: if isAdmin(schoolId);
+      }
+
+      match /homeworkSubmissions/{submissionId} {
+        allow read: if isAdmin(schoolId) ||
+          (isStudent(schoolId) && resource.data.studentId == request.auth.uid) ||
+          parentOfStudent(schoolId, resource.data.studentId) ||
+          teachesClass(schoolId, account(schoolId, resource.data.studentId).schoolClass);
+        allow create: if isStudent(schoolId) &&
+          request.resource.data.studentId == request.auth.uid &&
+          (!('grade' in request.resource.data) || request.resource.data.grade == null) &&
+          (!('late' in request.resource.data) || request.resource.data.late == false);
+        allow update: if isStudent(schoolId) &&
+          request.resource.data.studentId == request.auth.uid &&
+          resource.data.studentId == request.auth.uid &&
+          safeSubmissionUpdate();
+        allow delete: if isStudent(schoolId) && resource.data.studentId == request.auth.uid;
+      }
+
+      match /files/{fileId} {
+        allow read: if isAdmin(schoolId) ||
+          resource.data.classId == null ||
+          teachesClass(schoolId, resource.data.classId) ||
+          ownClass(schoolId, resource.data.classId) ||
+          parentOfClass(schoolId, resource.data.classId);
+        allow create, update: if isAdmin(schoolId) ||
+          (isTeacher(schoolId) &&
+           request.resource.data.uploadedByUserId == request.auth.uid &&
+           (request.resource.data.classId == null ||
+            teachesClass(schoolId, request.resource.data.classId)));
+        allow delete: if isAdmin(schoolId);
+      }
+
+      match /parentMeetings/{meetingId} {
+        allow read: if isAdmin(schoolId) ||
+          teachesClass(schoolId, resource.data.classId) ||
+          parentOfClass(schoolId, resource.data.classId);
+        allow create, update: if isTeacher(schoolId) &&
+          request.resource.data.teacherId == request.auth.uid &&
+          teachesClass(schoolId, request.resource.data.classId);
+        allow delete: if isAdmin(schoolId);
+      }
+
+      match /auditLogs/{auditId} {
+        allow read: if isAdmin(schoolId);
+        allow create: if active(schoolId) &&
+          request.resource.data.actorId == request.auth.uid &&
+          request.resource.data.actorRole == request.auth.token.role &&
+          request.resource.data.createdAt is timestamp;
+        allow update, delete: if isSuperAdmin(schoolId);
+      }
+
+      match /metadata/{docId} {
+        allow read: if active(schoolId);
+        allow write: if isSuperAdmin(schoolId);
+      }
+
+      // Разрешения для работы чатов и личных сообщений
+      match /chats/{chatId} {
+        allow read, write: if active(schoolId);
+        
+        match /messages/{messageId} {
+          allow read, write: if active(schoolId);
+        }
+      }
+
+      match /messages/{messageId} {
+        allow read, write: if active(schoolId);
+      }
+    }
+  }
+}
