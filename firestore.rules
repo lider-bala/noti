@@ -72,10 +72,10 @@ service cloud.firestore {
       let resSuper = resource != null && 'superAdmin' in resource.data ? resource.data.superAdmin : false;
       let reqRole = 'role' in request.resource.data ? request.resource.data.role : '';
       let resRole = resource != null && 'role' in resource.data ? resource.data.role : '';
-      
+
       let changingSuper = reqSuper == true && resSuper != true;
       let changingAdminRole = reqRole == 'admin' && resRole != 'admin';
-      
+
       return !changingSuper && !changingAdminRole;
     }
 
@@ -97,10 +97,10 @@ service cloud.firestore {
         allow read: if isAdmin(schoolId) ||
           (active(schoolId) && request.auth.uid == userId) ||
           parentOfStudent(schoolId, userId);
-        allow create: if isSuperAdmin(schoolId) || 
+        allow create: if isSuperAdmin(schoolId) ||
           (isAdmin(schoolId) && !('superAdmin' in request.resource.data || request.resource.data.get('role', '') == 'admin'));
-        allow update: if isSuperAdmin(schoolId) || 
-          (isAdmin(schoolId) && isSafeRoleChange()) || 
+        allow update: if isSuperAdmin(schoolId) ||
+          (isAdmin(schoolId) && isSafeRoleChange()) ||
           (active(schoolId) && request.auth.uid == userId && isSafeProfileUpdate());
         allow delete: if isSuperAdmin(schoolId);
       }
@@ -229,10 +229,10 @@ service cloud.firestore {
         allow write: if isSuperAdmin(schoolId);
       }
 
-      // Разрешения для работы чатов и личных сообщений
+
       match /chats/{chatId} {
         allow read, write: if active(schoolId);
-        
+
         match /messages/{messageId} {
           allow read, write: if active(schoolId);
         }

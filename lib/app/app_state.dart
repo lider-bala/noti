@@ -16,6 +16,84 @@ enum AppThemePreference {
   dark,
 }
 
+const Set<String> _demoAccountIds = {
+  'teacher-demo',
+  'teacher-physics',
+  'teacher-language',
+  'student-demo',
+  'student-10a-1',
+  'student-10a-2',
+  'student-10a-3',
+  'student-10b-1',
+  'parent-demo',
+};
+
+const Set<String> _demoEmails = {
+  'teacher@noti.kg',
+  'physics@noti.kg',
+  'language@noti.kg',
+  'student@noti.kg',
+  'alex@noti.kg',
+  'maria@noti.kg',
+  'dmitry@noti.kg',
+  'anna@noti.kg',
+  'parent@noti.kg',
+};
+
+const Set<String> _demoClassIds = {
+  '9А',
+  '9Б',
+  '10А',
+  '10Б',
+  '11А',
+  '11Б',
+};
+
+const Set<String> _demoRegistrationRequestIds = {
+  'request-seeded-student',
+  'request-seeded-teacher',
+};
+
+const Set<String> _demoLessonIds = {
+  'lesson-10a-math-1',
+  'lesson-11b-algebra-1',
+  'lesson-10b-geometry-1',
+  'lesson-10a-physics-1',
+  'lesson-10a-language-1',
+};
+
+const Set<String> _demoGradeIds = {
+  'grade-seeded-1',
+  'grade-seeded-2',
+  'grade-seeded-3',
+  'grade-seeded-4',
+  'grade-seeded-5',
+};
+
+const Set<String> _demoHomeworkAssignmentIds = {
+  'assignment-10a-math-homework',
+  'assignment-10a-physics-lab',
+  'assignment-10a-math-test',
+};
+
+const Set<String> _demoHomeworkSubmissionIds = {
+  'submission-seeded-language',
+};
+
+const Set<String> _demoParentMeetingIds = {
+  'meeting-10a-december',
+};
+
+const Set<String> _demoFileIds = {
+  'file-1',
+  'file-2',
+  'file-3',
+};
+
+const Set<String> _demoAttendanceSessionIds = {
+  'attendance-seeded',
+};
+
 class AppAccount {
   final AppUser user;
   final DateTime createdAt;
@@ -429,51 +507,138 @@ class AppState extends ChangeNotifier {
   }
 
   void _applyDatabaseSnapshot(SchoolDatabaseSnapshot snapshot) {
+    final cleanSnapshot =
+        enableDemoData ? snapshot : _withoutDemoRecords(snapshot);
     _accounts
       ..clear()
-      ..addAll(snapshot.accounts.map(_accountFromMap));
+      ..addAll(cleanSnapshot.accounts.map(_accountFromMap));
     _registrationRequests
       ..clear()
-      ..addAll(snapshot.registrationRequests.map(_registrationFromMap));
+      ..addAll(cleanSnapshot.registrationRequests.map(_registrationFromMap));
     _schoolClasses
       ..clear()
-      ..addAll(snapshot.schoolClasses.map(_schoolClassFromMap));
+      ..addAll(cleanSnapshot.schoolClasses.map(_schoolClassFromMap));
     _lessons
       ..clear()
-      ..addAll(snapshot.lessons.map(_lessonFromMap));
+      ..addAll(cleanSnapshot.lessons.map(_lessonFromMap));
     _grades
       ..clear()
-      ..addAll(snapshot.grades.map(_gradeFromMap));
+      ..addAll(cleanSnapshot.grades.map(_gradeFromMap));
     _files
       ..clear()
-      ..addAll(snapshot.files.map(_fileFromMap));
+      ..addAll(cleanSnapshot.files.map(_fileFromMap));
     _attendanceSessions
       ..clear()
-      ..addAll(snapshot.attendanceSessions.map(_attendanceFromMap));
+      ..addAll(cleanSnapshot.attendanceSessions.map(_attendanceFromMap));
     _homeworkAssignments
       ..clear()
-      ..addAll(snapshot.homeworkAssignments.map(_assignmentFromMap));
+      ..addAll(cleanSnapshot.homeworkAssignments.map(_assignmentFromMap));
     _homeworkSubmissions
       ..clear()
-      ..addAll(snapshot.homeworkSubmissions.map(_submissionFromMap));
+      ..addAll(cleanSnapshot.homeworkSubmissions.map(_submissionFromMap));
     _parentMeetings
       ..clear()
-      ..addAll(snapshot.parentMeetings.map(_meetingFromMap));
+      ..addAll(cleanSnapshot.parentMeetings.map(_meetingFromMap));
     _auditLogs
       ..clear()
-      ..addAll(snapshot.auditLogs.map(_auditLogFromMap));
+      ..addAll(cleanSnapshot.auditLogs.map(_auditLogFromMap));
     _parentStudentLinks
       ..clear()
-      ..addAll(snapshot.parentStudentLinks.map(_parentStudentLinkFromMap));
+      ..addAll(cleanSnapshot.parentStudentLinks.map(_parentStudentLinkFromMap));
     _parentClassLinks
       ..clear()
-      ..addAll(snapshot.parentClassLinks.map(_parentClassLinkFromMap));
+      ..addAll(cleanSnapshot.parentClassLinks.map(_parentClassLinkFromMap));
 
     final user = currentUser;
     if (user != null) {
       final refreshed = userById(user.id);
       currentUser = refreshed != null && refreshed.isActive ? refreshed : null;
     }
+  }
+
+  SchoolDatabaseSnapshot _withoutDemoRecords(SchoolDatabaseSnapshot snapshot) {
+    final accounts = snapshot.accounts.where((item) {
+      final id = _stringValue(item['id']);
+      final email = _stringValue(item['email']).toLowerCase();
+      return !_demoAccountIds.contains(id) && !_demoEmails.contains(email);
+    }).toList();
+    final accountIds = accounts.map((item) => _stringValue(item['id'])).toSet();
+
+    bool hasRealAccount(String? id) => id != null && accountIds.contains(id);
+    bool hasDemoId(Map<String, dynamic> item, Set<String> ids) {
+      return ids.contains(_stringValue(item['id']));
+    }
+
+    final lessons = snapshot.lessons.where((item) {
+      if (hasDemoId(item, _demoLessonIds)) {
+        return false;
+      }
+      return hasRealAccount(_nullableString(item['teacherId']));
+    }).toList();
+
+    final classIdsInUse = <String>{
+      ...accounts
+          .map((item) => _nullableString(item['schoolClass']))
+          .whereType<String>(),
+      ...lessons.map((item) => _stringValue(item['classId'])),
+    };
+    final schoolClasses = snapshot.schoolClasses.where((item) {
+      final id = _stringValue(item['id'], fallback: _stringValue(item['name']));
+      return !_demoClassIds.contains(id) || classIdsInUse.contains(id);
+    }).toList();
+
+    bool hasRealStudent(String? id) => hasRealAccount(id);
+    bool hasRealLesson(String? id) {
+      return lessons.any((item) => _stringValue(item['id']) == id);
+    }
+
+    return SchoolDatabaseSnapshot(
+      accounts: accounts,
+      registrationRequests: snapshot.registrationRequests
+          .where((item) => !hasDemoId(item, _demoRegistrationRequestIds))
+          .toList(),
+      schoolClasses: schoolClasses,
+      teacherClasses: snapshot.teacherClasses.where((item) {
+        return hasRealAccount(_nullableString(item['teacherId'])) &&
+            classIdsInUse.contains(_stringValue(item['classId']));
+      }).toList(),
+      lessons: lessons,
+      grades: snapshot.grades.where((item) {
+        return !hasDemoId(item, _demoGradeIds) &&
+            hasRealStudent(_nullableString(item['studentId'])) &&
+            hasRealLesson(_nullableString(item['lessonId']));
+      }).toList(),
+      files: snapshot.files
+          .where((item) => !hasDemoId(item, _demoFileIds))
+          .toList(),
+      attendanceSessions: snapshot.attendanceSessions.where((item) {
+        return !hasDemoId(item, _demoAttendanceSessionIds) &&
+            hasRealLesson(_nullableString(item['lessonId']));
+      }).toList(),
+      homeworkAssignments: snapshot.homeworkAssignments.where((item) {
+        return !hasDemoId(item, _demoHomeworkAssignmentIds) &&
+            hasRealAccount(_nullableString(item['teacherId'])) &&
+            classIdsInUse.contains(_stringValue(item['classId']));
+      }).toList(),
+      homeworkSubmissions: snapshot.homeworkSubmissions.where((item) {
+        return !hasDemoId(item, _demoHomeworkSubmissionIds) &&
+            hasRealStudent(_nullableString(item['studentId']));
+      }).toList(),
+      parentMeetings: snapshot.parentMeetings.where((item) {
+        return !hasDemoId(item, _demoParentMeetingIds) &&
+            hasRealAccount(_nullableString(item['teacherId'])) &&
+            classIdsInUse.contains(_stringValue(item['classId']));
+      }).toList(),
+      auditLogs: snapshot.auditLogs,
+      parentStudentLinks: snapshot.parentStudentLinks.where((item) {
+        return hasRealAccount(_nullableString(item['parentId'])) &&
+            hasRealStudent(_nullableString(item['studentId']));
+      }).toList(),
+      parentClassLinks: snapshot.parentClassLinks.where((item) {
+        return hasRealAccount(_nullableString(item['parentId'])) &&
+            classIdsInUse.contains(_stringValue(item['classId']));
+      }).toList(),
+    );
   }
 
   SchoolDatabaseSnapshot _toDatabaseSnapshot() {

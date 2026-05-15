@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'app_theme.dart';
 
-/// Основная панель для админ-интерфейса
 class AdminPanel extends StatelessWidget {
   final String title;
   final IconData? icon;
@@ -95,7 +94,6 @@ class AdminPanel extends StatelessWidget {
   }
 }
 
-/// Панель с сеткой элементов
 class AdminGridPanel extends StatelessWidget {
   final String title;
   final IconData? icon;
@@ -134,7 +132,6 @@ class AdminGridPanel extends StatelessWidget {
   }
 }
 
-/// Панель со списком элементов
 class AdminListPanel extends StatelessWidget {
   final String title;
   final IconData? icon;
@@ -249,7 +246,6 @@ class AdminListItem {
   });
 }
 
-/// Карточка с метрикой
 class MetricCard extends StatelessWidget {
   final String title;
   final String value;
@@ -339,7 +335,6 @@ class MetricCard extends StatelessWidget {
   }
 }
 
-/// Кнопка действия для админ-панели
 class AdminActionButton extends StatelessWidget {
   final String label;
   final IconData icon;

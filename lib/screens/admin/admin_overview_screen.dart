@@ -27,7 +27,6 @@ class AdminOverviewScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Приветственная карточка
           _HeroCard(
             title: context.tr('Операционный центр школы'),
             subtitle: context.tr(
@@ -35,16 +34,11 @@ class AdminOverviewScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-
-          // Панель метрик
           _MetricsPanel(appState: appState),
           const SizedBox(height: 24),
-
-          // Две колонки: состояние и заявки
           LayoutBuilder(
             builder: (context, constraints) {
               if (constraints.maxWidth < 900) {
-                // Мобильный вид - один столбец
                 return Column(
                   children: [
                     _StatusPanel(
@@ -59,7 +53,6 @@ class AdminOverviewScreen extends StatelessWidget {
                   ],
                 );
               } else {
-                // Десктопный вид - два столбца
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

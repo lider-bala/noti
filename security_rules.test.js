@@ -18,8 +18,8 @@ afterAll(async () => {
 });
 
 describe('Noti KG Security Rules', () => {
-  
-  // --- ADMIN / SUPERADMIN TESTS ---
+
+
 
   it('should DENY admin from creating account with superAdmin=true', async () => {
     await testEnv.withSecurityRulesDisabled(async (context) => {
@@ -39,7 +39,7 @@ describe('Noti KG Security Rules', () => {
       await context.firestore().doc('schools/school1/accounts/admin_uid').set({ status: 'active', role: 'admin' });
     });
     const db = testEnv.authenticatedContext('admin_uid', { role: 'admin' }).firestore();
-    
+
     await assertFails(db.doc('schools/school1/accounts/admin_uid').update({
       superAdmin: true
     }));
@@ -50,7 +50,7 @@ describe('Noti KG Security Rules', () => {
     await assertSucceeds(db.doc('schools/school1/accounts/new_admin2').set({ role: 'admin', status: 'active' }));
   });
 
-  // --- PARENT STUDENTS INDEX TESTS ---
+
 
   it('should allow parent to read linked child via parentStudents index', async () => {
     await testEnv.withSecurityRulesDisabled(async (context) => {
@@ -87,21 +87,21 @@ describe('Noti KG Security Rules', () => {
     await assertSucceeds(db.doc('schools/school1/parentStudents/parent1_student2').set({ parentId: 'parent1', studentId: 'student2' }));
   });
 
-  // --- STUDENT SELF-ESCALATION TESTS ---
+
 
   it('should DENY student from updating account role, status, or superAdmin', async () => {
     await testEnv.withSecurityRulesDisabled(async (context) => {
       await context.firestore().doc('schools/school1/accounts/student1').set({ status: 'active', role: 'student' });
     });
     const db = testEnv.authenticatedContext('student1', { role: 'student' }).firestore();
-    
+
     await assertFails(db.doc('schools/school1/accounts/student1').update({ role: 'admin' }));
     await assertFails(db.doc('schools/school1/accounts/student1').update({ status: 'deleted' }));
     await assertFails(db.doc('schools/school1/accounts/student1').update({ superAdmin: true }));
     await assertSucceeds(db.doc('schools/school1/accounts/student1').update({ phone: '+996555123456' }));
   });
 
-  // --- HOMEWORK AND GRADES TESTS ---
+
 
   it('should DENY student from updating grade or changing late=false in homeworkSubmissions', async () => {
     await testEnv.withSecurityRulesDisabled(async (context) => {
@@ -130,7 +130,7 @@ describe('Noti KG Security Rules', () => {
     await assertFails(gradeRef.set({
       teacherId: 'teacher1',
       classId: 'classA',
-      studentId: 'student2', // student belongs to classB, not classA
+      studentId: 'student2',
       grade: 5
     }));
   });
@@ -138,20 +138,20 @@ describe('Noti KG Security Rules', () => {
   it('should allow teacher to create own audit log', async () => {
     const context = testEnv.authenticatedContext('teacher1', { role: 'teacher' });
     const db = context.firestore();
-    
+
     await assertSucceeds(db.doc('schools/school1/auditLogs/log1').set({
       actorId: 'teacher1',
       actorRole: 'teacher',
-      createdAt: context.database.FieldValue.serverTimestamp() // request.time
+      createdAt: context.database.FieldValue.serverTimestamp()
     }));
   });
 
   it('should DENY student from creating audit log for another actorId', async () => {
     const context = testEnv.authenticatedContext('student1', { role: 'student' });
     const db = context.firestore();
-    
+
     await assertFails(db.doc('schools/school1/auditLogs/log2').set({
-      actorId: 'teacher1', // Подделка ID
+      actorId: 'teacher1',
       actorRole: 'teacher',
       createdAt: context.database.FieldValue.serverTimestamp()
     }));
@@ -159,7 +159,7 @@ describe('Noti KG Security Rules', () => {
 
   it('should DENY admin from editing existing audit log unless superAdmin', async () => {
     const adminDb = testEnv.authenticatedContext('admin1', { role: 'admin' }).firestore();
-    
+
     await assertFails(adminDb.doc('schools/school1/auditLogs/log1').update({
       action: 'fake_action'
     }));
@@ -170,7 +170,7 @@ describe('Noti KG Security Rules', () => {
     }));
   });
 
-  // --- PARENT CLASSES INDEX TESTS ---
+
 
   it('should allow parent to read class files via parentClasses index', async () => {
     await testEnv.withSecurityRulesDisabled(async (context) => {

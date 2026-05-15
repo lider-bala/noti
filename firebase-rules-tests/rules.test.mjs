@@ -4,13 +4,13 @@ import { readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-// Для корректной работы с путями в ESM
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 async function runTests() {
   console.log('Запуск тестов Firebase Rules...');
-  
-  // Отключаем внутренние gRPC-логи, чтобы вывод был чистым
+
+
   setLogLevel('error');
 
   const firestoreRules = readFileSync(resolve(__dirname, '../firestore.rules'), 'utf8');
@@ -27,7 +27,7 @@ async function runTests() {
       await testEnv.clearFirestore();
     }
 
-    // Хелперы для создания контекстов
+
     const getSuperAdminDb = () => testEnv.authenticatedContext('admin1', { superAdmin: true }).firestore();
     const getUnauthDb = () => testEnv.unauthenticatedContext().firestore();
     const getAdminDb = () => testEnv.authenticatedContext('admin1', { role: 'admin' }).firestore();
@@ -47,7 +47,7 @@ async function runTests() {
       await assertFails(getDoc(doc(getUnauthDb(), 'schools/school1/accounts/user1')));
     }
 
-    // --- ТЕСТЫ АДМИНИСТРАТОРА ---
+
     {
       await resetData();
       console.log('Тест 3: admin cannot create superAdmin');
@@ -78,7 +78,7 @@ async function runTests() {
       await assertSucceeds(setDoc(doc(getAdminDb(), 'schools/school1/parentStudents/parent_admin_create_student_admin_create'), { parentId: 'parent_admin_create', studentId: 'student_admin_create' }));
     }
 
-    // --- ТЕСТЫ РОДИТЕЛЯ ---
+
     {
       await resetData();
       console.log('Тест 6: parent can read linked child via parentStudents');
@@ -137,7 +137,7 @@ async function runTests() {
       await assertFails(getDoc(doc(getParentDb(), 'schools/school1/files/file_classB')));
     }
 
-    // --- ТЕСТЫ УЧИТЕЛЯ ---
+
     {
       await resetData();
       console.log('Тест 11: teacher can read homework submissions from own class');
@@ -176,7 +176,7 @@ async function runTests() {
       await assertFails(setDoc(doc(getTeacherDb(), 'schools/school1/grades/new_grade'), { teacherId: 'teacher1', classId: 'classA', studentId: 'student2', grade: 5 }));
     }
 
-    // --- ТЕСТЫ УЧЕНИКА ---
+
     {
       await resetData();
       console.log('Тест 14: student cannot update grade/late/checkedAt in submission');

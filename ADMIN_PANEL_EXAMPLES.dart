@@ -1,13 +1,6 @@
-// ignore_for_file: file_names, use_key_in_widget_constructors, avoid_print
-
-// Примеры использования компонентов админ-панели
-
 import 'package:flutter/material.dart';
 import 'lib/widgets/admin_panel.dart';
 
-// ============================================================
-// ПРИМЕР 1: Простая панель с текстом
-// ============================================================
 class Example1SimplePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,9 +17,6 @@ class Example1SimplePanel extends StatelessWidget {
   }
 }
 
-// ============================================================
-// ПРИМЕР 2: Панель с метриками (сетка)
-// ============================================================
 class Example2MetricsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -70,9 +60,6 @@ class Example2MetricsGrid extends StatelessWidget {
   }
 }
 
-// ============================================================
-// ПРИМЕР 3: Список элементов в панели
-// ============================================================
 class Example3ListPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -100,9 +87,6 @@ class Example3ListPanel extends StatelessWidget {
   }
 }
 
-// ============================================================
-// ПРИМЕР 4: Кнопки действий
-// ============================================================
 class Example4ActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -138,9 +122,6 @@ class Example4ActionButtons extends StatelessWidget {
   }
 }
 
-// ============================================================
-// ПРИМЕР 5: Сложная панель с разделённым содержимым
-// ============================================================
 class Example5ComplexPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -148,7 +129,6 @@ class Example5ComplexPanel extends StatelessWidget {
       title: 'Статистика по ролям',
       icon: Icons.bar_chart_rounded,
       children: [
-        // Первый ряд
         Row(
           children: [
             Expanded(
@@ -171,7 +151,6 @@ class Example5ComplexPanel extends StatelessWidget {
           ],
         ),
         SizedBox(height: 12),
-        // Второй ряд
         Row(
           children: [
             Expanded(
@@ -246,9 +225,6 @@ class _StatBox extends StatelessWidget {
   }
 }
 
-// ============================================================
-// ПРИМЕР 6: Полная страница с несколькими панелями
-// ============================================================
 class Example6FullPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -256,7 +232,6 @@ class Example6FullPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Заголовок
           Padding(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -280,17 +255,11 @@ class Example6FullPage extends StatelessWidget {
               ],
             ),
           ),
-
-          // Метрики
           Padding(
             padding: EdgeInsets.all(16),
             child: Example2MetricsGrid(),
           ),
-
-          // Разделитель
           Divider(height: 32),
-
-          // Две панели рядом
           Padding(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -301,8 +270,6 @@ class Example6FullPage extends StatelessWidget {
               ],
             ),
           ),
-
-          // Кнопки действий
           Padding(
             padding: EdgeInsets.all(16),
             child: Example4ActionButtons(),
@@ -312,68 +279,3 @@ class Example6FullPage extends StatelessWidget {
     );
   }
 }
-
-// ============================================================
-// КАК ИСПОЛЬЗОВАТЬ В ВАШЕМ КОДЕ
-// ============================================================
-
-/*
-1. ИМПОРТИРУЙТЕ КОМПОНЕНТЫ:
-   import 'widgets/admin_panel.dart';
-
-2. ИСПОЛЬЗУЙТЕ В BUILD:
-   @override
-   Widget build(BuildContext context) {
-     return SingleChildScrollView(
-       child: Column(
-         children: [
-           AdminPanel(
-             title: 'Моя панель',
-             icon: Icons.info_rounded,
-             children: [
-               Text('Содержимое панели'),
-             ],
-           ),
-         ],
-       ),
-     );
-   }
-
-3. ДЛЯ КАРТОЧЕК МЕТРИК:
-   MetricCard(
-     title: 'Название',
-     value: '100',
-     icon: Icons.info_rounded,
-     gradient: [Colors.blue, Colors.purple],
-   )
-
-4. ДЛЯ СПИСКОВ:
-   AdminListPanel(
-     title: 'Список',
-     items: [
-       AdminListItem(title: 'Элемент 1'),
-       AdminListItem(title: 'Элемент 2'),
-     ],
-   )
-
-5. ДЛЯ КНОПОК:
-   AdminActionButton(
-     label: 'Действие',
-     icon: Icons.add_rounded,
-     isPrimary: true,
-     onPressed: () => print('Нажато'),
-   )
-*/
-
-// ============================================================
-// ЦВЕТОВАЯ СХЕМА
-// ============================================================
-
-/*
-PRIMARY (Основной):       #6366F1 - Color(0xFF6366F1)
-SUCCESS (Успех):          #10B981 - Color(0xFF10B981)
-WARNING (Внимание):       #F59E0B - Color(0xFFF59E0B)
-ERROR (Ошибка):           #EF4444 - Color(0xFFEF4444)
-INFO (Информация):        #3B82F6 - Color(0xFF3B82F6)
-SECONDARY (Дополнитель):  #A855F7 - Color(0xFFA855F7)
-*/

@@ -1,11 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-/// Client-side bootstrap for a first development/admin account.
-///
-/// This uses the normal Firebase client SDK. It does not set custom claims:
-/// production projects that enforce custom claims still need a backend/Admin SDK
-/// provisioning step for high-privilege claims.
 class FirebaseInitService {
   static const String adminEmail = 'admin@noti.kg';
   static const String adminPassword = 'admin123';
@@ -65,8 +60,6 @@ class FirebaseInitService {
   }
 
   static void debugPrintFirebaseInitError(Object error) {
-    // Keep this quiet enough for release logs but visible during local setup.
-    // ignore: avoid_print
     print('Firebase admin bootstrap failed: $error');
   }
 }

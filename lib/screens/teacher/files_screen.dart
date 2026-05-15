@@ -197,9 +197,8 @@ class _FilesScreenState extends State<FilesScreen> {
                             final downloadUrl =
                                 await snapshot.ref.getDownloadURL();
 
-                            final fileSizeMb = (pickedFile.size / (1024 * 1024))
-                                    .toStringAsFixed(1) +
-                                ' МБ';
+                            final fileSizeMb =
+                                '${(pickedFile.size / (1024 * 1024)).toStringAsFixed(1)} МБ';
 
                             if (!mounted || !dialogContext.mounted) {
                               return;

@@ -538,7 +538,7 @@ void main() {
     final parent = created.data!.last.user;
 
     expect(parent.linkedStudentIds.contains(student.id), isTrue);
-    expect(parent.linkedStudentId, student.id); // Check backwards compatibility
+    expect(parent.linkedStudentId, student.id);
     expect(state.childrenForParent(parent).first.id, student.id);
   });
 
