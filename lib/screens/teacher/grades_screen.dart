@@ -14,13 +14,24 @@ class GradesScreen extends StatefulWidget {
   State<GradesScreen> createState() => _GradesScreenState();
 }
 
-class _GradesScreenState extends State<GradesScreen> {
+class _GradesScreenState extends State<GradesScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   final _categoryController = TextEditingController(text: 'Оценка за урок');
   final _commentController = TextEditingController();
 
   String? _selectedClassId;
   String? _selectedLessonId;
   final Map<String, int> _selectedGrades = {};
+
+  int _selectedQuarter = 1;
+  String? _historySubjectFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 4, vsync: this);
+  }
 
   @override
   void didChangeDependencies() {
@@ -30,6 +41,7 @@ class _GradesScreenState extends State<GradesScreen> {
 
   @override
   void dispose() {
+    _tabController.dispose();
     _categoryController.dispose();
     _commentController.dispose();
     super.dispose();
@@ -176,193 +188,103 @@ class _GradesScreenState extends State<GradesScreen> {
       );
     }
 
-    final selectedClass =
-        classes.firstWhere((item) => item.id == _selectedClassId);
-    final lessons = appState
-        .lessonsForTeacher(teacher.id)
-        .where((lesson) => lesson.classId == selectedClass.id)
-        .toList();
-    final selectedLesson = lessons.isEmpty
-        ? null
-        : lessons.firstWhere(
-            (item) => item.id == _selectedLessonId,
-            orElse: () => lessons.first,
-          );
-    final students = appState.studentsForClass(selectedClass.id);
-    final classGrades = appState.gradesForClass(selectedClass.id);
-    final teacherGrades = appState.gradesForTeacher(teacher.id);
-    final average = appState.averageGrade(classGrades);
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _Header(
           title: context.tr('Журнал оценок'),
           subtitle: context.tr(
-            'Выберите класс и урок, поставьте оценки ученикам и сохраните журнал.',
+            'Оценки, история, четвертные оценки и посещаемость учеников.',
           ),
         ),
-        const SizedBox(height: 20),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final stacked = constraints.maxWidth < 980;
-            final classField = AppSelectField<String>(
-              value: selectedClass.id,
-              label: context.tr('Класс'),
-              icon: Icons.meeting_room_rounded,
-              options: classes
-                  .map(
-                    (item) => AppSelectOption<String>(
-                      value: item.id,
-                      label: item.name,
-                    ),
-                  )
-                  .toList(),
-              onChanged: _changeClass,
-            );
-            final lessonField = AppSelectField<String>(
-              value: selectedLesson?.id,
-              label: context.tr('Урок'),
-              icon: Icons.event_note_rounded,
-              options: lessons
-                  .map(
-                    (lesson) => AppSelectOption<String>(
-                      value: lesson.id,
-                      label:
-                          '${context.tr(lesson.subject)} • ${lesson.timeRange}',
-                    ),
-                  )
-                  .toList(),
-              onChanged: _changeLesson,
-            );
-
-            if (stacked) {
-              return Column(
-                children: [
-                  classField,
-                  const SizedBox(height: 12),
-                  lessonField,
-                ],
-              );
-            }
-
-            return Row(
-              children: [
-                Expanded(child: classField),
-                const SizedBox(width: 12),
-                Expanded(child: lessonField),
-              ],
-            );
-          },
+        const SizedBox(height: 16),
+        _ClassLessonSelector(
+          classes: classes,
+          selectedClassId: _selectedClassId,
+          lessons: appState
+              .lessonsForTeacher(teacher.id)
+              .where((l) => l.classId == _selectedClassId)
+              .toList(),
+          selectedLessonId: _selectedLessonId,
+          onClassChanged: _changeClass,
+          onLessonChanged: _changeLesson,
         ),
         const SizedBox(height: 12),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final stacked = constraints.maxWidth < 760;
-            final categoryField = TextField(
-              controller: _categoryController,
-              decoration: _inputDecoration(context, context.tr('Тип оценки')),
-            );
-            final commentField = TextField(
-              controller: _commentController,
-              decoration: _inputDecoration(context, context.tr('Комментарий')),
-            );
-            if (stacked) {
-              return Column(
-                children: [
-                  categoryField,
-                  const SizedBox(height: 12),
-                  commentField,
-                ],
-              );
-            }
-            return Row(
-              children: [
-                Expanded(child: categoryField),
-                const SizedBox(width: 12),
-                Expanded(child: commentField),
-              ],
-            );
-          },
-        ),
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: [
-            _MetricChip(
-              title: context.tr('Учеников в классе'),
-              value: '${students.length}',
-              color: const Color(0xFF2563EB),
-            ),
-            _MetricChip(
-              title: context.tr('Оценок выбрано'),
-              value: '${_selectedGrades.length}',
-              color: const Color(0xFF0F766E),
-            ),
-            _MetricChip(
-              title: context.tr('Средний балл класса'),
-              value: classGrades.isEmpty ? '—' : average.toStringAsFixed(1),
-              color: const Color(0xFF7C3AED),
-            ),
-            _MetricChip(
-              title: context.tr('Мои оценки всего'),
-              value: '${teacherGrades.length}',
-              color: const Color(0xFFD97706),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        if (selectedLesson == null)
-          _EmptyState(
-            title: context.tr('Нет уроков для выбранного класса'),
-            subtitle: context.tr('Сначала добавьте уроки в админ-панели.'),
-          )
-        else
-          _GradebookPanel(
-            students: students,
-            selectedGrades: _selectedGrades,
-            onGradeChanged: (studentId, grade) {
-              setState(() {
-                if (grade == null) {
-                  _selectedGrades.remove(studentId);
-                } else {
-                  _selectedGrades[studentId] = grade;
-                }
-              });
-            },
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: const Color(0xFFE5E7EB)),
           ),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          child: FilledButton.icon(
-            onPressed: _saveGrades,
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF2563EB),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18),
+          child: TabBar(
+            controller: _tabController,
+            labelColor: const Color(0xFF2563EB),
+            unselectedLabelColor: const Color(0xFF6B7280),
+            indicatorColor: const Color(0xFF2563EB),
+            indicatorSize: TabBarIndicatorSize.label,
+            labelStyle: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+            tabs: [
+              Tab(text: context.tr('Оценки')),
+              Tab(text: context.tr('История')),
+              Tab(text: context.tr('Четверти')),
+              Tab(text: context.tr('Посещаемость')),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _GradeEntryTab(
+                classId: _selectedClassId,
+                lessonId: _selectedLessonId,
+                selectedGrades: _selectedGrades,
+                categoryController: _categoryController,
+                commentController: _commentController,
+                onGradeChanged: (studentId, grade) {
+                  setState(() {
+                    if (grade == null) {
+                      _selectedGrades.remove(studentId);
+                    } else {
+                      _selectedGrades[studentId] = grade;
+                    }
+                  });
+                },
+                onSave: _saveGrades,
               ),
-            ),
-            icon: const Icon(Icons.save_rounded),
-            label: Text(context.tr('Сохранить оценки')),
+              _GradeHistoryTab(
+                classId: _selectedClassId,
+                subjectFilter: _historySubjectFilter,
+                onSubjectFilterChanged: (v) =>
+                    setState(() => _historySubjectFilter = v),
+              ),
+              _QuarterGradesTab(
+                classId: _selectedClassId,
+                selectedQuarter: _selectedQuarter,
+                onQuarterChanged: (q) =>
+                    setState(() => _selectedQuarter = q),
+              ),
+              _AttendanceHistoryTab(classId: _selectedClassId),
+            ],
           ),
         ),
-        const SizedBox(height: 16),
-        _RecentGradesPanel(grades: teacherGrades.take(8).toList()),
       ],
     );
   }
 }
 
+// ---------------------------------------------------------------------------
+// Shared widgets
+// ---------------------------------------------------------------------------
+
 class _Header extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const _Header({
-    required this.title,
-    required this.subtitle,
-  });
+  const _Header({required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -406,6 +328,894 @@ class _Header extends StatelessWidget {
     );
   }
 }
+
+class _ClassLessonSelector extends StatelessWidget {
+  final List<SchoolClass> classes;
+  final String? selectedClassId;
+  final List<LessonAssignment> lessons;
+  final String? selectedLessonId;
+  final ValueChanged<String?> onClassChanged;
+  final ValueChanged<String?> onLessonChanged;
+
+  const _ClassLessonSelector({
+    required this.classes,
+    required this.selectedClassId,
+    required this.lessons,
+    required this.selectedLessonId,
+    required this.onClassChanged,
+    required this.onLessonChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final stacked = constraints.maxWidth < 980;
+        final classField = AppSelectField<String>(
+          value: selectedClassId,
+          label: context.tr('Класс'),
+          icon: Icons.meeting_room_rounded,
+          options: classes
+              .map((item) => AppSelectOption<String>(
+                    value: item.id,
+                    label: item.name,
+                  ))
+              .toList(),
+          onChanged: onClassChanged,
+        );
+        final lessonField = AppSelectField<String>(
+          value: selectedLessonId,
+          label: context.tr('Урок'),
+          icon: Icons.event_note_rounded,
+          options: lessons
+              .map((lesson) => AppSelectOption<String>(
+                    value: lesson.id,
+                    label:
+                        '${context.tr(lesson.subject)} • ${lesson.timeRange}',
+                  ))
+              .toList(),
+          onChanged: onLessonChanged,
+        );
+
+        if (stacked) {
+          return Column(
+            children: [classField, const SizedBox(height: 12), lessonField],
+          );
+        }
+        return Row(
+          children: [
+            Expanded(child: classField),
+            const SizedBox(width: 12),
+            Expanded(child: lessonField),
+          ],
+        );
+      },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tab 1: Grade Entry
+// ---------------------------------------------------------------------------
+
+class _GradeEntryTab extends StatelessWidget {
+  final String? classId;
+  final String? lessonId;
+  final Map<String, int> selectedGrades;
+  final TextEditingController categoryController;
+  final TextEditingController commentController;
+  final void Function(String studentId, int? grade) onGradeChanged;
+  final VoidCallback onSave;
+
+  const _GradeEntryTab({
+    required this.classId,
+    required this.lessonId,
+    required this.selectedGrades,
+    required this.categoryController,
+    required this.commentController,
+    required this.onGradeChanged,
+    required this.onSave,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (classId == null) {
+      return _EmptyState(
+        title: context.tr('Класс не выбран'),
+        subtitle: context.tr('Выберите класс для выставления оценок.'),
+      );
+    }
+
+    final appState = context.appState;
+    final students = appState.studentsForClass(classId!);
+    final teacherGrades = appState.currentUser == null
+        ? <GradeEntry>[]
+        : appState.gradesForTeacher(appState.currentUser!.id);
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final stacked = constraints.maxWidth < 760;
+              final categoryField = TextField(
+                controller: categoryController,
+                decoration:
+                    _inputDecoration(context, context.tr('Тип оценки')),
+              );
+              final commentField = TextField(
+                controller: commentController,
+                decoration:
+                    _inputDecoration(context, context.tr('Комментарий')),
+              );
+              if (stacked) {
+                return Column(children: [
+                  categoryField,
+                  const SizedBox(height: 12),
+                  commentField,
+                ]);
+              }
+              return Row(children: [
+                Expanded(child: categoryField),
+                const SizedBox(width: 12),
+                Expanded(child: commentField),
+              ]);
+            },
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: [
+              _MetricChip(
+                title: context.tr('Учеников в классе'),
+                value: '${students.length}',
+                color: const Color(0xFF2563EB),
+              ),
+              _MetricChip(
+                title: context.tr('Оценок выбрано'),
+                value: '${selectedGrades.length}',
+                color: const Color(0xFF0F766E),
+              ),
+              _MetricChip(
+                title: context.tr('Мои оценки всего'),
+                value: '${teacherGrades.length}',
+                color: const Color(0xFFD97706),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          if (lessonId == null)
+            _EmptyState(
+              title: context.tr('Нет уроков для выбранного класса'),
+              subtitle:
+                  context.tr('Сначала добавьте уроки в админ-панели.'),
+            )
+          else
+            _GradebookPanel(
+              students: students,
+              selectedGrades: selectedGrades,
+              onGradeChanged: onGradeChanged,
+            ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: onSave,
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFF2563EB),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              ),
+              icon: const Icon(Icons.save_rounded),
+              label: Text(context.tr('Сохранить оценки')),
+            ),
+          ),
+          const SizedBox(height: 16),
+          _RecentGradesPanel(grades: teacherGrades.take(8).toList()),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tab 2: Grade History
+// ---------------------------------------------------------------------------
+
+class _GradeHistoryTab extends StatelessWidget {
+  final String? classId;
+  final String? subjectFilter;
+  final ValueChanged<String?> onSubjectFilterChanged;
+
+  const _GradeHistoryTab({
+    required this.classId,
+    required this.subjectFilter,
+    required this.onSubjectFilterChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (classId == null) {
+      return _EmptyState(
+        title: context.tr('Класс не выбран'),
+        subtitle: context.tr('Выберите класс для просмотра истории оценок.'),
+      );
+    }
+
+    final appState = context.appState;
+    final classGrades = appState.gradesForClass(classId!);
+    final subjects =
+        classGrades.map((g) => g.subject).toSet().toList()..sort();
+
+    final filteredGrades = subjectFilter == null
+        ? classGrades
+        : classGrades.where((g) => g.subject == subjectFilter).toList();
+
+    final studentMap = <String, List<GradeEntry>>{};
+    for (final g in filteredGrades) {
+      studentMap.putIfAbsent(g.studentId, () => []).add(g);
+    }
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (subjects.isNotEmpty)
+            AppSelectField<String?>(
+              value: subjectFilter,
+              label: context.tr('Фильтр по предмету'),
+              icon: Icons.filter_list_rounded,
+              options: [
+                AppSelectOption<String?>(
+                  value: null,
+                  label: context.tr('Все предметы'),
+                ),
+                ...subjects.map((s) => AppSelectOption<String?>(
+                      value: s,
+                      label: context.tr(s),
+                    )),
+              ],
+              onChanged: onSubjectFilterChanged,
+            ),
+          const SizedBox(height: 16),
+          if (filteredGrades.isEmpty)
+            _EmptyState(
+              title: context.tr('Оценок пока нет'),
+              subtitle: context
+                  .tr('Оценки появятся здесь после сохранения.'),
+            )
+          else
+            for (final entry in studentMap.entries) ...[
+              _StudentGradeHistory(
+                studentId: entry.key,
+                grades: entry.value,
+              ),
+              const SizedBox(height: 12),
+            ],
+        ],
+      ),
+    );
+  }
+}
+
+class _StudentGradeHistory extends StatelessWidget {
+  final String studentId;
+  final List<GradeEntry> grades;
+
+  const _StudentGradeHistory({
+    required this.studentId,
+    required this.grades,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.appState;
+    final student = appState.userById(studentId);
+    final avg = appState.averageGrade(grades);
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 12,
+            offset: Offset(0, 6),
+            color: Color(0x0E000000),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: const Color(0xFFDBEAFE),
+                foregroundColor: const Color(0xFF2563EB),
+                child: Text(student?.initials ?? '?'),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      student?.fullName ?? context.tr('Ученик'),
+                      style: const TextStyle(
+                        color: Color(0xFF111827),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      '${context.tr('Средний балл')}: ${avg.toStringAsFixed(1)} • ${grades.length} ${context.tr('оценок')}',
+                      style: const TextStyle(
+                        color: Color(0xFF6B7280),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: grades.map((g) {
+              return Tooltip(
+                message:
+                    '${context.tr(g.subject)} • ${context.tr(g.category)}\n${MaterialLocalizations.of(context).formatShortDate(g.createdAt)}',
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: _gradeColor(g.value).withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    '${g.value}',
+                    style: TextStyle(
+                      color: _gradeColor(g.value),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tab 3: Quarter Grades
+// ---------------------------------------------------------------------------
+
+class _QuarterGradesTab extends StatelessWidget {
+  final String? classId;
+  final int selectedQuarter;
+  final ValueChanged<int> onQuarterChanged;
+
+  const _QuarterGradesTab({
+    required this.classId,
+    required this.selectedQuarter,
+    required this.onQuarterChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (classId == null) {
+      return _EmptyState(
+        title: context.tr('Класс не выбран'),
+        subtitle:
+            context.tr('Выберите класс для четвертных оценок.'),
+      );
+    }
+
+    final appState = context.appState;
+    final students = appState.studentsForClass(classId!);
+    final classGrades = appState.gradesForClass(classId!);
+    final subjects =
+        classGrades.map((g) => g.subject).toSet().toList()..sort();
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: List.generate(4, (i) {
+              final q = i + 1;
+              final isSelected = q == selectedQuarter;
+              return ChoiceChip(
+                label: Text('$q ${context.tr('четверть')}'),
+                selected: isSelected,
+                onSelected: (_) => onQuarterChanged(q),
+                selectedColor: const Color(0xFF2563EB),
+                backgroundColor: const Color(0xFFEFF6FF),
+                labelStyle: TextStyle(
+                  color: isSelected ? Colors.white : const Color(0xFF2563EB),
+                  fontWeight: FontWeight.w600,
+                ),
+                side: BorderSide.none,
+              );
+            }),
+          ),
+          const SizedBox(height: 16),
+          if (subjects.isEmpty)
+            _EmptyState(
+              title: context.tr('Оценок пока нет'),
+              subtitle: context.tr(
+                'Четвертные оценки станут доступны после выставления текущих оценок.',
+              ),
+            )
+          else
+            for (final subject in subjects) ...[
+              _QuarterSubjectCard(
+                classId: classId!,
+                subject: subject,
+                students: students,
+                quarter: selectedQuarter,
+              ),
+              const SizedBox(height: 12),
+            ],
+        ],
+      ),
+    );
+  }
+}
+
+class _QuarterSubjectCard extends StatelessWidget {
+  final String classId;
+  final String subject;
+  final List<AppUser> students;
+  final int quarter;
+
+  const _QuarterSubjectCard({
+    required this.classId,
+    required this.subject,
+    required this.students,
+    required this.quarter,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.appState;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 12,
+            offset: Offset(0, 6),
+            color: Color(0x0E000000),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.tr(subject),
+            style: const TextStyle(
+              color: Color(0xFF111827),
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 12),
+          for (var i = 0; i < students.length; i++) ...[
+            if (i != 0) const Divider(height: 18, color: Color(0xFFF3F4F6)),
+            _QuarterStudentRow(
+              student: students[i],
+              classId: classId,
+              subject: subject,
+              quarter: quarter,
+              appState: appState,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _QuarterStudentRow extends StatefulWidget {
+  final AppUser student;
+  final String classId;
+  final String subject;
+  final int quarter;
+  final AppState appState;
+
+  const _QuarterStudentRow({
+    required this.student,
+    required this.classId,
+    required this.subject,
+    required this.quarter,
+    required this.appState,
+  });
+
+  @override
+  State<_QuarterStudentRow> createState() => _QuarterStudentRowState();
+}
+
+class _QuarterStudentRowState extends State<_QuarterStudentRow> {
+  @override
+  Widget build(BuildContext context) {
+    final grades = widget.appState.gradesForStudentSubject(
+      studentId: widget.student.id,
+      subject: widget.subject,
+    );
+    final avg = widget.appState.averageGrade(grades);
+    final suggested = widget.appState.suggestedQuarterGrade(avg);
+    final existing = widget.appState.quarterGradeFor(
+      studentId: widget.student.id,
+      subject: widget.subject,
+      quarter: widget.quarter,
+    );
+    final currentValue = existing?.value;
+
+    return Row(
+      children: [
+        CircleAvatar(
+          radius: 16,
+          backgroundColor: const Color(0xFFFFEDD5),
+          foregroundColor: const Color(0xFFEA580C),
+          child: Text(
+            widget.student.initials,
+            style: const TextStyle(fontSize: 11),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.student.fullName,
+                style: const TextStyle(
+                  color: Color(0xFF111827),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
+              ),
+              Text(
+                grades.isEmpty
+                    ? context.tr('Нет оценок')
+                    : '${context.tr('Ср.')}: ${avg.toStringAsFixed(1)} → ${context.tr('рекомендация')}: $suggested',
+                style: TextStyle(
+                  color: const Color(0xFF6B7280),
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        Wrap(
+          spacing: 4,
+          children: [
+            for (final value in const [5, 4, 3, 2])
+              _SmallGradeChip(
+                value: value,
+                isSelected: currentValue == value,
+                isSuggested: grades.isNotEmpty && value == suggested,
+                onTap: () async {
+                  await widget.appState.recordQuarterGrade(
+                    studentId: widget.student.id,
+                    classId: widget.classId,
+                    subject: widget.subject,
+                    quarter: widget.quarter,
+                    value: value,
+                    suggestedValue: avg,
+                  );
+                  if (mounted) setState(() {});
+                },
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _SmallGradeChip extends StatelessWidget {
+  final int value;
+  final bool isSelected;
+  final bool isSuggested;
+  final VoidCallback onTap;
+
+  const _SmallGradeChip({
+    required this.value,
+    required this.isSelected,
+    required this.isSuggested,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final color = _gradeColor(value);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 34,
+        height: 34,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: isSelected ? color : color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10),
+          border: isSuggested && !isSelected
+              ? Border.all(color: color, width: 2)
+              : null,
+        ),
+        child: Text(
+          '$value',
+          style: TextStyle(
+            color: isSelected ? Colors.white : color,
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tab 4: Attendance History
+// ---------------------------------------------------------------------------
+
+class _AttendanceHistoryTab extends StatelessWidget {
+  final String? classId;
+
+  const _AttendanceHistoryTab({required this.classId});
+
+  @override
+  Widget build(BuildContext context) {
+    if (classId == null) {
+      return _EmptyState(
+        title: context.tr('Класс не выбран'),
+        subtitle:
+            context.tr('Выберите класс для просмотра посещаемости.'),
+      );
+    }
+
+    final appState = context.appState;
+    final students = appState.studentsForClass(classId!);
+    final sessions = appState.attendanceSessionsForClass(classId!);
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (sessions.isEmpty)
+            _EmptyState(
+              title: context.tr('Записей пока нет'),
+              subtitle: context
+                  .tr('История посещаемости появится после сохранения.'),
+            )
+          else ...[
+            _AttendanceSummaryPanel(
+              students: students,
+              sessions: sessions,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              context.tr('Детализация по ученикам'),
+              style: const TextStyle(
+                color: Color(0xFF111827),
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 12),
+            for (final student in students) ...[
+              _StudentAttendanceSummary(
+                student: student,
+                sessions: sessions,
+              ),
+              const SizedBox(height: 10),
+            ],
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _AttendanceSummaryPanel extends StatelessWidget {
+  final List<AppUser> students;
+  final List<AttendanceSession> sessions;
+
+  const _AttendanceSummaryPanel({
+    required this.students,
+    required this.sessions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    int totalPresent = 0;
+    int totalLate = 0;
+    int totalAbsent = 0;
+    for (final session in sessions) {
+      for (final entry in session.entries) {
+        switch (entry.status) {
+          case AttendanceStatusType.present:
+            totalPresent++;
+          case AttendanceStatusType.late:
+            totalLate++;
+          case AttendanceStatusType.absent:
+            totalAbsent++;
+        }
+      }
+    }
+
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        _MetricChip(
+          title: context.tr('Занятий'),
+          value: '${sessions.length}',
+          color: const Color(0xFF111827),
+        ),
+        _MetricChip(
+          title: context.tr('Присутствовали'),
+          value: '$totalPresent',
+          color: const Color(0xFF059669),
+        ),
+        _MetricChip(
+          title: context.tr('Опоздали'),
+          value: '$totalLate',
+          color: const Color(0xFFD97706),
+        ),
+        _MetricChip(
+          title: context.tr('Отсутствовали'),
+          value: '$totalAbsent',
+          color: const Color(0xFFDC2626),
+        ),
+      ],
+    );
+  }
+}
+
+class _StudentAttendanceSummary extends StatelessWidget {
+  final AppUser student;
+  final List<AttendanceSession> sessions;
+
+  const _StudentAttendanceSummary({
+    required this.student,
+    required this.sessions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    int present = 0;
+    int late = 0;
+    int absent = 0;
+
+    for (final session in sessions) {
+      for (final entry in session.entries) {
+        if (entry.studentId == student.id) {
+          switch (entry.status) {
+            case AttendanceStatusType.present:
+              present++;
+            case AttendanceStatusType.late:
+              late++;
+            case AttendanceStatusType.absent:
+              absent++;
+          }
+        }
+      }
+    }
+
+    final total = present + late + absent;
+    if (total == 0) return const SizedBox.shrink();
+
+    final percent = ((present + late) / total * 100).round();
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 18,
+            backgroundColor: percent >= 80
+                ? const Color(0xFFD1FAE5)
+                : percent >= 60
+                    ? const Color(0xFFFEF3C7)
+                    : const Color(0xFFFEE2E2),
+            foregroundColor: percent >= 80
+                ? const Color(0xFF059669)
+                : percent >= 60
+                    ? const Color(0xFFD97706)
+                    : const Color(0xFFDC2626),
+            child: Text(
+              student.initials,
+              style: const TextStyle(fontSize: 11),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  student.fullName,
+                  style: const TextStyle(
+                    color: Color(0xFF111827),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  '$percent% • ${context.tr('Был')}: $present  ${context.tr('Опоздал')}: $late  ${context.tr('Не был')}: $absent',
+                  style: const TextStyle(
+                    color: Color(0xFF6B7280),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: percent >= 80
+                  ? const Color(0xFFD1FAE5)
+                  : percent >= 60
+                      ? const Color(0xFFFEF3C7)
+                      : const Color(0xFFFEE2E2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '$percent%',
+              style: TextStyle(
+                color: percent >= 80
+                    ? const Color(0xFF059669)
+                    : percent >= 60
+                        ? const Color(0xFFD97706)
+                        : const Color(0xFFDC2626),
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Shared small widgets
+// ---------------------------------------------------------------------------
 
 class _GradebookPanel extends StatelessWidget {
   final List<AppUser> students;
@@ -675,16 +1485,16 @@ class _MetricChip extends StatelessWidget {
             value,
             style: TextStyle(
               color: color,
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
+              fontSize: 22,
+              fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             title,
             style: const TextStyle(
-              color: Color(0xFF4B5563),
-              fontSize: 13,
+              color: Color(0xFF6B7280),
+              fontSize: 12,
             ),
           ),
         ],

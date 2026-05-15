@@ -54,14 +54,6 @@ class HomeScreen extends StatelessWidget {
         'color1': const Color(0xFF34D399),
         'color2': const Color(0xFF10B981),
       },
-      {
-        'label': 'Средний балл',
-        'value': teacherGrades.isEmpty
-            ? '—'
-            : appState.averageGrade(teacherGrades).toStringAsFixed(1),
-        'color1': const Color(0xFFA855F7),
-        'color2': const Color(0xFF8B5CF6),
-      },
     ];
 
     final recentActivity = [

@@ -1398,4 +1398,176 @@ const Map<String, Map<AppLanguage, String>> appLiteralLocalizations = {
     AppLanguage.kyrgyz:
         'Мугалимдер, окуучулар, ата-энелер жана администраторлор бирдиктүү реестрде',
   },
+  // Grades/Journal enhancements (new strings only)
+  'Журнал оценок': {
+    AppLanguage.russian: 'Журнал оценок',
+    AppLanguage.kyrgyz: 'Баалар журналы',
+  },
+  'Оценки, история, четвертные оценки и посещаемость учеников.': {
+    AppLanguage.russian:
+        'Оценки, история, четвертные оценки и посещаемость учеников.',
+    AppLanguage.kyrgyz:
+        'Баалар, тарых, чейректик баалар жана окуучулардын катышуусу.',
+  },
+  'Четверти': {
+    AppLanguage.russian: 'Четверти',
+    AppLanguage.kyrgyz: 'Чейректер',
+  },
+  'Фильтр по предмету': {
+    AppLanguage.russian: 'Фильтр по предмету',
+    AppLanguage.kyrgyz: 'Предмет боюнча чыпкалоо',
+  },
+  'Все предметы': {
+    AppLanguage.russian: 'Все предметы',
+    AppLanguage.kyrgyz: 'Бардык предметтер',
+  },
+  'Оценок пока нет': {
+    AppLanguage.russian: 'Оценок пока нет',
+    AppLanguage.kyrgyz: 'Баалар азырынча жок',
+  },
+  'Оценки появятся здесь после сохранения.': {
+    AppLanguage.russian: 'Оценки появятся здесь после сохранения.',
+    AppLanguage.kyrgyz: 'Баалар сакталгандан кийин бул жерде көрүнөт.',
+  },
+  'оценок': {
+    AppLanguage.russian: 'оценок',
+    AppLanguage.kyrgyz: 'баа',
+  },
+  'четверть': {
+    AppLanguage.russian: 'четверть',
+    AppLanguage.kyrgyz: 'чейрек',
+  },
+  'Нет оценок': {
+    AppLanguage.russian: 'Нет оценок',
+    AppLanguage.kyrgyz: 'Баалар жок',
+  },
+  'Ср.': {
+    AppLanguage.russian: 'Ср.',
+    AppLanguage.kyrgyz: 'Орт.',
+  },
+  'рекомендация': {
+    AppLanguage.russian: 'рекомендация',
+    AppLanguage.kyrgyz: 'сунуш',
+  },
+  'Занятий': {
+    AppLanguage.russian: 'Занятий',
+    AppLanguage.kyrgyz: 'Сабактар',
+  },
+  'Присутствовали': {
+    AppLanguage.russian: 'Присутствовали',
+    AppLanguage.kyrgyz: 'Катышкандар',
+  },
+  'Опоздали': {
+    AppLanguage.russian: 'Опоздали',
+    AppLanguage.kyrgyz: 'Кечигүүлөр',
+  },
+  'Отсутствовали': {
+    AppLanguage.russian: 'Отсутствовали',
+    AppLanguage.kyrgyz: 'Келбегендер',
+  },
+  'Детализация по ученикам': {
+    AppLanguage.russian: 'Детализация по ученикам',
+    AppLanguage.kyrgyz: 'Окуучулар боюнча деталдаштыруу',
+  },
+  'Записей пока нет': {
+    AppLanguage.russian: 'Записей пока нет',
+    AppLanguage.kyrgyz: 'Жазуулар азырынча жок',
+  },
+  'История посещаемости появится после сохранения.': {
+    AppLanguage.russian: 'История посещаемости появится после сохранения.',
+    AppLanguage.kyrgyz:
+        'Катышуу тарыхы сакталгандан кийин бул жерде көрүнөт.',
+  },
+  'Четвертные оценки': {
+    AppLanguage.russian: 'Четвертные оценки',
+    AppLanguage.kyrgyz: 'Чейректик баалар',
+  },
+  'Четвертных оценок пока нет': {
+    AppLanguage.russian: 'Четвертных оценок пока нет',
+    AppLanguage.kyrgyz: 'Чейректик баалар азырынча жок',
+  },
+  'Четвертные оценки появятся после выставления учителем.': {
+    AppLanguage.russian: 'Четвертные оценки появятся после выставления учителем.',
+    AppLanguage.kyrgyz:
+        'Чейректик баалар мугалим койгондон кийин көрүнөт.',
+  },
+  'чт': {
+    AppLanguage.russian: 'чт',
+    AppLanguage.kyrgyz: 'чр',
+  },
+  'Полная история оценок': {
+    AppLanguage.russian: 'Полная история оценок',
+    AppLanguage.kyrgyz: 'Баалардын толук тарыхы',
+  },
+  'История оценок будет показана здесь.': {
+    AppLanguage.russian: 'История оценок будет показана здесь.',
+    AppLanguage.kyrgyz: 'Баалардын тарыхы бул жерде көрсөтүлөт.',
+  },
+  'Очистить оценку': {
+    AppLanguage.russian: 'Очистить оценку',
+    AppLanguage.kyrgyz: 'Бааны тазалоо',
+  },
+  // File upload enhancements (new strings only)
+  'Тема': {
+    AppLanguage.russian: 'Тема',
+    AppLanguage.kyrgyz: 'Тема',
+  },
+  'Описание': {
+    AppLanguage.russian: 'Описание',
+    AppLanguage.kyrgyz: 'Сүрөттөмө',
+  },
+  'Файл успешно загружен!': {
+    AppLanguage.russian: 'Файл успешно загружен!',
+    AppLanguage.kyrgyz: 'Файл ийгиликтүү жүктөлдү!',
+  },
+  'Файл прикреплён и доступен в истории.': {
+    AppLanguage.russian: 'Файл прикреплён и доступен в истории.',
+    AppLanguage.kyrgyz: 'Файл тиркелди жана тарыхта жеткиликтүү.',
+  },
+  'Готово!': {
+    AppLanguage.russian: 'Готово!',
+    AppLanguage.kyrgyz: 'Даяр!',
+  },
+  'Загрузка...': {
+    AppLanguage.russian: 'Загрузка...',
+    AppLanguage.kyrgyz: 'Жүктөлүүдө...',
+  },
+  'Выберите категорию файла.': {
+    AppLanguage.russian: 'Выберите категорию файла.',
+    AppLanguage.kyrgyz: 'Файлдын категориясын тандаңыз.',
+  },
+  'Файл слишком большой. Максимум 5 МБ.': {
+    AppLanguage.russian: 'Файл слишком большой. Максимум 5 МБ.',
+    AppLanguage.kyrgyz: 'Файл өтө чоң. Максимум 5 МБ.',
+  },
+  'Не удалось загрузить файл. Проверьте Firebase Storage.': {
+    AppLanguage.russian:
+        'Не удалось загрузить файл. Проверьте Firebase Storage.',
+    AppLanguage.kyrgyz:
+        'Файл жүктөө мүмкүн болгон жок. Firebase Storage текшериңиз.',
+  },
+  'Выбрать и загрузить': {
+    AppLanguage.russian: 'Выбрать и загрузить',
+    AppLanguage.kyrgyz: 'Тандоо жана жүктөө',
+  },
+  'Поиск по файлам...': {
+    AppLanguage.russian: 'Поиск по файлам...',
+    AppLanguage.kyrgyz: 'Файлдар боюнча издөө...',
+  },
+  'Все категории': {
+    AppLanguage.russian: 'Все категории',
+    AppLanguage.kyrgyz: 'Бардык категориялар',
+  },
+  'История файлов': {
+    AppLanguage.russian: 'История файлов',
+    AppLanguage.kyrgyz: 'Файлдар тарыхы',
+  },
+  'Файлы не найдены': {
+    AppLanguage.russian: 'Файлы не найдены',
+    AppLanguage.kyrgyz: 'Файлдар табылган жок',
+  },
+  'Попробуйте изменить поиск или фильтр.': {
+    AppLanguage.russian: 'Попробуйте изменить поиск или фильтр.',
+    AppLanguage.kyrgyz: 'Издөө же чыпкалоону өзгөртүп көрүңүз.',
+  },
 };
