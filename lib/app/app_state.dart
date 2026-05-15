@@ -197,9 +197,7 @@ class AppState extends ChangeNotifier {
             (enableDemoData
                 ? const DebugMonitoringService()
                 : const NoopMonitoringService()) {
-    if (enableDemoData) {
-      _seedData();
-    } else if (enableBootstrapAdmin) {
+    if (enableBootstrapAdmin) {
       _seedBootstrapAdmin();
     }
     if (database != null) {
@@ -284,7 +282,7 @@ class AppState extends ChangeNotifier {
 
   AppLocalizations get strings => AppLocalizations(language);
 
-  bool get isDemoMode => enableDemoData;
+  bool get isDemoMode => false;
 
   String? demoPasswordFor(AppAccount account) {
     if (!enableDemoData || authService is! MockAuthService) {
@@ -2935,6 +2933,7 @@ class AppState extends ChangeNotifier {
     return null;
   }
 
+  // ignore: unused_element
   void _seedData() {
     _schoolClasses.addAll(
       const [

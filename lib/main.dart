@@ -38,8 +38,7 @@ class NotiApp extends StatefulWidget {
 class _NotiAppState extends State<NotiApp> {
   static const bool _useFirebaseAuth =
       bool.fromEnvironment('USE_FIREBASE_AUTH', defaultValue: true);
-  static const bool _enableDemoData =
-      bool.fromEnvironment('ENABLE_DEMO_DATA', defaultValue: false);
+  static const bool _enableDemoData = false;
   static const bool _forceFirestore =
       bool.fromEnvironment('USE_FIRESTORE', defaultValue: true);
   late final AppState _state;
