@@ -177,6 +177,7 @@ class AppState extends ChangeNotifier {
   final List<AuditLogEntry> _auditLogs = [];
   final List<ParentStudentLink> _parentStudentLinks = [];
   final List<ParentClassLink> _parentClassLinks = [];
+  final List<QuarterGrade> _quarterGrades = [];
   final Map<String, List<AppChatMessage>> _chatMessagesByContact = {};
 
   AppState({
@@ -196,9 +197,7 @@ class AppState extends ChangeNotifier {
             (enableDemoData
                 ? const DebugMonitoringService()
                 : const NoopMonitoringService()) {
-    if (enableDemoData) {
-      _seedData();
-    } else if (enableBootstrapAdmin) {
+    if (enableBootstrapAdmin) {
       _seedBootstrapAdmin();
     }
     if (database != null) {
@@ -259,6 +258,15 @@ class AppState extends ChangeNotifier {
           ..sort((a, b) => a.meetingAt.compareTo(b.meetingAt)),
       );
 
+  List<QuarterGrade> get quarterGrades => List.unmodifiable(
+        _quarterGrades.toList()
+          ..sort((a, b) {
+            final q = a.quarter.compareTo(b.quarter);
+            if (q != 0) return q;
+            return a.subject.compareTo(b.subject);
+          }),
+      );
+
   List<AuditLogEntry> get auditLogs => List.unmodifiable(
         _auditLogs.toList()..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
       );
@@ -274,7 +282,7 @@ class AppState extends ChangeNotifier {
 
   AppLocalizations get strings => AppLocalizations(language);
 
-  bool get isDemoMode => enableDemoData;
+  bool get isDemoMode => false;
 
   String? demoPasswordFor(AppAccount account) {
     if (!enableDemoData || authService is! MockAuthService) {
@@ -1666,6 +1674,8 @@ class AppState extends ChangeNotifier {
     String? storagePath,
     String? downloadUrl,
     String? contentType,
+    String? topic,
+    String? description,
   }) async {
     final user = currentUser;
     if (user == null) {
@@ -1712,6 +1722,8 @@ class AppState extends ChangeNotifier {
       storagePath: storagePath,
       downloadUrl: downloadUrl,
       contentType: contentType,
+      topic: topic?.trim(),
+      description: description?.trim(),
     );
 
     _files.add(file);
@@ -2292,6 +2304,108 @@ class AppState extends ChangeNotifier {
     return total / grades.length;
   }
 
+  int suggestedQuarterGrade(double avg) {
+    if (avg >= 4.6) return 5;
+    if (avg >= 3.6) return 4;
+    if (avg >= 2.6) return 3;
+    return 2;
+  }
+
+  List<QuarterGrade> quarterGradesForStudent(String studentId) {
+    return quarterGrades
+        .where((qg) => qg.studentId == studentId)
+        .toList();
+  }
+
+  List<QuarterGrade> quarterGradesForClass(String classId) {
+    return quarterGrades
+        .where((qg) => qg.classId == classId)
+        .toList();
+  }
+
+  Future<AppResult<QuarterGrade>> setQuarterGrade({
+    required String studentId,
+    required String classId,
+    required String subject,
+    required int quarter,
+    required int value,
+    required double averageGradeValue,
+  }) async {
+    final user = currentUser;
+    if (user == null || user.role != UserRole.teacher) {
+      return const AppResult<QuarterGrade>.failure('auth.roleMismatch');
+    }
+    if (value < 2 || value > 5 || quarter < 1 || quarter > 4) {
+      return const AppResult<QuarterGrade>.failure('validation.invalidQuarterGrade');
+    }
+    _quarterGrades.removeWhere(
+      (qg) => qg.studentId == studentId && qg.subject == subject && qg.quarter == quarter,
+    );
+    final qg = QuarterGrade(
+      id: _nextId('quarter-grade'),
+      studentId: studentId,
+      classId: classId,
+      subject: subject,
+      quarter: quarter,
+      value: value,
+      averageGrade: averageGradeValue,
+      teacherId: user.id,
+      createdAt: DateTime.now(),
+    );
+    _quarterGrades.add(qg);
+    notifyListeners();
+    return AppResult<QuarterGrade>.success(qg);
+  }
+
+  Future<AppResult<HomeworkSubmission>> gradeHomeworkSubmission({
+    required String submissionId,
+    required int grade,
+    String gradeComment = '',
+  }) async {
+    final user = currentUser;
+    if (user == null || user.role != UserRole.teacher) {
+      return const AppResult<HomeworkSubmission>.failure('auth.roleMismatch');
+    }
+    if (grade < 2 || grade > 5) {
+      return const AppResult<HomeworkSubmission>.failure('validation.invalidGrade');
+    }
+    final idx = _homeworkSubmissions.indexWhere((s) => s.id == submissionId);
+    if (idx < 0) {
+      return const AppResult<HomeworkSubmission>.failure('validation.invalidSubmission');
+    }
+    final updated = _homeworkSubmissions[idx].copyWith(
+      grade: grade,
+      gradeComment: gradeComment.trim(),
+    );
+    _homeworkSubmissions[idx] = updated;
+    final result = await _commitDatabaseWrite(
+      data: updated,
+      write: (db) => db.setHomeworkSubmission(updated.id, _submissionToMap(updated)),
+      rollback: () {
+        final rollIdx = _homeworkSubmissions.indexWhere((s) => s.id == submissionId);
+        if (rollIdx >= 0) {
+          _homeworkSubmissions[rollIdx] = _homeworkSubmissions[rollIdx].copyWith(
+            grade: null,
+            gradeComment: null,
+          );
+        }
+      },
+    );
+    return result;
+  }
+
+  List<HomeworkSubmission> submissionsForAssignment(String assignmentId) {
+    return homeworkSubmissions
+        .where((s) => s.assignmentId == assignmentId)
+        .toList();
+  }
+
+  List<HomeworkSubmission> submissionsForStudent(String studentId) {
+    return homeworkSubmissions
+        .where((s) => s.studentId == studentId)
+        .toList();
+  }
+
   String weekdayLabel(int weekdayIndex) {
     const labels = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ'];
     if (weekdayIndex < 0 || weekdayIndex >= labels.length) {
@@ -2498,6 +2612,8 @@ class AppState extends ChangeNotifier {
       'storagePath': file.storagePath,
       'downloadUrl': file.downloadUrl,
       'contentType': file.contentType,
+      'topic': file.topic,
+      'description': file.description,
     };
   }
 
@@ -2513,6 +2629,8 @@ class AppState extends ChangeNotifier {
       storagePath: _nullableString(map['storagePath']),
       downloadUrl: _nullableString(map['downloadUrl']),
       contentType: _nullableString(map['contentType']),
+      topic: _nullableString(map['topic']),
+      description: _nullableString(map['description']),
     );
   }
 
@@ -2612,6 +2730,8 @@ class AppState extends ChangeNotifier {
       'downloadUrl': submission.downloadUrl,
       'late': submission.late,
       'submittedAt': submission.submittedAt,
+      'grade': submission.grade,
+      'gradeComment': submission.gradeComment,
     };
   }
 
@@ -2626,6 +2746,8 @@ class AppState extends ChangeNotifier {
       downloadUrl: _nullableString(map['downloadUrl']),
       late: map['late'] == true,
       submittedAt: _dateValue(map['submittedAt']),
+      grade: map['grade'] is int ? map['grade'] as int : null,
+      gradeComment: _nullableString(map['gradeComment']),
     );
   }
 
@@ -2811,6 +2933,7 @@ class AppState extends ChangeNotifier {
     return null;
   }
 
+  // ignore: unused_element
   void _seedData() {
     _schoolClasses.addAll(
       const [

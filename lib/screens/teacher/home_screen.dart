@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
+import '../../widgets/contact_actions.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -144,6 +145,32 @@ class HomeScreen extends StatelessWidget {
                   child: _ActivityCard(data: item),
                 ),
             ],
+          ),
+          const SizedBox(height: 24),
+          Builder(
+            builder: (context) {
+              final admin = appState.admins.isNotEmpty ? appState.admins.first : null;
+              if (admin == null) return const SizedBox.shrink();
+              return SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () => openContactChat(
+                    context: context,
+                    contactId: admin.id,
+                    name: admin.fullName,
+                    subtitle: context.tr('Администратор'),
+                  ),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF3B82F6),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                  ),
+                  icon: const Icon(Icons.chat_bubble_outline_rounded),
+                  label: Text(context.tr('Чат с админом')),
+                ),
+              );
+            },
           ),
         ],
       ),

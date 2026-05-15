@@ -496,6 +496,17 @@ class _HomeworkCard extends StatelessWidget {
                           ? '${context.tr('Сдано поздно')}: ${submission!.fileName}'
                           : '${context.tr('Сдано')}: ${submission!.fileName}',
                     ),
+                  if (_isSubmitted && submission!.grade != null)
+                    _InlineInfo(
+                      icon: Icons.grade_rounded,
+                      text:
+                          '${context.tr('Оценка')}: ${submission!.grade}',
+                    ),
+                  if (_isSubmitted && (submission!.gradeComment ?? '').isNotEmpty)
+                    _InlineInfo(
+                      icon: Icons.comment_rounded,
+                      text: submission!.gradeComment!,
+                    ),
                 ],
               );
 

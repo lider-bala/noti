@@ -120,8 +120,17 @@ class FileUploadService {
     if (lower.endsWith('.pptx')) {
       return 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
     }
+    if (lower.endsWith('.doc')) {
+      return 'application/msword';
+    }
     if (lower.endsWith('.docx')) {
       return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    }
+    if (lower.endsWith('.ppt')) {
+      return 'application/vnd.ms-powerpoint';
+    }
+    if (lower.endsWith('.txt')) {
+      return 'text/plain';
     }
     return null;
   }
