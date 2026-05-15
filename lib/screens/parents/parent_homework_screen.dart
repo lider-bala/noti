@@ -457,6 +457,31 @@ class _HomeworkCard extends StatelessWidget {
                   ),
                 ),
               ),
+              if (submitted && submission!.grade != null)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFECFDF5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    '${context.tr('Оценка')}: ${submission!.grade}',
+                    style: const TextStyle(
+                      color: Color(0xFF059669),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              if (submitted && (submission!.gradeComment ?? '').isNotEmpty)
+                Text(
+                  submission!.gradeComment!,
+                  style: const TextStyle(
+                    color: Color(0xFF6B7280),
+                    fontSize: 12,
+                  ),
+                ),
             ],
           ),
         ],

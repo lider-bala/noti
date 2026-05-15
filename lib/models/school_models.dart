@@ -184,6 +184,8 @@ class ManagedSchoolFile {
   final String? storagePath;
   final String? downloadUrl;
   final String? contentType;
+  final String? topic;
+  final String? description;
 
   const ManagedSchoolFile({
     required this.id,
@@ -196,6 +198,8 @@ class ManagedSchoolFile {
     this.storagePath,
     this.downloadUrl,
     this.contentType,
+    this.topic,
+    this.description,
   });
 }
 
@@ -237,6 +241,8 @@ class HomeworkSubmission {
   final String? downloadUrl;
   final bool late;
   final DateTime submittedAt;
+  final int? grade;
+  final String? gradeComment;
 
   const HomeworkSubmission({
     required this.id,
@@ -248,7 +254,28 @@ class HomeworkSubmission {
     required this.submittedAt,
     this.storagePath,
     this.downloadUrl,
+    this.grade,
+    this.gradeComment,
   });
+
+  HomeworkSubmission copyWith({
+    int? grade,
+    String? gradeComment,
+  }) {
+    return HomeworkSubmission(
+      id: id,
+      assignmentId: assignmentId,
+      studentId: studentId,
+      fileName: fileName,
+      sizeLabel: sizeLabel,
+      late: late,
+      submittedAt: submittedAt,
+      storagePath: storagePath,
+      downloadUrl: downloadUrl,
+      grade: grade ?? this.grade,
+      gradeComment: gradeComment ?? this.gradeComment,
+    );
+  }
 }
 
 class ParentMeeting {
@@ -292,6 +319,46 @@ class AuditLogEntry {
     required this.targetId,
     required this.createdAt,
     this.metadata = const {},
+  });
+}
+
+class QuarterGrade {
+  final String id;
+  final String studentId;
+  final String classId;
+  final String subject;
+  final int quarter;
+  final int value;
+  final double averageGrade;
+  final String teacherId;
+  final DateTime createdAt;
+
+  const QuarterGrade({
+    required this.id,
+    required this.studentId,
+    required this.classId,
+    required this.subject,
+    required this.quarter,
+    required this.value,
+    required this.averageGrade,
+    required this.teacherId,
+    required this.createdAt,
+  });
+}
+
+class ChatMessage {
+  final String id;
+  final String senderId;
+  final String receiverId;
+  final String text;
+  final DateTime createdAt;
+
+  const ChatMessage({
+    required this.id,
+    required this.senderId,
+    required this.receiverId,
+    required this.text,
+    required this.createdAt,
   });
 }
 

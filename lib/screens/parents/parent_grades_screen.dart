@@ -75,6 +75,85 @@ class ParentGradesScreen extends StatelessWidget {
             ),
           const SizedBox(height: 20),
           Text(
+            context.tr('Четвертные оценки'),
+            style: const TextStyle(
+              color: Color(0xFF111827),
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Builder(
+            builder: (context) {
+              if (child == null) return const SizedBox.shrink();
+              final quarterGrades = appState.quarterGradesForStudent(child.id);
+              if (quarterGrades.isEmpty) {
+                return _EmptyState(
+                  title: context.tr('Четвертных оценок нет'),
+                  subtitle: context.tr('Четвертные оценки появятся после выставления учителем.'),
+                );
+              }
+              return Column(
+                children: [
+                  for (final qg in quarterGrades)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFFE5E7EB)),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: _gradeColor(qg.value).withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              '${qg.value}',
+                              style: TextStyle(
+                                color: _gradeColor(qg.value),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  context.tr(qg.subject),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF111827),
+                                  ),
+                                ),
+                                Text(
+                                  '${context.tr("Четверть")} ${qg.quarter} • ${context.tr("Ср")}. ${qg.averageGrade.toStringAsFixed(1)}',
+                                  style: const TextStyle(
+                                    color: Color(0xFF6B7280),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+          Text(
             context.tr('Последние оценки'),
             style: const TextStyle(
               color: Color(0xFF111827),

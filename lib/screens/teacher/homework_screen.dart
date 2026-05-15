@@ -635,10 +635,18 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-class _HomeworkCard extends StatelessWidget {
+class _HomeworkCard extends StatefulWidget {
   final HomeworkAssignment item;
 
   const _HomeworkCard({required this.item});
+
+  @override
+  State<_HomeworkCard> createState() => _HomeworkCardState();
+}
+
+class _HomeworkCardState extends State<_HomeworkCard> {
+  HomeworkAssignment get item => widget.item;
+  bool _showSubmissions = false;
 
   @override
   Widget build(BuildContext context) {
@@ -809,8 +817,124 @@ class _HomeworkCard extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 8),
+          TextButton.icon(
+            onPressed: () => setState(() => _showSubmissions = !_showSubmissions),
+            icon: Icon(
+              _showSubmissions ? Icons.expand_less : Icons.expand_more,
+              size: 20,
+            ),
+            label: Text(context.tr(_showSubmissions ? 'Скрыть работы' : 'Показать работы')),
+          ),
+          if (_showSubmissions)
+            _SubmissionsList(
+              assignmentId: item.id,
+              classId: item.classId,
+            ),
         ],
       ),
+    );
+  }
+}
+
+class _SubmissionsList extends StatelessWidget {
+  final String assignmentId;
+  final String classId;
+
+  const _SubmissionsList({
+    required this.assignmentId,
+    required this.classId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.appState;
+    final students = appState.studentsForClass(classId);
+    final submissions = appState.submissionsForAssignment(assignmentId);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: Color(0xFFF3F4F6)),
+        for (final student in students) ...[
+          Builder(
+            builder: (context) {
+              final submission = submissions
+                  .where((s) => s.studentId == student.id)
+                  .toList();
+              final sub = submission.isNotEmpty ? submission.first : null;
+              return Container(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 14,
+                      backgroundColor: const Color(0xFFFFEDD5),
+                      foregroundColor: const Color(0xFFEA580C),
+                      child: Text(student.initials,
+                          style: const TextStyle(fontSize: 10)),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(student.fullName,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
+                          if (sub != null) ...[
+                            Text(
+                              'Файл: ${sub.fileName} • ${sub.sizeLabel}',
+                              style: const TextStyle(
+                                  fontSize: 12, color: Color(0xFF6B7280)),
+                            ),
+                            if (sub.grade != null)
+                              Text(
+                                'Оценка: ${sub.grade}${(sub.gradeComment ?? "").isNotEmpty ? " • ${sub.gradeComment}" : ""}',
+                                style: const TextStyle(
+                                    fontSize: 12, color: Color(0xFF059669)),
+                              ),
+                          ] else
+                            Text(context.tr('Не сдано'),
+                                style: const TextStyle(
+                                    fontSize: 12, color: Color(0xFFDC2626))),
+                        ],
+                      ),
+                    ),
+                    if (sub != null && sub.grade == null)
+                      PopupMenuButton<int>(
+                        icon: const Icon(Icons.grade_rounded, size: 20),
+                        tooltip: context.tr('Поставить оценку'),
+                        onSelected: (value) async {
+                          await appState.gradeHomeworkSubmission(
+                            submissionId: sub.id,
+                            grade: value,
+                          );
+                        },
+                        itemBuilder: (_) => [
+                          for (final v in [5, 4, 3, 2])
+                            PopupMenuItem(value: v, child: Text('$v')),
+                        ],
+                      ),
+                    if (sub != null)
+                      Icon(
+                        Icons.check_circle_rounded,
+                        color: const Color(0xFF10B981),
+                        size: 20,
+                      )
+                    else
+                      Icon(
+                        Icons.cancel_rounded,
+                        color: const Color(0xFFDC2626),
+                        size: 20,
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ],
     );
   }
 }
