@@ -159,12 +159,17 @@ class _MainScreenState extends State<MainScreen> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                          child: SingleChildScrollView(
-                            child: AnimatedSectionSwitcher(
-                              switchKey: _section,
-                              child: _buildSection(),
-                            ),
-                          ),
+                          child: _section == MainSection.grades
+                              ? AnimatedSectionSwitcher(
+                                  switchKey: _section,
+                                  child: _buildSection(),
+                                )
+                              : SingleChildScrollView(
+                                  child: AnimatedSectionSwitcher(
+                                    switchKey: _section,
+                                    child: _buildSection(),
+                                  ),
+                                ),
                         ),
                       ),
                     ],

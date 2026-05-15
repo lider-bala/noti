@@ -19,15 +19,21 @@ class FilesScreen extends StatefulWidget {
 
 class _FilesScreenState extends State<FilesScreen> {
   final _nameController = TextEditingController();
-  final _sizeController = TextEditingController(text: '1.2 МБ');
+  final _topicController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _searchController = TextEditingController();
 
   String? _selectedCategory;
   String? _selectedClassId;
+  String? _filterCategory;
+  String _searchQuery = '';
 
   @override
   void dispose() {
     _nameController.dispose();
-    _sizeController.dispose();
+    _topicController.dispose();
+    _descriptionController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -38,13 +44,84 @@ class _FilesScreenState extends State<FilesScreen> {
         : appState.classesForTeacher(appState.currentUser!.id);
     final categories = _categoriesFromState(appState.managedFiles);
 
+    _topicController.clear();
+    _descriptionController.clear();
+    _nameController.clear();
+
     showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (dialogContext) {
         var isUploading = false;
-        var fileNameText = _nameController.text;
+        var uploadComplete = false;
+        double uploadProgress = 0;
+        var fileNameText = '';
         return StatefulBuilder(
           builder: (dialogContext, setDialogState) {
+            if (uploadComplete) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                content: SizedBox(
+                  width: 420,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.check_circle_rounded,
+                        color: Color(0xFF059669),
+                        size: 64,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        context.tr('Файл успешно загружен!'),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF111827),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        context.tr('Файл прикреплён и доступен в истории.'),
+                        style: const TextStyle(
+                          color: Color(0xFF6B7280),
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                        setState(() {});
+                      },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xFF10B981),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: Text(
+                        context.tr('Готово!'),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+
             return AlertDialog(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
@@ -52,66 +129,122 @@ class _FilesScreenState extends State<FilesScreen> {
               title: Text(context.tr('Добавить файл')),
               content: SizedBox(
                 width: 420,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: _nameController,
-                      decoration: _inputDecoration(
-                          context, context.tr('Название файла')),
-                      onChanged: (value) => fileNameText = value,
-                    ),
-                    const SizedBox(height: 12),
-                    AppSelectField<String>(
-                      value: _selectedCategory,
-                      label: context.tr('Категория'),
-                      icon: Icons.category_rounded,
-                      options: categories
-                          .map(
-                            (item) => AppSelectOption<String>(
-                              value: item,
-                              label: context.tr(item),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        setDialogState(() => _selectedCategory = value);
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    AppSelectField<String?>(
-                      value: _selectedClassId,
-                      label: context.tr('Класс для файла'),
-                      icon: Icons.meeting_room_rounded,
-                      options: [
-                        AppSelectOption<String?>(
-                          value: null,
-                          label: context.tr('Без привязки к классу'),
-                        ),
-                        ...classes.map(
-                          (item) => AppSelectOption<String?>(
-                            value: item.id,
-                            label: item.name,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: _topicController,
+                        decoration: _inputDecoration(
+                            context, context.tr('Тема')),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _descriptionController,
+                        decoration: _inputDecoration(
+                            context, context.tr('Описание')),
+                        maxLines: 3,
+                        minLines: 2,
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: _nameController,
+                        decoration: _inputDecoration(
+                            context, context.tr('Название файла')),
+                        onChanged: (value) => fileNameText = value,
+                      ),
+                      const SizedBox(height: 12),
+                      AppSelectField<String>(
+                        value: _selectedCategory,
+                        label: context.tr('Категория'),
+                        icon: Icons.category_rounded,
+                        options: categories
+                            .map(
+                              (item) => AppSelectOption<String>(
+                                value: item,
+                                label: context.tr(item),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setDialogState(
+                              () => _selectedCategory = value);
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      AppSelectField<String?>(
+                        value: _selectedClassId,
+                        label: context.tr('Класс для файла'),
+                        icon: Icons.meeting_room_rounded,
+                        options: [
+                          AppSelectOption<String?>(
+                            value: null,
+                            label:
+                                context.tr('Без привязки к классу'),
                           ),
+                          ...classes.map(
+                            (item) => AppSelectOption<String?>(
+                              value: item.id,
+                              label: item.name,
+                            ),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setDialogState(
+                              () => _selectedClassId = value);
+                        },
+                      ),
+                      if (isUploading) ...[
+                        const SizedBox(height: 16),
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  context.tr('Загрузка...'),
+                                  style: const TextStyle(
+                                    color: Color(0xFF6B7280),
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                Text(
+                                  '${(uploadProgress * 100).toInt()}%',
+                                  style: const TextStyle(
+                                    color: Color(0xFF2563EB),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(10),
+                              child: LinearProgressIndicator(
+                                value: uploadProgress,
+                                minHeight: 10,
+                                backgroundColor:
+                                    const Color(0xFFE5E7EB),
+                                valueColor:
+                                    const AlwaysStoppedAnimation<
+                                        Color>(Color(0xFF2563EB)),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                      onChanged: (value) {
-                        setDialogState(() => _selectedClassId = value);
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _sizeController,
-                      decoration:
-                          _inputDecoration(context, context.tr('Размер файла')),
-                      readOnly: true,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  onPressed: isUploading
+                      ? null
+                      : () => Navigator.of(dialogContext).pop(),
                   child: Text(context.tr('Отмена')),
                 ),
                 FilledButton(
@@ -122,16 +255,19 @@ class _FilesScreenState extends State<FilesScreen> {
                             showAppSnackBar(
                               context,
                               context.tr('Выберите категорию файла.'),
-                              backgroundColor: const Color(0xFFB91C1C),
+                              backgroundColor:
+                                  const Color(0xFFB91C1C),
                             );
                             return;
                           }
 
-                          setDialogState(() => isUploading = true);
-                          final addFailedText =
-                              context.tr('Не удалось добавить файл.');
-                          final uploadSuccessText =
-                              context.tr('Файл загружен в школьный каталог.');
+                          setDialogState(() {
+                            isUploading = true;
+                            uploadProgress = 0;
+                          });
+
+                          final addFailedText = context
+                              .tr('Не удалось добавить файл.');
                           final uploadFailedText = context.tr(
                             'Не удалось загрузить файл. Проверьте Firebase Storage.',
                           );
@@ -145,78 +281,112 @@ class _FilesScreenState extends State<FilesScreen> {
 
                             if (pickerResult == null ||
                                 pickerResult.files.isEmpty) {
-                              setDialogState(() => isUploading = false);
+                              setDialogState(
+                                  () => isUploading = false);
                               return;
                             }
 
-                            final pickedFile = pickerResult.files.first;
-                            if (pickedFile.size > 5 * 1024 * 1024) {
-                              if (mounted && dialogContext.mounted) {
+                            final pickedFile =
+                                pickerResult.files.first;
+                            if (pickedFile.size >
+                                5 * 1024 * 1024) {
+                              if (mounted &&
+                                  dialogContext.mounted) {
                                 showAppSnackBar(
                                   context,
                                   context.tr(
                                       'Файл слишком большой. Максимум 5 МБ.'),
-                                  backgroundColor: const Color(0xFFB91C1C),
+                                  backgroundColor:
+                                      const Color(0xFFB91C1C),
                                 );
-                                setDialogState(() => isUploading = false);
+                                setDialogState(
+                                    () => isUploading = false);
                               }
                               return;
                             }
 
                             final ownerId =
-                                appState.currentUser?.id ?? 'teacher';
-                            final folderPath = _selectedClassId == null
-                                ? 'schools/main/teacher-files/$ownerId'
-                                : 'schools/main/class-files/$_selectedClassId/$ownerId';
+                                appState.currentUser?.id ??
+                                    'teacher';
+                            final folderPath =
+                                _selectedClassId == null
+                                    ? 'schools/main/teacher-files/$ownerId'
+                                    : 'schools/main/class-files/$_selectedClassId/$ownerId';
 
-                            final storageRef = FirebaseStorage.instance
+                            final storageRef = FirebaseStorage
+                                .instance
                                 .ref()
-                                .child('$folderPath/${pickedFile.name}');
+                                .child(
+                                    '$folderPath/${pickedFile.name}');
 
                             UploadTask uploadTask;
                             if (kIsWeb) {
                               uploadTask = storageRef.putData(
                                   pickedFile.bytes!,
                                   SettableMetadata(
-                                      contentType: 'application/pdf'));
+                                      contentType:
+                                          'application/pdf'));
                             } else {
                               if (pickedFile.path != null) {
                                 uploadTask = storageRef.putFile(
                                     File(pickedFile.path!),
                                     SettableMetadata(
-                                        contentType: 'application/pdf'));
+                                        contentType:
+                                            'application/pdf'));
                               } else {
                                 uploadTask = storageRef.putData(
                                     pickedFile.bytes!,
                                     SettableMetadata(
-                                        contentType: 'application/pdf'));
+                                        contentType:
+                                            'application/pdf'));
                               }
                             }
 
+                            uploadTask.snapshotEvents.listen(
+                                (snapshot) {
+                              if (snapshot.totalBytes > 0) {
+                                final progress =
+                                    snapshot.bytesTransferred /
+                                        snapshot.totalBytes;
+                                if (dialogContext.mounted) {
+                                  setDialogState(() =>
+                                      uploadProgress = progress);
+                                }
+                              }
+                            });
+
                             final snapshot = await uploadTask;
-                            final downloadUrl =
-                                await snapshot.ref.getDownloadURL();
+                            final downloadUrl = await snapshot
+                                .ref
+                                .getDownloadURL();
 
-                            final fileSizeMb = (pickedFile.size / (1024 * 1024))
-                                    .toStringAsFixed(1) +
-                                ' МБ';
+                            final fileSizeMb =
+                                '${(pickedFile.size / (1024 * 1024)).toStringAsFixed(1)} МБ';
 
-                            if (!mounted || !dialogContext.mounted) {
+                            if (!mounted ||
+                                !dialogContext.mounted) {
                               return;
                             }
-                            final fileName = fileNameText.trim().isEmpty
-                                ? pickedFile.name
-                                : fileNameText.trim();
-                            final fileResult = await appState.createManagedFile(
+                            final fileName =
+                                fileNameText.trim().isEmpty
+                                    ? pickedFile.name
+                                    : fileNameText.trim();
+                            final fileResult =
+                                await appState.createManagedFile(
                               name: fileName,
                               category: _selectedCategory!,
                               sizeLabel: fileSizeMb,
                               classId: _selectedClassId,
-                              storagePath: storageRef.fullPath,
+                              storagePath:
+                                  storageRef.fullPath,
                               downloadUrl: downloadUrl,
                               contentType: 'application/pdf',
+                              topic: _topicController.text,
+                              description:
+                                  _descriptionController.text,
                             );
-                            if (!mounted || !dialogContext.mounted) {
+                            if (!mounted ||
+                                !dialogContext.mounted) {
                               return;
                             }
                             final file = fileResult.data;
@@ -224,32 +394,36 @@ class _FilesScreenState extends State<FilesScreen> {
                               showAppSnackBar(
                                 context,
                                 addFailedText,
-                                backgroundColor: const Color(0xFFB91C1C),
+                                backgroundColor:
+                                    const Color(0xFFB91C1C),
                               );
-                              setDialogState(() => isUploading = false);
+                              setDialogState(
+                                  () => isUploading = false);
                               return;
                             }
-                            Navigator.of(dialogContext).pop();
-                            _nameController.clear();
-                            _sizeController.text = 'Выбирается автоматически';
-                            setState(() {
-                              _selectedCategory = null;
-                              _selectedClassId = null;
+
+                            setDialogState(() {
+                              isUploading = false;
+                              uploadComplete = true;
+                              uploadProgress = 1.0;
                             });
-                            showAppSnackBar(
-                              context,
-                              uploadSuccessText,
-                              backgroundColor: const Color(0xFF047857),
-                            );
+                            _nameController.clear();
+                            _topicController.clear();
+                            _descriptionController.clear();
+                            _selectedCategory = null;
+                            _selectedClassId = null;
                           } catch (_) {
-                            if (!mounted || !dialogContext.mounted) {
+                            if (!mounted ||
+                                !dialogContext.mounted) {
                               return;
                             }
-                            setDialogState(() => isUploading = false);
+                            setDialogState(
+                                () => isUploading = false);
                             showAppSnackBar(
                               context,
                               uploadFailedText,
-                              backgroundColor: const Color(0xFFB91C1C),
+                              backgroundColor:
+                                  const Color(0xFFB91C1C),
                             );
                           }
                         },
@@ -257,7 +431,8 @@ class _FilesScreenState extends State<FilesScreen> {
                       ? const SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2),
                         )
                       : Text(context.tr('Выбрать и загрузить')),
                 ),
@@ -273,9 +448,30 @@ class _FilesScreenState extends State<FilesScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appState = context.appState;
-    final files = appState.managedFiles;
-    final categories = _groupFilesByCategory(files);
-    final scopedFiles = files.where((file) => file.classId != null).length;
+    final allFiles = appState.managedFiles;
+
+    final filteredFiles = allFiles.where((file) {
+      if (_filterCategory != null && file.category != _filterCategory) {
+        return false;
+      }
+      if (_searchQuery.isNotEmpty) {
+        final q = _searchQuery.toLowerCase();
+        final nameMatch = file.name.toLowerCase().contains(q);
+        final topicMatch =
+            (file.topic ?? '').toLowerCase().contains(q);
+        final descMatch =
+            (file.description ?? '').toLowerCase().contains(q);
+        final catMatch = file.category.toLowerCase().contains(q);
+        if (!nameMatch && !topicMatch && !descMatch && !catMatch) {
+          return false;
+        }
+      }
+      return true;
+    }).toList();
+
+    final categories = _groupFilesByCategory(allFiles);
+    final scopedFiles =
+        allFiles.where((file) => file.classId != null).length;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,7 +526,7 @@ class _FilesScreenState extends State<FilesScreen> {
           children: [
             _MetricCard(
               title: context.tr('Всего файлов'),
-              value: '${files.length}',
+              value: '${allFiles.length}',
               color: const Color(0xFF9333EA),
             ),
             _MetricCard(
@@ -346,56 +542,106 @@ class _FilesScreenState extends State<FilesScreen> {
           ],
         ),
         const SizedBox(height: 20),
-        Text(
-          context.tr('Папки'),
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF111827),
-          ),
-        ),
-        const SizedBox(height: 12),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: categories.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 1.18,
-          ),
-          itemBuilder: (context, index) {
-            final entry = categories.entries.elementAt(index);
-            return _FolderCard(
-              name: entry.key,
-              filesCount: entry.value.length,
-              accent: _folderAccent(index),
+        // Search & filter
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final stacked = constraints.maxWidth < 600;
+            final searchField = TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: context.tr('Поиск по файлам...'),
+                hintStyle:
+                    const TextStyle(color: Color(0xFF9CA3AF)),
+                prefixIcon: const Icon(Icons.search_rounded,
+                    color: Color(0xFF9CA3AF)),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                  borderSide: const BorderSide(
+                      color: Color(0xFFE5E7EB)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                  borderSide: const BorderSide(
+                      color: Color(0xFFE5E7EB)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                  borderSide: const BorderSide(
+                      color: Color(0xFF9333EA), width: 1.4),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() => _searchQuery = value);
+              },
+            );
+            final filterField = AppSelectField<String?>(
+              value: _filterCategory,
+              label: context.tr('Фильтр'),
+              icon: Icons.filter_list_rounded,
+              options: [
+                AppSelectOption<String?>(
+                  value: null,
+                  label: context.tr('Все категории'),
+                ),
+                ...categories.keys.map(
+                  (cat) => AppSelectOption<String?>(
+                    value: cat,
+                    label: context.tr(cat),
+                  ),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() => _filterCategory = value);
+              },
+            );
+
+            if (stacked) {
+              return Column(
+                children: [
+                  searchField,
+                  const SizedBox(height: 12),
+                  filterField,
+                ],
+              );
+            }
+            return Row(
+              children: [
+                Expanded(child: searchField),
+                const SizedBox(width: 12),
+                Expanded(child: filterField),
+              ],
             );
           },
         ),
         const SizedBox(height: 20),
         Text(
-          context.tr('Недавние файлы'),
+          context.tr('История файлов'),
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
             color: const Color(0xFF111827),
           ),
         ),
         const SizedBox(height: 12),
-        if (files.isEmpty)
+        if (filteredFiles.isEmpty)
           _EmptyFilesState(
-            title: context.tr('Файлы пока не добавлены'),
-            subtitle: context.tr(
-              'Добавьте первый материал, чтобы он появился в каталоге школы.',
-            ),
+            title: _searchQuery.isNotEmpty || _filterCategory != null
+                ? context.tr('Файлы не найдены')
+                : context.tr('Файлы пока не добавлены'),
+            subtitle: _searchQuery.isNotEmpty || _filterCategory != null
+                ? context.tr('Попробуйте изменить поиск или фильтр.')
+                : context.tr(
+                    'Добавьте первый материал, чтобы он появился в каталоге школы.',
+                  ),
           )
         else
           Column(
             children: [
-              for (var i = 0; i < files.length; i++)
+              for (var i = 0; i < filteredFiles.length; i++)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: _RecentFileTile(file: files[i]),
+                  child: _RecentFileTile(file: filteredFiles[i]),
                 ),
             ],
           ),
@@ -477,71 +723,6 @@ class _MetricCard extends StatelessWidget {
   }
 }
 
-class _FolderCard extends StatelessWidget {
-  final String name;
-  final int filesCount;
-  final List<Color> accent;
-
-  const _FolderCard({
-    required this.name,
-    required this.filesCount,
-    required this.accent,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 24,
-            offset: Offset(0, 14),
-            color: Color(0x14000000),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              gradient: LinearGradient(colors: accent),
-            ),
-            child: const Icon(
-              Icons.folder_rounded,
-              color: Colors.white,
-            ),
-          ),
-          const Spacer(),
-          Text(
-            context.tr(name),
-            style: const TextStyle(
-              color: Color(0xFF111827),
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            context.trf('{value} файлов', {'value': '$filesCount'}),
-            style: const TextStyle(
-              color: Color(0xFF6B7280),
-              fontSize: 13,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _RecentFileTile extends StatelessWidget {
   final ManagedSchoolFile file;
 
@@ -591,6 +772,28 @@ class _RecentFileTile extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+                if ((file.topic ?? '').isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    '${context.tr('Тема')}: ${file.topic}',
+                    style: const TextStyle(
+                      color: Color(0xFF2563EB),
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+                if ((file.description ?? '').isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    file.description!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Color(0xFF6B7280),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 4),
                 Text(
                   [
@@ -696,16 +899,6 @@ List<String> _categoriesFromState(List<ManagedSchoolFile> files) {
     }
   }
   return categories;
-}
-
-List<Color> _folderAccent(int index) {
-  const accents = [
-    [Color(0xFF60A5FA), Color(0xFF3B82F6)],
-    [Color(0xFFA855F7), Color(0xFF8B5CF6)],
-    [Color(0xFFF97373), Color(0xFFFB7185)],
-    [Color(0xFFFBBF24), Color(0xFFF59E0B)],
-  ];
-  return accents[index % accents.length];
 }
 
 InputDecoration _inputDecoration(BuildContext context, String label) {

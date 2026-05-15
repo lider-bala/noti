@@ -96,6 +96,7 @@ class AppState extends ChangeNotifier {
   final List<HomeworkAssignment> _homeworkAssignments = [];
   final List<HomeworkSubmission> _homeworkSubmissions = [];
   final List<ParentMeeting> _parentMeetings = [];
+  final List<QuarterGrade> _quarterGrades = [];
   final List<AuditLogEntry> _auditLogs = [];
   final List<ParentStudentLink> _parentStudentLinks = [];
   final List<ParentClassLink> _parentClassLinks = [];
@@ -1501,6 +1502,8 @@ class AppState extends ChangeNotifier {
     String? storagePath,
     String? downloadUrl,
     String? contentType,
+    String? topic,
+    String? description,
   }) async {
     final user = currentUser;
     if (user == null) {
@@ -1547,6 +1550,8 @@ class AppState extends ChangeNotifier {
       storagePath: storagePath,
       downloadUrl: downloadUrl,
       contentType: contentType,
+      topic: topic?.trim(),
+      description: description?.trim(),
     );
 
     _files.add(file);
@@ -2127,6 +2132,103 @@ class AppState extends ChangeNotifier {
     return total / grades.length;
   }
 
+  int suggestedQuarterGrade(double average) {
+    if (average >= 4.5) return 5;
+    if (average >= 3.5) return 4;
+    if (average >= 2.5) return 3;
+    return 2;
+  }
+
+  List<QuarterGrade> get quarterGrades => List.unmodifiable(
+        _quarterGrades.toList()
+          ..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
+      );
+
+  List<QuarterGrade> quarterGradesForStudent(String studentId) {
+    return quarterGrades
+        .where((item) => item.studentId == studentId)
+        .toList();
+  }
+
+  List<QuarterGrade> quarterGradesForClass({
+    required String classId,
+    required String subject,
+    required int quarter,
+  }) {
+    return quarterGrades
+        .where((item) =>
+            item.classId == classId &&
+            item.subject == subject &&
+            item.quarter == quarter)
+        .toList();
+  }
+
+  QuarterGrade? quarterGradeFor({
+    required String studentId,
+    required String subject,
+    required int quarter,
+  }) {
+    for (final qg in _quarterGrades) {
+      if (qg.studentId == studentId &&
+          qg.subject == subject &&
+          qg.quarter == quarter) {
+        return qg;
+      }
+    }
+    return null;
+  }
+
+  Future<AppResult<bool>> recordQuarterGrade({
+    required String studentId,
+    required String classId,
+    required String subject,
+    required int quarter,
+    required int value,
+    required double suggestedValue,
+  }) async {
+    final user = currentUser;
+    if (user == null) {
+      return const AppResult<bool>.failure('auth.required');
+    }
+
+    _quarterGrades.removeWhere(
+      (item) =>
+          item.studentId == studentId &&
+          item.subject == subject &&
+          item.quarter == quarter,
+    );
+
+    final entry = QuarterGrade(
+      id: _nextId('quarter-grade'),
+      studentId: studentId,
+      classId: classId,
+      teacherId: user.id,
+      subject: subject,
+      quarter: quarter,
+      value: value,
+      suggestedValue: suggestedValue,
+      createdAt: DateTime.now(),
+    );
+    _quarterGrades.add(entry);
+    notifyListeners();
+    return const AppResult<bool>.success(true);
+  }
+
+  List<GradeEntry> gradesForStudentSubject({
+    required String studentId,
+    required String subject,
+  }) {
+    return gradeEntries
+        .where((g) => g.studentId == studentId && g.subject == subject)
+        .toList();
+  }
+
+  List<AttendanceSession> attendanceSessionsForClass(String classId) {
+    return attendanceSessions
+        .where((session) => session.classId == classId)
+        .toList();
+  }
+
   String weekdayLabel(int weekdayIndex) {
     const labels = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ'];
     if (weekdayIndex < 0 || weekdayIndex >= labels.length) {
@@ -2333,6 +2435,8 @@ class AppState extends ChangeNotifier {
       'storagePath': file.storagePath,
       'downloadUrl': file.downloadUrl,
       'contentType': file.contentType,
+      'topic': file.topic,
+      'description': file.description,
     };
   }
 
@@ -2348,6 +2452,8 @@ class AppState extends ChangeNotifier {
       storagePath: _nullableString(map['storagePath']),
       downloadUrl: _nullableString(map['downloadUrl']),
       contentType: _nullableString(map['contentType']),
+      topic: _nullableString(map['topic']),
+      description: _nullableString(map['description']),
     );
   }
 

@@ -98,6 +98,34 @@ class ParentGradesScreen extends StatelessWidget {
                 ],
               ],
             ),
+          if (child != null) ...[
+            const SizedBox(height: 20),
+            _QuarterGradesSection(studentId: child.id),
+            const SizedBox(height: 20),
+            Text(
+              context.tr('Полная история оценок'),
+              style: const TextStyle(
+                color: Color(0xFF111827),
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 12),
+            if (grades.isEmpty)
+              _EmptyState(
+                title: context.tr('Оценок пока нет'),
+                subtitle: context.tr('История оценок будет показана здесь.'),
+              )
+            else
+              Column(
+                children: [
+                  for (var i = 0; i < grades.length; i++) ...[
+                    if (i != 0) const SizedBox(height: 10),
+                    _RecentGradeCard(item: grades[i]),
+                  ],
+                ],
+              ),
+          ],
         ],
       ),
     );
@@ -469,6 +497,102 @@ class _GradeBadge extends StatelessWidget {
           fontSize: size > 36 ? 20 : 14,
           fontWeight: FontWeight.w800,
         ),
+      ),
+    );
+  }
+}
+
+class _QuarterGradesSection extends StatelessWidget {
+  final String studentId;
+
+  const _QuarterGradesSection({required this.studentId});
+
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.appState;
+    final qGrades = appState.quarterGradesForStudent(studentId);
+    final subjects = qGrades.map((q) => q.subject).toSet().toList()..sort();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.tr('Четвертные оценки'),
+          style: const TextStyle(
+            color: Color(0xFF111827),
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 12),
+        if (qGrades.isEmpty)
+          _EmptyState(
+            title: context.tr('Четвертных оценок пока нет'),
+            subtitle: context
+                .tr('Четвертные оценки появятся после выставления учителем.'),
+          )
+        else
+          for (final subject in subjects) ...[
+            _QuarterSubjectRow(
+              subject: subject,
+              grades: qGrades.where((q) => q.subject == subject).toList(),
+            ),
+            const SizedBox(height: 8),
+          ],
+      ],
+    );
+  }
+}
+
+class _QuarterSubjectRow extends StatelessWidget {
+  final String subject;
+  final List<QuarterGrade> grades;
+
+  const _QuarterSubjectRow({required this.subject, required this.grades});
+
+  @override
+  Widget build(BuildContext context) {
+    final sorted = grades.toList()
+      ..sort((a, b) => a.quarter.compareTo(b.quarter));
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: _cardDecoration(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.tr(subject),
+            style: const TextStyle(
+              color: Color(0xFF111827),
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            children: sorted.map((q) {
+              return Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: _gradeColor(q.value).withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${q.quarter} ${context.tr('чт')}: ${q.value}',
+                  style: TextStyle(
+                    color: _gradeColor(q.value),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }

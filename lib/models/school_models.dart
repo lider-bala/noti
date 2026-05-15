@@ -184,6 +184,8 @@ class ManagedSchoolFile {
   final String? storagePath;
   final String? downloadUrl;
   final String? contentType;
+  final String? topic;
+  final String? description;
 
   const ManagedSchoolFile({
     required this.id,
@@ -196,6 +198,8 @@ class ManagedSchoolFile {
     this.storagePath,
     this.downloadUrl,
     this.contentType,
+    this.topic,
+    this.description,
   });
 }
 
@@ -269,6 +273,30 @@ class ParentMeeting {
     required this.agenda,
     required this.location,
     required this.meetingAt,
+    required this.createdAt,
+  });
+}
+
+class QuarterGrade {
+  final String id;
+  final String studentId;
+  final String classId;
+  final String teacherId;
+  final String subject;
+  final int quarter;
+  final int value;
+  final double suggestedValue;
+  final DateTime createdAt;
+
+  const QuarterGrade({
+    required this.id,
+    required this.studentId,
+    required this.classId,
+    required this.teacherId,
+    required this.subject,
+    required this.quarter,
+    required this.value,
+    required this.suggestedValue,
     required this.createdAt,
   });
 }
