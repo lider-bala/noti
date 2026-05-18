@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentHomeworkScreen extends StatelessWidget {
   const ParentHomeworkScreen({super.key});
@@ -133,9 +134,9 @@ class _ChildInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -175,8 +176,8 @@ class _ChildInfoCard extends StatelessWidget {
               children: [
                 Text(
                   child?.fullName ?? context.tr('Ученик не найден'),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
@@ -186,8 +187,8 @@ class _ChildInfoCard extends StatelessWidget {
                   child?.schoolClass == null
                       ? context.tr('Класс не указан')
                       : context.tr('Класс ${child!.schoolClass}'),
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -314,14 +315,14 @@ class _HomeworkCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: submitted
               ? const Color(0xFF10B981).withOpacity(0.35)
               : _isUrgent(item)
                   ? const Color(0xFFF97316).withOpacity(0.35)
-                  : const Color(0xFFE5E7EB),
+                  : context.appBorderColor,
           width: 2,
         ),
         boxShadow: const [
@@ -368,8 +369,8 @@ class _HomeworkCard extends StatelessWidget {
                       children: [
                         Text(
                           context.tr(item.subject),
-                          style: const TextStyle(
-                            color: Color(0xFF111827),
+                          style: TextStyle(
+                            color: context.primaryTextColor,
                             fontWeight: FontWeight.w700,
                             fontSize: 15,
                           ),
@@ -388,7 +389,7 @@ class _HomeworkCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       context.tr(item.title),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xFF374151),
                         fontSize: 14,
                       ),
@@ -396,8 +397,8 @@ class _HomeworkCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       teacher?.fullName ?? context.tr('Учитель'),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -416,7 +417,7 @@ class _HomeworkCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          const Divider(color: Color(0xFFE5E7EB), height: 1),
+          Divider(color: context.appBorderColor, height: 1),
           const SizedBox(height: 10),
           Wrap(
             spacing: 12,
@@ -477,8 +478,8 @@ class _HomeworkCard extends StatelessWidget {
               if (submitted && (submission!.gradeComment ?? '').isNotEmpty)
                 Text(
                   submission!.gradeComment!,
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -504,11 +505,11 @@ class _InlineInfo extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 16, color: const Color(0xFF4B5563)),
+        Icon(icon, size: 16, color: context.secondaryTextColor),
         const SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(color: Color(0xFF4B5563), fontSize: 13),
+          style: TextStyle(color: context.secondaryTextColor, fontSize: 13),
         ),
       ],
     );

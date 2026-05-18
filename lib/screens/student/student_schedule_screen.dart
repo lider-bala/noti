@@ -215,7 +215,7 @@ class _LessonCard extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(lesson.subject),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xFF111827),
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -255,7 +255,7 @@ class _LessonCard extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.location_on_outlined,
                 size: 16,
                 color: Color(0xFF4B5563),

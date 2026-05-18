@@ -407,7 +407,7 @@ class _ClassmateCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.phone_outlined,
                           size: 16,
                           color: Color(0xFF6B7280),
@@ -440,7 +440,7 @@ class _ClassmateCard extends StatelessWidget {
                           name: classmate.name,
                           subtitle: context.tr('Одноклассник'),
                         ),
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.chat_bubble_outline_rounded,
                           size: 16,
                           color: Color(0xFF2563EB),

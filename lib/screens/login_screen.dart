@@ -320,7 +320,7 @@ class _LogoHeader extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           context.tr('auth.welcome'),
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -490,7 +490,7 @@ class _GlassLoginCard extends StatelessWidget {
                     controller: emailController,
                     focusNode: emailFocusNode,
                     cursorColor: Colors.white,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     validator: (value) =>
                         InputValidators.validateEmail(context, value),
                     decoration: _inputDecoration(
@@ -507,7 +507,7 @@ class _GlassLoginCard extends StatelessWidget {
                     controller: passwordController,
                     focusNode: passwordFocusNode,
                     cursorColor: Colors.white,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
                     obscureText: !showPassword,
                     validator: (value) =>

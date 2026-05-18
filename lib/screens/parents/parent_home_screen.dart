@@ -4,6 +4,7 @@ import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../widgets/contact_actions.dart';
 import 'parent_side_menu.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentHomeScreen extends StatelessWidget {
   final ValueChanged<ParentSection>? onNavigate;
@@ -142,7 +143,7 @@ class ParentHomeScreen extends StatelessWidget {
           Text(
             context.tr('common.upcomingEvents'),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -160,7 +161,7 @@ class ParentHomeScreen extends StatelessWidget {
           Text(
             context.tr('common.recentGrades'),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -189,7 +190,7 @@ class ParentHomeScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),
-                  icon: const Icon(Icons.chat_bubble_outline_rounded),
+                  icon: Icon(Icons.chat_bubble_outline_rounded),
                   label: Text(context.tr('Чат с админом')),
                 ),
               );
@@ -326,9 +327,9 @@ class _ChildCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -374,8 +375,8 @@ class _ChildCard extends StatelessWidget {
                 children: [
                   Text(
                     child.name,
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
+                    style: TextStyle(
+                      color: context.primaryTextColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
@@ -383,8 +384,8 @@ class _ChildCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     context.trf('Класс {value}', {'value': child.klass}),
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 13,
                     ),
                   ),
@@ -610,7 +611,7 @@ class _UpcomingEventCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: borderColor, width: 2),
         boxShadow: const [
@@ -643,24 +644,24 @@ class _UpcomingEventCard extends StatelessWidget {
               children: [
                 Text(
                   context.tr(event.title),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_month_rounded,
                       size: 14,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       '${context.tr(event.date)} • ${event.time}',
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
@@ -669,8 +670,8 @@ class _UpcomingEventCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   context.tr(event.location),
-                  style: const TextStyle(
-                    color: Color(0xFF9CA3AF),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -705,9 +706,9 @@ class _RecentGradesCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -766,16 +767,16 @@ class _RecentGradeRow extends StatelessWidget {
           children: [
             Text(
               context.tr(grade.subject),
-              style: const TextStyle(
-                color: Color(0xFF111827),
+              style: TextStyle(
+                color: context.primaryTextColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 2),
             Text(
               context.tr(grade.date),
-              style: const TextStyle(
-                color: Color(0xFF6B7280),
+              style: TextStyle(
+                color: context.secondaryTextColor,
                 fontSize: 12,
               ),
             ),

@@ -22,12 +22,8 @@ class _FilesScreenState extends State<FilesScreen> {
   final _topicController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _sizeController = TextEditingController(text: '1.2 МБ');
-  final _searchController = TextEditingController();
-
   String? _selectedCategory;
   String? _selectedClassId;
-  String? _filterCategory;
-  String? _filterClassId;
 
   @override
   void dispose() {
@@ -35,7 +31,6 @@ class _FilesScreenState extends State<FilesScreen> {
     _topicController.dispose();
     _descriptionController.dispose();
     _sizeController.dispose();
-    _searchController.dispose();
     super.dispose();
   }
 
@@ -137,7 +132,7 @@ class _FilesScreenState extends State<FilesScreen> {
                         const SizedBox(height: 16),
                         LinearProgressIndicator(
                           value: uploadProgress,
-                          backgroundColor: const Color(0xFFE5E7EB),
+                          backgroundColor: context.appBorderColor,
                           color: const Color(0xFF10B981),
                           minHeight: 8,
                           borderRadius: BorderRadius.circular(8),
@@ -154,7 +149,7 @@ class _FilesScreenState extends State<FilesScreen> {
                       ],
                       if (uploadComplete) ...[
                         const SizedBox(height: 16),
-                        const Icon(Icons.check_circle_rounded,
+                        Icon(Icons.check_circle_rounded,
                             color: Color(0xFF10B981), size: 48),
                         const SizedBox(height: 8),
                         Text(
@@ -363,32 +358,12 @@ class _FilesScreenState extends State<FilesScreen> {
     );
   }
 
-  List<ManagedSchoolFile> _filteredFiles(List<ManagedSchoolFile> files) {
-    var result = files;
-    final searchQuery = _searchController.text.trim().toLowerCase();
-    if (searchQuery.isNotEmpty) {
-      result = result.where((f) {
-        return f.name.toLowerCase().contains(searchQuery) ||
-            (f.topic ?? '').toLowerCase().contains(searchQuery) ||
-            (f.description ?? '').toLowerCase().contains(searchQuery) ||
-            f.category.toLowerCase().contains(searchQuery);
-      }).toList();
-    }
-    if (_filterCategory != null) {
-      result = result.where((f) => f.category == _filterCategory).toList();
-    }
-    if (_filterClassId != null) {
-      result = result.where((f) => f.classId == _filterClassId).toList();
-    }
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appState = context.appState;
     final allFiles = appState.managedFiles;
-    final files = _filteredFiles(allFiles);
+    final files = allFiles;
     final categories = _groupFilesByCategory(allFiles);
     final scopedFiles = allFiles.where((file) => file.classId != null).length;
 
@@ -448,60 +423,9 @@ class _FilesScreenState extends State<FilesScreen> {
           ],
         ),
         const SizedBox(height: 20),
-        TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: context.tr('Поиск файлов...'),
-            prefixIcon: const Icon(Icons.search),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
-            filled: true,
-            fillColor: context.panelMutedColor,
-          ),
-          onChanged: (_) => setState(() {}),
-        ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            FilterChip(
-              label: Text(context.tr('Все категории')),
-              selected: _filterCategory == null,
-              onSelected: (_) => setState(() => _filterCategory = null),
-            ),
-            for (final cat in categories.keys)
-              FilterChip(
-                label: Text(context.tr(cat)),
-                selected: _filterCategory == cat,
-                onSelected: (_) =>
-                    setState(() => _filterCategory = _filterCategory == cat ? null : cat),
-              ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            FilterChip(
-              label: Text(context.tr('Все классы')),
-              selected: _filterClassId == null,
-              onSelected: (_) => setState(() => _filterClassId = null),
-            ),
-            for (final cls in appState.schoolClasses)
-              FilterChip(
-                label: Text(cls.name),
-                selected: _filterClassId == cls.id,
-                onSelected: (_) =>
-                    setState(() => _filterClassId = _filterClassId == cls.id ? null : cls.id),
-              ),
-          ],
-        ),
-        const SizedBox(height: 20),
         Text(context.tr('Папки'),
             style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600, color: const Color(0xFF111827))),
+                fontWeight: FontWeight.w600, color: context.primaryTextColor)),
         const SizedBox(height: 12),
         GridView.builder(
           shrinkWrap: true,
@@ -528,7 +452,7 @@ class _FilesScreenState extends State<FilesScreen> {
                 ? context.tr('Недавние файлы')
                 : context.tr('Результаты поиска'),
             style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600, color: const Color(0xFF111827))),
+                fontWeight: FontWeight.w600, color: context.primaryTextColor)),
         const SizedBox(height: 12),
         if (files.isEmpty)
           _EmptyFilesState(
@@ -556,7 +480,7 @@ class _FilesScreenState extends State<FilesScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
             ),
-            icon: const Icon(Icons.upload_file_rounded),
+            icon: Icon(Icons.upload_file_rounded),
             label: Text(context.tr('+ Загрузить файл')),
           ),
         ),
@@ -580,9 +504,9 @@ class _MetricCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.panelColor,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFF3F4F6)),
+          border: Border.all(color: context.appBorderColor),
           boxShadow: const [
             BoxShadow(
                 blurRadius: 24,
@@ -596,14 +520,14 @@ class _MetricCard extends StatelessWidget {
             Icon(Icons.folder_copy_rounded, color: color),
             const SizedBox(height: 12),
             Text(value,
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF111827))),
+                    color: context.primaryTextColor)),
             const SizedBox(height: 4),
             Text(title,
                 style:
-                    const TextStyle(color: Color(0xFF6B7280), fontSize: 13)),
+                    TextStyle(color: context.secondaryTextColor, fontSize: 13)),
           ],
         ),
       ),
@@ -623,9 +547,9 @@ class _FolderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
               blurRadius: 24,
@@ -644,18 +568,18 @@ class _FolderCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               gradient: LinearGradient(colors: accent),
             ),
-            child: const Icon(Icons.folder_rounded, color: Colors.white),
+            child: Icon(Icons.folder_rounded, color: Colors.white),
           ),
           const Spacer(),
           Text(context.tr(name),
-              style: const TextStyle(
-                  color: Color(0xFF111827),
+              style: TextStyle(
+                  color: context.primaryTextColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 6),
           Text(context.trf('{value} файлов', {'value': '$filesCount'}),
               style:
-                  const TextStyle(color: Color(0xFF6B7280), fontSize: 13)),
+                  TextStyle(color: context.secondaryTextColor, fontSize: 13)),
         ],
       ),
     );
@@ -673,9 +597,9 @@ class _RecentFileTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
               blurRadius: 18,
@@ -701,13 +625,13 @@ class _RecentFileTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(file.name,
-                    style: const TextStyle(
-                        color: Color(0xFF111827),
+                    style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w700)),
                 if ((file.topic ?? '').isNotEmpty) ...[
                   const SizedBox(height: 2),
                   Text(file.topic!,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: Color(0xFF2563EB), fontSize: 13)),
                 ],
                 const SizedBox(height: 4),
@@ -717,8 +641,8 @@ class _RecentFileTile extends StatelessWidget {
                       if ((file.classId ?? '').isNotEmpty) file.classId!,
                       file.sizeLabel,
                     ].join(' • '),
-                    style: const TextStyle(
-                        color: Color(0xFF6B7280), fontSize: 13)),
+                    style: TextStyle(
+                        color: context.secondaryTextColor, fontSize: 13)),
                 const SizedBox(height: 4),
                 Text(
                     [
@@ -726,15 +650,15 @@ class _RecentFileTile extends StatelessWidget {
                           .formatShortDate(file.uploadedAt),
                       if (uploader != null) uploader.fullName,
                     ].join(' • '),
-                    style: const TextStyle(
-                        color: Color(0xFF9CA3AF), fontSize: 12)),
+                    style: TextStyle(
+                        color: context.secondaryTextColor, fontSize: 12)),
                 if ((file.description ?? '').isNotEmpty) ...[
                   const SizedBox(height: 4),
                   Text(file.description!,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Color(0xFF6B7280), fontSize: 12)),
+                      style: TextStyle(
+                          color: context.secondaryTextColor, fontSize: 12)),
                 ],
               ],
             ),
@@ -756,22 +680,22 @@ class _EmptyFilesState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
-          const Icon(Icons.cloud_upload_rounded,
+          Icon(Icons.cloud_upload_rounded,
               color: Color(0xFFA855F7), size: 34),
           const SizedBox(height: 10),
           Text(title,
-              style: const TextStyle(
-                  color: Color(0xFF111827), fontWeight: FontWeight.w700)),
+              style: TextStyle(
+                  color: context.primaryTextColor, fontWeight: FontWeight.w700)),
           const SizedBox(height: 6),
           Text(subtitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Color(0xFF6B7280))),
+              style: TextStyle(color: context.secondaryTextColor)),
         ],
       ),
     );

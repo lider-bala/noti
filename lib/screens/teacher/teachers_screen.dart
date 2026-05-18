@@ -390,7 +390,7 @@ class _TeacherCard extends StatelessWidget {
                     SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.schedule_rounded,
                           size: 16,
                           color: Color(0xFF6B7280),
@@ -471,7 +471,7 @@ class _TeacherCard extends StatelessWidget {
                               name: item.name,
                               subtitle: context.tr(item.subject),
                             ),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.chat_bubble_outline_rounded,
                               size: 16,
                               color: Color(0xFF2563EB),
@@ -497,7 +497,7 @@ class _TeacherCard extends StatelessWidget {
                           child: TextButton.icon(
                             onPressed: () =>
                                 openPhoneDialer(context, item.phone),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.phone_in_talk_outlined,
                               size: 16,
                               color: Color(0xFF059669),

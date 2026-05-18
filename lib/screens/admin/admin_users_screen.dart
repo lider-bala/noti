@@ -643,7 +643,7 @@ class _CreateAccountPanel extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.tr('В выбранном классе пока нет учеников.'),
-              style: const TextStyle(
+              style: TextStyle(
                 color: Color(0xFFB91C1C),
                 fontWeight: FontWeight.w600,
               ),
@@ -692,7 +692,7 @@ class _CreateAccountPanel extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            icon: const Icon(Icons.check_rounded),
+            icon: Icon(Icons.check_rounded),
             label: Text(context.tr('Создать аккаунт')),
           ),
         ),
@@ -841,7 +841,7 @@ class _SectionLabel extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xFF0F766E),
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -915,7 +915,7 @@ class _RequestRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              icon: const Icon(Icons.check_rounded, size: 18),
+              icon: Icon(Icons.check_rounded, size: 18),
               label: Text(context.tr('Одобрить')),
             ),
             OutlinedButton.icon(
@@ -927,7 +927,7 @@ class _RequestRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              icon: const Icon(Icons.close_rounded, size: 18),
+              icon: Icon(Icons.close_rounded, size: 18),
               label: Text(context.tr('Отклонить')),
             ),
           ],

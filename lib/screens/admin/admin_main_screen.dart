@@ -91,7 +91,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
                           onPressed: () {
                             setState(() => _isMobileMenuOpen = true);
                           },
-                          icon: const Icon(Icons.menu_rounded),
+                          icon: Icon(Icons.menu_rounded),
                         )
                       else
                         const SizedBox(width: 40),

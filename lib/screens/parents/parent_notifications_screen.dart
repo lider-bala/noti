@@ -345,7 +345,7 @@ class _StatsRow extends StatelessWidget {
                     children: [
                       Text(
                         '$unreadCount',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Color(0xFF111827),
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
@@ -404,7 +404,7 @@ class _StatsRow extends StatelessWidget {
                     children: [
                       Text(
                         '$total',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Color(0xFF111827),
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
@@ -657,7 +657,7 @@ class _NotificationCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   context.tr(notification.message),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF4B5563),
                     fontSize: 13,
                   ),

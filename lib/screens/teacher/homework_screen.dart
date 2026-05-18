@@ -146,7 +146,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                       const SizedBox(height: 12),
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        leading: const Icon(Icons.event_rounded),
+                        leading: Icon(Icons.event_rounded),
                         title: Text(context.tr('Срок сдачи')),
                         subtitle: Text(_dateTimeLabel(dueAt)),
                         trailing: TextButton(
@@ -335,7 +335,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                     const SizedBox(height: 12),
                     ListTile(
                       contentPadding: EdgeInsets.zero,
-                      leading: const Icon(Icons.event_available_rounded),
+                      leading: Icon(Icons.event_available_rounded),
                       title: Text(context.tr('Дата и время')),
                       subtitle: Text(_dateTimeLabel(meetingAt)),
                       trailing: TextButton(
@@ -559,7 +559,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              icon: const Icon(Icons.add_task_rounded),
+              icon: Icon(Icons.add_task_rounded),
               label: Text(context.tr('+ Создать новое задание')),
             ),
             FilledButton.icon(
@@ -573,7 +573,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              icon: const Icon(Icons.groups_rounded),
+              icon: Icon(Icons.groups_rounded),
               label: Text(context.tr('Назначить собрание')),
             ),
           ],
@@ -659,12 +659,12 @@ class _HomeworkCardState extends State<_HomeworkCard> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: _isUrgent(item)
               ? const Color(0xFFF97316).withOpacity(0.3)
-              : const Color(0xFFE5E7EB),
+              : context.appBorderColor,
           width: 2,
         ),
         boxShadow: const [
@@ -711,7 +711,7 @@ class _HomeworkCardState extends State<_HomeworkCard> {
                         Text(
                           context.tr(item.subject),
                           style: theme.textTheme.titleMedium?.copyWith(
-                            color: const Color(0xFF111827),
+                            color: context.primaryTextColor,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -726,7 +726,7 @@ class _HomeworkCardState extends State<_HomeworkCard> {
                     Text(
                       context.trf('Класс {value}', {'value': item.classId}),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: const Color(0xFF6B7280),
+                        color: context.secondaryTextColor,
                       ),
                     ),
                   ],
@@ -757,7 +757,7 @@ class _HomeworkCardState extends State<_HomeworkCard> {
               child: Text(
                 context.tr(item.description),
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: const Color(0xFF6B7280),
+                  color: context.secondaryTextColor,
                 ),
               ),
             ),
@@ -791,9 +791,9 @@ class _HomeworkCardState extends State<_HomeworkCard> {
                             {'value': '$submitted/$total'},
                           )
                         : context.tr('Без сдачи файла'),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFF4B5563),
+                      color: context.secondaryTextColor,
                     ),
                   ),
                   if (item.requiresFile) ...[
@@ -855,7 +855,7 @@ class _SubmissionsList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Divider(color: Color(0xFFF3F4F6)),
+        Divider(color: context.appBorderColor),
         for (final student in students) ...[
           Builder(
             builder: (context) {
@@ -881,29 +881,29 @@ class _SubmissionsList extends StatelessWidget {
                         children: [
                           Text(student.fullName,
                               style:
-                                  const TextStyle(fontWeight: FontWeight.w600)),
+                                  TextStyle(fontWeight: FontWeight.w600)),
                           if (sub != null) ...[
                             Text(
                               'Файл: ${sub.fileName} • ${sub.sizeLabel}',
-                              style: const TextStyle(
-                                  fontSize: 12, color: Color(0xFF6B7280)),
+                              style: TextStyle(
+                                  fontSize: 12, color: context.secondaryTextColor),
                             ),
                             if (sub.grade != null)
                               Text(
                                 'Оценка: ${sub.grade}${(sub.gradeComment ?? "").isNotEmpty ? " • ${sub.gradeComment}" : ""}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontSize: 12, color: Color(0xFF059669)),
                               ),
                           ] else
                             Text(context.tr('Не сдано'),
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontSize: 12, color: Color(0xFFDC2626))),
                         ],
                       ),
                     ),
                     if (sub != null && sub.grade == null)
                       PopupMenuButton<int>(
-                        icon: const Icon(Icons.grade_rounded, size: 20),
+                        icon: Icon(Icons.grade_rounded, size: 20),
                         tooltip: context.tr('Поставить оценку'),
                         onSelected: (value) async {
                           await appState.gradeHomeworkSubmission(
@@ -953,11 +953,11 @@ class _InlineInfo extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 16, color: const Color(0xFF6B7280)),
+        Icon(icon, size: 16, color: context.secondaryTextColor),
         const SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
+          style: TextStyle(fontSize: 13, color: context.secondaryTextColor),
         ),
       ],
     );
@@ -1008,18 +1008,18 @@ class _EmptyState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
-          const Icon(Icons.assignment_outlined, color: Color(0xFF6B7280)),
+          Icon(Icons.assignment_outlined, color: context.secondaryTextColor),
           const SizedBox(height: 8),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -1027,7 +1027,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),

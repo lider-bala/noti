@@ -542,7 +542,7 @@ class _CreateClassPanel extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            icon: const Icon(Icons.add_rounded),
+            icon: Icon(Icons.add_rounded),
             label: Text(context.tr('Добавить класс')),
           ),
         ),
@@ -636,7 +636,7 @@ class _ClassRow extends StatelessWidget {
         IconButton(
           tooltip: context.tr('Редактировать'),
           onPressed: () => _editClass(context),
-          icon: const Icon(Icons.edit_rounded),
+          icon: Icon(Icons.edit_rounded),
         ),
         IconButton(
           tooltip: context.tr('Удалить'),
@@ -899,7 +899,7 @@ class _CreateLessonPanel extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            icon: const Icon(Icons.event_available_rounded),
+            icon: Icon(Icons.event_available_rounded),
             label: Text(context.tr('Добавить урок')),
           ),
         ),

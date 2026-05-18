@@ -105,7 +105,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
           onChanged: (value) => setState(() => _searchQuery = value),
           decoration: InputDecoration(
             labelText: context.tr('Поиск учеников...'),
-            prefixIcon: const Icon(Icons.search_rounded),
+            prefixIcon: Icon(Icons.search_rounded),
             filled: true,
             fillColor: context.panelMutedColor,
             border: OutlineInputBorder(
@@ -329,7 +329,7 @@ class _ClassTeachersCard extends StatelessWidget {
               'Учителя класса {value}',
               {'value': selectedClass.name},
             ),
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xFF111827),
               fontSize: 18,
               fontWeight: FontWeight.w800,
@@ -403,7 +403,7 @@ class _StudentDirectoryCard extends StatelessWidget {
                   if ((student.email ?? '').isNotEmpty) student.email!,
                   if ((student.phone ?? '').isNotEmpty) student.phone!,
                 ].join(' • '),
-                style: const TextStyle(color: Color(0xFF6B7280)),
+                style: TextStyle(color: Color(0xFF6B7280)),
               ),
               const SizedBox(height: 12),
               Wrap(

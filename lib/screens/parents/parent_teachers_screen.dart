@@ -273,7 +273,7 @@ class _TeacherCard extends StatelessWidget {
                   children: [
                     Text(
                       teacher.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xFF111827),
                         fontWeight: FontWeight.w700,
                       ),
@@ -328,7 +328,7 @@ class _TeacherCard extends StatelessWidget {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.schedule_rounded,
                           size: 16,
                           color: Color(0xFF6B7280),

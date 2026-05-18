@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../widgets/contact_actions.dart';
+import '../../widgets/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -166,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),
-                  icon: const Icon(Icons.chat_bubble_outline_rounded),
+                  icon: Icon(Icons.chat_bubble_outline_rounded),
                   label: Text(context.tr('Чат с админом')),
                 ),
               );
@@ -282,9 +283,9 @@ class _UpcomingClassCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 24,
@@ -306,7 +307,7 @@ class _UpcomingClassCard extends StatelessWidget {
                       context.tr(upcomingClass['subject'] ?? ''),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF111827),
+                        color: context.primaryTextColor,
                       ),
                     ),
                     SizedBox(height: 4),
@@ -316,7 +317,7 @@ class _UpcomingClassCard extends StatelessWidget {
                         {'value': upcomingClass['class'] ?? ''},
                       ),
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF4B5563),
+                        color: context.secondaryTextColor,
                       ),
                     ),
                   ],
@@ -341,17 +342,17 @@ class _UpcomingClassCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.access_time_rounded,
                     size: 18,
-                    color: Color(0xFF6B7280),
+                    color: context.secondaryTextColor,
                   ),
                   SizedBox(width: 6),
                   Text(
                     upcomingClass['time'] ?? '',
                     style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
                   ),
                 ],
@@ -359,17 +360,17 @@ class _UpcomingClassCard extends StatelessWidget {
               SizedBox(width: 24),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.notifications_none_rounded,
                     size: 18,
-                    color: Color(0xFF6B7280),
+                    color: context.secondaryTextColor,
                   ),
                   SizedBox(width: 6),
                   Text(
                     context.tr(upcomingClass['room'] ?? ''),
                     style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
                   ),
                 ],
@@ -485,9 +486,9 @@ class _ActivityCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -519,7 +520,7 @@ class _ActivityCard extends StatelessWidget {
                 Text(
                   context.tr(data['title'] as String),
                   style: TextStyle(
-                    color: Color(0xFF111827),
+                    color: context.primaryTextColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -528,7 +529,7 @@ class _ActivityCard extends StatelessWidget {
                 Text(
                   '${context.tr(data['class'] as String)} • ${context.tr(data['time'] as String)}',
                   style: TextStyle(
-                    color: Color(0xFF6B7280),
+                    color: context.secondaryTextColor,
                     fontSize: 12,
                   ),
                 ),

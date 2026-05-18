@@ -402,7 +402,7 @@ class _LogoHeader extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           context.tr('auth.welcome'),
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -612,7 +612,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: fullName,
                     focusNode: fullNameNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     validator: (value) =>
                         InputValidators.validateFullName(context, value),
                     decoration: inputDecoration(
@@ -632,7 +632,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: email,
                     focusNode: emailNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) =>
                         InputValidators.validateRequiredEmail(context, value),
@@ -653,7 +653,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: phone,
                     focusNode: phoneNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     keyboardType: TextInputType.phone,
                     inputFormatters: [AppInputFormatters.phoneDigitsOnly],
                     validator: (value) =>
@@ -725,7 +725,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: password,
                     focusNode: passwordNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     obscureText: !showPassword,
                     inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
                     validator: (value) =>
@@ -871,7 +871,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentFullName,
             focusNode: parentFullNameNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             validator: (value) =>
                 InputValidators.validateFullName(context, value),
             decoration: inputDecoration(
@@ -886,7 +886,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentEmail,
             focusNode: parentEmailNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             keyboardType: TextInputType.emailAddress,
             validator: (value) =>
                 InputValidators.validateRequiredEmail(context, value),
@@ -902,7 +902,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentPhone,
             focusNode: parentPhoneNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             keyboardType: TextInputType.phone,
             inputFormatters: [AppInputFormatters.phoneDigitsOnly],
             validator: (value) => InputValidators.validatePhone(context, value),
@@ -918,7 +918,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentPassword,
             focusNode: parentPasswordNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             obscureText: !showParentPassword,
             inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
             validator: (value) =>

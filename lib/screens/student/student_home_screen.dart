@@ -4,6 +4,7 @@ import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../widgets/contact_actions.dart';
 import 'student_side_menu.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentHomeScreen extends StatelessWidget {
   final ValueChanged<StudentSection>? onNavigate;
@@ -158,7 +159,7 @@ class StudentHomeScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                 ),
-                icon: const Icon(Icons.chat_bubble_outline_rounded),
+                icon: Icon(Icons.chat_bubble_outline_rounded),
                 label: Text(context.tr('Чат с админом')),
               ),
             );
@@ -268,8 +269,8 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        color: Color(0xFF111827),
+      style: TextStyle(
+        color: context.primaryTextColor,
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
@@ -408,9 +409,9 @@ class _UpcomingLessonCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 20,
@@ -430,8 +431,8 @@ class _UpcomingLessonCard extends StatelessWidget {
                   children: [
                     Text(
                       lesson.subject,
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
@@ -439,8 +440,8 @@ class _UpcomingLessonCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       lesson.teacher,
-                      style: const TextStyle(
-                        color: Color(0xFF4B5563),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -465,30 +466,30 @@ class _UpcomingLessonCard extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.access_time_rounded,
                 size: 16,
-                color: Color(0xFF4B5563),
+                color: context.secondaryTextColor,
               ),
               const SizedBox(width: 6),
               Text(
                 lesson.time,
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.secondaryTextColor,
                   fontSize: 13,
                 ),
               ),
               const SizedBox(width: 18),
-              const Icon(
+              Icon(
                 Icons.meeting_room_outlined,
                 size: 16,
-                color: Color(0xFF4B5563),
+                color: context.secondaryTextColor,
               ),
               const SizedBox(width: 6),
               Text(
                 lesson.room,
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.secondaryTextColor,
                   fontSize: 13,
                 ),
               ),
@@ -531,7 +532,7 @@ class _HomeworkCard extends StatelessWidget {
     } else if (item.status == HomeworkStatus.completed) {
       borderColor = const Color(0xFF10B981);
     } else {
-      borderColor = const Color(0xFFE5E7EB);
+      borderColor = context.appBorderColor;
     }
 
     IconData trailingIcon;
@@ -551,7 +552,7 @@ class _HomeworkCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: borderColor.withOpacity(0.7), width: 2),
         boxShadow: const [
@@ -572,8 +573,8 @@ class _HomeworkCard extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(item.subject),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -603,24 +604,24 @@ class _HomeworkCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   context.tr(item.title),
-                  style: const TextStyle(
-                    color: Color(0xFF4B5563),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_month_rounded,
                       size: 14,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
                     const SizedBox(width: 6),
                     Text(
                       context.trf('Сдать до {value}', {'value': item.dueDate}),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
