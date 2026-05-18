@@ -5,6 +5,7 @@ import '../../widgets/animated_section_switcher.dart';
 import '../../widgets/app_theme.dart';
 import '../../widgets/language_menu_button.dart';
 import 'admin_academics_screen.dart';
+import 'admin_chat_screen.dart';
 import 'admin_analytics_screen.dart';
 import 'admin_overview_screen.dart';
 import 'admin_schedule_views.dart';
@@ -50,6 +51,8 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
         return context.tr('Расписание классов');
       case AdminSection.teacherSchedule:
         return context.tr('Расписание учителей');
+      case AdminSection.chat:
+        return context.tr('Чат');
       case AdminSection.analytics:
         return context.tr('section.analytics');
       case AdminSection.settings:
@@ -124,15 +127,22 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
                           ),
                         ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                          child: SingleChildScrollView(
-                            child: AnimatedSectionSwitcher(
-                              switchKey: _section,
-                              child: _buildSection(),
-                            ),
-                          ),
-                        ),
+                        child: _section == AdminSection.chat
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: _buildSection(),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                                child: SingleChildScrollView(
+                                  child: AnimatedSectionSwitcher(
+                                    switchKey: _section,
+                                    child: _buildSection(),
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -207,6 +217,8 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
         return const AdminClassScheduleScreen();
       case AdminSection.teacherSchedule:
         return const AdminTeacherScheduleScreen();
+      case AdminSection.chat:
+        return const AdminChatScreen();
       case AdminSection.analytics:
         return const AdminAnalyticsScreen();
       case AdminSection.settings:
