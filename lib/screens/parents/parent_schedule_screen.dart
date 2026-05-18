@@ -424,7 +424,7 @@ class _ScheduleCard extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.location_on_outlined,
                     size: 16,
                     color: Color(0xFF6B7280),
@@ -459,7 +459,7 @@ class _ScheduleCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.local_cafe_rounded,
                 color: Color(0xFFF97316),
                 size: 18,
@@ -488,7 +488,7 @@ class _ScheduleCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.free_breakfast_outlined,
                 color: Color(0xFF6B7280),
                 size: 18,

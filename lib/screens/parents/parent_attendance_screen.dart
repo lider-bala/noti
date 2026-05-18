@@ -57,7 +57,7 @@ class ParentAttendanceScreen extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             context.tr('История посещаемости'),
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xFF111827),
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -169,7 +169,7 @@ class _ChildInfoCard extends StatelessWidget {
               children: [
                 Text(
                   child?.fullName ?? context.tr('Ученик не найден'),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF111827),
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -232,7 +232,7 @@ class _OverallStatsCard extends StatelessWidget {
                 children: [
                   Text(
                     total == 0 ? '—' : '$percent%',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Color(0xFF059669),
                       fontSize: 26,
                       fontWeight: FontWeight.w800,
@@ -426,7 +426,7 @@ class _AbsencesAlert extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
+          Icon(
             Icons.warning_amber_rounded,
             color: Color(0xFFCA8A04),
             size: 22,

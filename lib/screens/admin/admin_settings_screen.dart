@@ -44,7 +44,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
               : IconButton(
                   tooltip: context.tr('admin.database.action'),
                   onPressed: appState.synchronizeDatabase,
-                  icon: const Icon(Icons.sync_rounded),
+                  icon: Icon(Icons.sync_rounded),
                 ),
         ),
         const SizedBox(height: 12),

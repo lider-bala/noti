@@ -185,7 +185,7 @@ class _GradesScreenState extends State<GradesScreen>
         TabBar(
           controller: _tabController,
           labelColor: const Color(0xFFF97316),
-          unselectedLabelColor: const Color(0xFF6B7280),
+          unselectedLabelColor: context.secondaryTextColor,
           indicatorColor: const Color(0xFFF97316),
           isScrollable: true,
           tabs: [
@@ -346,7 +346,7 @@ class _GradesScreenState extends State<GradesScreen>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
               ),
-              icon: const Icon(Icons.save_rounded),
+              icon: Icon(Icons.save_rounded),
               label: Text(context.tr('Сохранить оценки')),
             ),
           ),
@@ -380,7 +380,7 @@ class _GradesScreenState extends State<GradesScreen>
           Row(
             children: [
               Text(context.tr('Четверть:'),
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                  style: TextStyle(fontWeight: FontWeight.w600, color: context.primaryTextColor)),
               const SizedBox(width: 12),
               for (int q = 1; q <= 4; q++) ...[
                 ChoiceChip(
@@ -391,7 +391,7 @@ class _GradesScreenState extends State<GradesScreen>
                   labelStyle: TextStyle(
                     color: _selectedQuarter == q
                         ? Colors.white
-                        : const Color(0xFF111827),
+                        : context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -434,10 +434,10 @@ class _GradesScreenState extends State<GradesScreen>
         children: [
           Text(
             context.tr('История посещаемости'),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
             ),
           ),
           const SizedBox(height: 12),
@@ -482,19 +482,19 @@ class _QuarterSubjectCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             context.tr(subject),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
             ),
           ),
           const SizedBox(height: 12),
@@ -507,7 +507,7 @@ class _QuarterSubjectCard extends StatelessWidget {
               appState: appState,
               onGradeSet: onGradeSet,
             ),
-            const Divider(height: 16, color: Color(0xFFF3F4F6)),
+            Divider(height: 16, color: context.appBorderColor),
           ],
         ],
       ),
@@ -575,12 +575,12 @@ class _QuarterStudentRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(student.fullName,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                  style: TextStyle(fontWeight: FontWeight.w600)),
               Text(
                 '${context.tr("Ср. балл")}: ${totalAvg > 0 ? totalAvg.toStringAsFixed(1) : "—"}'
                 '  ${context.tr("Подсказка")}: $suggested',
                 style:
-                    const TextStyle(fontSize: 12, color: Color(0xFF6B7280)),
+                    TextStyle(fontSize: 12, color: context.secondaryTextColor),
               ),
             ],
           ),
@@ -603,7 +603,7 @@ class _QuarterStudentRow extends StatelessWidget {
           ),
         const SizedBox(width: 8),
         PopupMenuButton<int>(
-          icon: const Icon(Icons.edit_rounded, size: 20),
+          icon: Icon(Icons.edit_rounded, size: 20),
           tooltip: context.tr('Поставить четвертную оценку'),
           onSelected: (value) async {
             await appState.setQuarterGrade(
@@ -658,9 +658,9 @@ class _StudentAttendanceCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Row(
         children: [
@@ -668,12 +668,12 @@ class _StudentAttendanceCard extends StatelessWidget {
             radius: 18,
             backgroundColor: const Color(0xFFFFEDD5),
             foregroundColor: const Color(0xFFEA580C),
-            child: Text(student.initials, style: const TextStyle(fontSize: 13)),
+            child: Text(student.initials, style: TextStyle(fontSize: 13)),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(student.fullName,
-                style: const TextStyle(fontWeight: FontWeight.w600)),
+                style: TextStyle(fontWeight: FontWeight.w600)),
           ),
           _AttendanceBadge(
               label: context.tr('Был'), count: present, color: const Color(0xFF059669)),
@@ -776,9 +776,9 @@ class _GradebookPanel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
               blurRadius: 20,
@@ -790,13 +790,13 @@ class _GradebookPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(context.tr('Оценки учеников'),
-              style: const TextStyle(
-                  color: Color(0xFF111827),
+              style: TextStyle(
+                  color: context.primaryTextColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
           for (var i = 0; i < students.length; i++) ...[
-            if (i != 0) const Divider(height: 22, color: Color(0xFFF3F4F6)),
+            if (i != 0) Divider(height: 22, color: context.appBorderColor),
             _StudentGradeRow(
               student: students[i],
               grade: selectedGrades[students[i].id],
@@ -839,8 +839,8 @@ class _StudentGradeRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(student.fullName,
-                  style: const TextStyle(
-                      color: Color(0xFF111827), fontWeight: FontWeight.w700)),
+                  style: TextStyle(
+                      color: context.primaryTextColor, fontWeight: FontWeight.w700)),
               const SizedBox(height: 4),
               Text(
                 [
@@ -848,7 +848,7 @@ class _StudentGradeRow extends StatelessWidget {
                   if (studentGrades.isNotEmpty)
                     '${context.tr("Ср")}: ${avg.toStringAsFixed(1)}',
                 ].where((item) => item.isNotEmpty).join(' • '),
-                style: const TextStyle(color: Color(0xFF6B7280), fontSize: 13),
+                style: TextStyle(color: context.secondaryTextColor, fontSize: 13),
               ),
             ],
           ),
@@ -894,28 +894,28 @@ class _RecentGradesPanel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(context.tr('Все выставленные оценки'),
-              style: const TextStyle(
-                  color: Color(0xFF111827),
+              style: TextStyle(
+                  color: context.primaryTextColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
           if (grades.isEmpty)
             Text(context.tr('Оценки пока не выставлены.'),
-                style: const TextStyle(color: Color(0xFF6B7280)))
+                style: TextStyle(color: context.secondaryTextColor))
           else
             Column(
               children: [
                 for (var i = 0; i < grades.length; i++) ...[
                   if (i != 0)
-                    const Divider(height: 22, color: Color(0xFFF3F4F6)),
+                    Divider(height: 22, color: context.appBorderColor),
                   _RecentGradeRow(grade: grades[i]),
                 ],
               ],
@@ -955,18 +955,18 @@ class _RecentGradeRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(student?.fullName ?? context.tr('Ученик'),
-                  style: const TextStyle(
-                      color: Color(0xFF111827), fontWeight: FontWeight.w700)),
+                  style: TextStyle(
+                      color: context.primaryTextColor, fontWeight: FontWeight.w700)),
               const SizedBox(height: 3),
               Text(
                   '${context.tr(grade.subject)} • ${context.tr(grade.category)}',
-                  style: const TextStyle(
-                      color: Color(0xFF6B7280), fontSize: 13)),
+                  style: TextStyle(
+                      color: context.secondaryTextColor, fontSize: 13)),
             ],
           ),
         ),
         Text(MaterialLocalizations.of(context).formatShortDate(grade.createdAt),
-            style: const TextStyle(color: Color(0xFF9CA3AF), fontSize: 12)),
+            style: TextStyle(color: context.secondaryTextColor, fontSize: 12)),
       ],
     );
   }
@@ -995,7 +995,7 @@ class _MetricChip extends StatelessWidget {
           const SizedBox(height: 4),
           Text(title,
               style:
-                  const TextStyle(color: Color(0xFF4B5563), fontSize: 13)),
+                  TextStyle(color: context.secondaryTextColor, fontSize: 13)),
         ],
       ),
     );
@@ -1013,19 +1013,19 @@ class _EmptyState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.panelColor,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFE5E7EB))),
+          border: Border.all(color: context.appBorderColor)),
       child: Column(children: [
-        const Icon(Icons.bar_chart_rounded, color: Color(0xFFF97316), size: 36),
+        Icon(Icons.bar_chart_rounded, color: Color(0xFFF97316), size: 36),
         const SizedBox(height: 12),
         Text(title,
-            style: const TextStyle(
-                color: Color(0xFF111827), fontWeight: FontWeight.w700)),
+            style: TextStyle(
+                color: context.primaryTextColor, fontWeight: FontWeight.w700)),
         const SizedBox(height: 6),
         Text(subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280))),
+            style: TextStyle(color: context.secondaryTextColor)),
       ]),
     );
   }

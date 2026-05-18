@@ -292,7 +292,7 @@ class _ScheduleTile extends StatelessWidget {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () => onOpenAttendance?.call(lessonId),
-                  icon: const Icon(Icons.fact_check_rounded, size: 18),
+                  icon: Icon(Icons.fact_check_rounded, size: 18),
                   label: Text(context.tr('Проверить посещаемость')),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xFF0F766E),
@@ -307,7 +307,7 @@ class _ScheduleTile extends StatelessWidget {
               Expanded(
                 child: FilledButton.icon(
                   onPressed: () => onOpenSection?.call(MainSection.grades),
-                  icon: const Icon(Icons.edit_note_rounded, size: 18),
+                  icon: Icon(Icons.edit_note_rounded, size: 18),
                   label: Text(context.tr('Поставить оценки')),
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),

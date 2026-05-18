@@ -269,7 +269,7 @@ class _FolderCard extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.folder_rounded,
               color: Colors.white,
               size: 26,
@@ -278,7 +278,7 @@ class _FolderCard extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             context.tr(folder.name),
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xFF111827),
               fontSize: 15,
               fontWeight: FontWeight.w700,
@@ -529,11 +529,11 @@ class _EmptyFilesState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(Icons.folder_open_rounded, color: Color(0xFF6B7280)),
+          Icon(Icons.folder_open_rounded, color: Color(0xFF6B7280)),
           const SizedBox(height: 8),
           Text(
             context.tr('Файлы пока не добавлены'),
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xFF111827),
               fontWeight: FontWeight.w700,
             ),

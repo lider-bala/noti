@@ -291,7 +291,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            icon: const Icon(Icons.task_alt_rounded),
+            icon: Icon(Icons.task_alt_rounded),
             label: Text(context.tr('Сохранить посещаемость')),
           ),
         ),

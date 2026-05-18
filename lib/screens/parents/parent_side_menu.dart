@@ -160,7 +160,7 @@ class ParentSideMenu extends StatelessWidget {
           const Spacer(),
           OutlinedButton.icon(
             onPressed: onLogout,
-            icon: const Icon(Icons.logout, size: 18),
+            icon: Icon(Icons.logout, size: 18),
             label: Text(context.tr('common.logout')),
             style: OutlinedButton.styleFrom(
               minimumSize: const Size.fromHeight(46),

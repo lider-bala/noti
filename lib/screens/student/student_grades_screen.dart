@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentGradesScreen extends StatelessWidget {
   const StudentGradesScreen({super.key});
@@ -57,8 +58,8 @@ class StudentGradesScreen extends StatelessWidget {
           const SizedBox(height: 24),
           Text(
             context.tr('По предметам'),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -82,8 +83,8 @@ class StudentGradesScreen extends StatelessWidget {
           const SizedBox(height: 24),
           Text(
             context.tr('Четвертные оценки'),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -105,9 +106,9 @@ class StudentGradesScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 8),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: context.panelColor,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFFE5E7EB)),
+                        border: Border.all(color: context.appBorderColor),
                       ),
                       child: Row(
                         children: [
@@ -135,15 +136,15 @@ class StudentGradesScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   context.tr(qg.subject),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: Color(0xFF111827),
+                                    color: context.primaryTextColor,
                                   ),
                                 ),
                                 Text(
                                   '${context.tr("Четверть")} ${qg.quarter} • ${context.tr("Ср")}. ${qg.averageGrade.toStringAsFixed(1)}',
-                                  style: const TextStyle(
-                                    color: Color(0xFF6B7280),
+                                  style: TextStyle(
+                                    color: context.secondaryTextColor,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -161,8 +162,8 @@ class StudentGradesScreen extends StatelessWidget {
           const SizedBox(height: 24),
           Text(
             context.tr('Недавние оценки'),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -284,7 +285,7 @@ class _SubjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -314,8 +315,8 @@ class _SubjectCard extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(item.name),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
@@ -323,8 +324,8 @@ class _SubjectCard extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       context.tr('${item.grades.length} оценок'),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -359,7 +360,7 @@ class _RecentGradeCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -371,8 +372,8 @@ class _RecentGradeCard extends StatelessWidget {
               children: [
                 Text(
                   context.tr(item.subject),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                     fontSize: 15,
                   ),
@@ -380,8 +381,8 @@ class _RecentGradeCard extends StatelessWidget {
                 const SizedBox(height: 3),
                 Text(
                   context.tr(item.category),
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -402,8 +403,8 @@ class _RecentGradeCard extends StatelessWidget {
                         .formatShortDate(item.createdAt),
                     teacher?.fullName ?? '',
                   ].where((value) => value.isNotEmpty).join(' • '),
-                  style: const TextStyle(
-                    color: Color(0xFF9CA3AF),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -435,7 +436,7 @@ class _StatCard extends StatelessWidget {
       width: 210,
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: _cardDecoration(),
+        decoration: _cardDecoration(context),
         child: Row(
           children: [
             Container(
@@ -453,16 +454,16 @@ class _StatCard extends StatelessWidget {
                 children: [
                   Text(
                     value,
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
+                    style: TextStyle(
+                      color: context.primaryTextColor,
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 13,
                     ),
                   ),
@@ -532,7 +533,7 @@ class _EmptyState extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
           const Icon(
@@ -544,8 +545,8 @@ class _EmptyState extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -553,7 +554,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
@@ -561,11 +562,11 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-BoxDecoration _cardDecoration() {
+BoxDecoration _cardDecoration(BuildContext context) {
   return BoxDecoration(
-    color: Colors.white,
+    color: context.panelColor,
     borderRadius: BorderRadius.circular(22),
-    border: Border.all(color: const Color(0xFFE5E7EB)),
+    border: Border.all(color: context.appBorderColor),
     boxShadow: const [
       BoxShadow(
         blurRadius: 18,

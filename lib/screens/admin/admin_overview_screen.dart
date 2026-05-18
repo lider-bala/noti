@@ -308,7 +308,7 @@ class _RequestsPanel extends StatelessWidget {
                     color: const Color(0xFF10B981),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.check_rounded,
                     color: Colors.white,
                     size: 20,
@@ -445,7 +445,7 @@ class _RequestCard extends StatelessWidget {
         ),
         IconButton(
           icon:
-              const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981)),
+              Icon(Icons.check_circle_rounded, color: Color(0xFF10B981)),
           onPressed: () async {
             final result =
                 await appState.approveRegistrationRequest(request.id);

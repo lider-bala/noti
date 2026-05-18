@@ -4,6 +4,7 @@ import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../services/file_upload_service.dart';
 import '../../widgets/app_feedback.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentHomeworkScreen extends StatefulWidget {
   const StudentHomeworkScreen({super.key});
@@ -167,7 +168,7 @@ class _HeaderCard extends StatelessWidget {
         children: [
           Text(
             context.tr('Домашние задания'),
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontSize: 22,
               fontWeight: FontWeight.w700,
@@ -315,14 +316,14 @@ class _HomeworkCard extends StatelessWidget {
 
   bool get _isSubmitted => submission != null;
 
-  Color get _borderColor {
+  Color _borderColor(BuildContext context) {
     if (_isSubmitted) {
       return const Color(0xFFA7F3D0);
     }
     if (_isUrgent(item)) {
       return const Color(0xFFFED7AA);
     }
-    return const Color(0xFFF3F4F6);
+    return context.appBorderColor;
   }
 
   Color get _iconBg {
@@ -352,10 +353,10 @@ class _HomeworkCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: _borderColor,
+          color: _borderColor(context),
           width: 2,
         ),
         boxShadow: const [
@@ -401,8 +402,8 @@ class _HomeworkCard extends StatelessWidget {
                           child: Text(
                             context.tr(item.subject),
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Color(0xFF111827),
+                            style: TextStyle(
+                              color: context.primaryTextColor,
                               fontWeight: FontWeight.w700,
                               fontSize: 15,
                             ),
@@ -427,7 +428,7 @@ class _HomeworkCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       context.tr(item.title),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xFF374151),
                         fontSize: 13,
                       ),
@@ -435,8 +436,8 @@ class _HomeworkCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       context.tr(item.description),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
@@ -444,8 +445,8 @@ class _HomeworkCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         teacher.fullName,
-                        style: const TextStyle(
-                          color: Color(0xFF6B7280),
+                        style: TextStyle(
+                          color: context.secondaryTextColor,
                           fontSize: 12,
                         ),
                       ),
@@ -534,7 +535,7 @@ class _HomeworkCard extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             )
-                          : const Icon(
+                          : Icon(
                               Icons.upload_rounded,
                               size: 18,
                               color: Colors.white,
@@ -591,12 +592,12 @@ class _InlineInfo extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 16, color: const Color(0xFF4B5563)),
+        Icon(icon, size: 16, color: context.secondaryTextColor),
         const SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(
-            color: Color(0xFF4B5563),
+          style: TextStyle(
+            color: context.secondaryTextColor,
             fontSize: 13,
           ),
         ),
@@ -649,18 +650,18 @@ class _EmptyState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
-          const Icon(Icons.assignment_outlined, color: Color(0xFF6B7280)),
+          Icon(Icons.assignment_outlined, color: context.secondaryTextColor),
           const SizedBox(height: 8),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -668,7 +669,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
