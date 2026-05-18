@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen>
       showAppSnackBar(
         context,
         context.tr(result.errorKey!),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -235,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen>
                         },
                         onLogin: _login,
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       if (context.appState.isDemoMode) ...[
                         _DemoCredentialsCard(
                           accounts: accounts,
@@ -317,7 +317,7 @@ class _LogoHeader extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         Text(
           context.tr('auth.welcome'),
           style: const TextStyle(
@@ -326,7 +326,7 @@ class _LogoHeader extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(
           context.tr('app.tagline'),
           style: TextStyle(
@@ -490,7 +490,7 @@ class _GlassLoginCard extends StatelessWidget {
                     controller: emailController,
                     focusNode: emailFocusNode,
                     cursorColor: Colors.white,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     validator: (value) =>
                         InputValidators.validateEmail(context, value),
                     decoration: _inputDecoration(
@@ -507,7 +507,7 @@ class _GlassLoginCard extends StatelessWidget {
                     controller: passwordController,
                     focusNode: passwordFocusNode,
                     cursorColor: Colors.white,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
                     obscureText: !showPassword,
                     validator: (value) =>
@@ -546,7 +546,7 @@ class _GlassLoginCard extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: onLogin,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -554,8 +554,8 @@ class _GlassLoginCard extends StatelessWidget {
                     ),
                     child: Text(
                       context.tr('auth.login'),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
                       ),

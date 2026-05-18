@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentNotificationsScreen extends StatefulWidget {
   const ParentNotificationsScreen({super.key});
@@ -124,7 +125,7 @@ class _ParentNotificationsScreenState extends State<ParentNotificationsScreen> {
             selected: _selectedFilter,
             onChanged: (filter) => setState(() => _selectedFilter = filter),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           if (filteredNotifications.isEmpty)
             _EmptyNotificationsState(
               message: child == null
@@ -311,11 +312,11 @@ class _StatsRow extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.cardColor,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFFE5E7EB)),
+              border: Border.all(color: context.appBorderColor),
               boxShadow: const [
                 BoxShadow(
                   blurRadius: 16,
@@ -345,17 +346,17 @@ class _StatsRow extends StatelessWidget {
                     children: [
                       Text(
                         '$unreadCount',
-                        style: const TextStyle(
-                          color: Color(0xFF111827),
+                        style: TextStyle(
+                          color: context.primaryTextColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2),
                       Text(
                         context.tr('Непрочитанных'),
                         style: TextStyle(
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                           fontSize: 13,
                         ),
                         softWrap: true,
@@ -367,14 +368,14 @@ class _StatsRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.cardColor,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFFE5E7EB)),
+              border: Border.all(color: context.appBorderColor),
               boxShadow: const [
                 BoxShadow(
                   blurRadius: 16,
@@ -389,12 +390,12 @@ class _StatsRow extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFDBEAFE),
+                    color: context.activityBlueBg,
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.check_circle_outline_rounded,
-                    color: Color(0xFF2563EB),
+                    color: context.blueTintFg,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -404,17 +405,17 @@ class _StatsRow extends StatelessWidget {
                     children: [
                       Text(
                         '$total',
-                        style: const TextStyle(
-                          color: Color(0xFF111827),
+                        style: TextStyle(
+                          color: context.primaryTextColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2),
                       Text(
                         context.tr('Всего'),
                         style: TextStyle(
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                           fontSize: 13,
                         ),
                       ),
@@ -443,7 +444,7 @@ class _FilterRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
           _FilterChip(
@@ -451,19 +452,19 @@ class _FilterRow extends StatelessWidget {
             isPrimary: selected == _NotificationFilter.all,
             onTap: () => onChanged(_NotificationFilter.all),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           _FilterChip(
             label: context.tr('Оценки'),
             isPrimary: selected == _NotificationFilter.grades,
             onTap: () => onChanged(_NotificationFilter.grades),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           _FilterChip(
             label: context.tr('Задания'),
             isPrimary: selected == _NotificationFilter.homework,
             onTap: () => onChanged(_NotificationFilter.homework),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           _FilterChip(
             label: context.tr('События'),
             isPrimary: selected == _NotificationFilter.events,
@@ -490,11 +491,11 @@ class _FilterChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final child = AnimatedContainer(
       duration: const Duration(milliseconds: 160),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
         color: isPrimary ? const Color(0xFFEC4899) : Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: isPrimary ? null : Border.all(color: const Color(0xFFE5E7EB)),
+        border: isPrimary ? null : Border.all(color: context.appBorderColor),
         boxShadow: isPrimary
             ? const [
                 BoxShadow(
@@ -541,7 +542,7 @@ class _NotificationCard extends StatelessWidget {
   Color get _bgColor {
     switch (notification.color) {
       case _NotificationColor.emerald:
-        return const Color(0xFFD1FAE5);
+        return const Color(0xFFDCFCE7);
       case _NotificationColor.blue:
         return const Color(0xFFDBEAFE);
       case _NotificationColor.purple:
@@ -636,8 +637,8 @@ class _NotificationCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         context.tr(notification.title),
-                        style: const TextStyle(
-                          color: Color(0xFF111827),
+                        style: TextStyle(
+                          color: context.primaryTextColor,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -654,21 +655,21 @@ class _NotificationCard extends StatelessWidget {
                       ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   context.tr(notification.message),
-                  style: const TextStyle(
-                    color: Color(0xFF4B5563),
+                  style: TextStyle(
+                    color: context.tertiaryTextColor,
                     fontSize: 13,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Row(
                   children: [
                     Text(
                       context.tr(notification.time),
-                      style: const TextStyle(
-                        color: Color(0xFF9CA3AF),
+                      style: TextStyle(
+                        color: context.mutedTextColor,
                         fontSize: 11,
                       ),
                     ),
@@ -713,17 +714,17 @@ class _EmptyNotificationsState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Text(
         message,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Color(0xFF6B7280),
+        style: TextStyle(
+          color: context.secondaryTextColor,
           fontWeight: FontWeight.w600,
         ),
       ),

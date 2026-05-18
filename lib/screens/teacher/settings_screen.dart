@@ -209,9 +209,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
-                color: Color(0xFF9CA3AF),
+                color: context.mutedTextColor,
               ),
             ],
           ),
@@ -254,7 +254,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SizedBox(height: 16),
         ],
         const ThemeModeSelector(),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -483,7 +483,7 @@ class _SettingsSwitch extends StatelessWidget {
         width: 18,
         height: 18,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.cardColor,
           borderRadius: BorderRadius.circular(999),
           boxShadow: const [
             BoxShadow(

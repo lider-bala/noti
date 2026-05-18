@@ -68,25 +68,25 @@ class _FilesScreenState extends State<FilesScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.check_circle_rounded,
-                        color: Color(0xFF059669),
+                        color: context.greenTintFg,
                         size: 64,
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Text(
                         context.tr('Файл успешно загружен!'),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF111827),
+                          color: context.primaryTextColor,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       Text(
                         context.tr('Файл прикреплён и доступен в истории.'),
-                        style: const TextStyle(
-                          color: Color(0xFF6B7280),
+                        style: TextStyle(
+                          color: context.secondaryTextColor,
                           fontSize: 14,
                         ),
                         textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class _FilesScreenState extends State<FilesScreen> {
                       },
                       style: FilledButton.styleFrom(
                         backgroundColor: const Color(0xFF10B981),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding: EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -138,7 +138,7 @@ class _FilesScreenState extends State<FilesScreen> {
                         decoration: _inputDecoration(
                             context, context.tr('Тема')),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       TextField(
                         controller: _descriptionController,
                         decoration: _inputDecoration(
@@ -146,14 +146,14 @@ class _FilesScreenState extends State<FilesScreen> {
                         maxLines: 3,
                         minLines: 2,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       TextField(
                         controller: _nameController,
                         decoration: _inputDecoration(
                             context, context.tr('Название файла')),
                         onChanged: (value) => fileNameText = value,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       AppSelectField<String>(
                         value: _selectedCategory,
                         label: context.tr('Категория'),
@@ -171,7 +171,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               () => _selectedCategory = value);
                         },
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       AppSelectField<String?>(
                         value: _selectedClassId,
                         label: context.tr('Класс для файла'),
@@ -204,15 +204,15 @@ class _FilesScreenState extends State<FilesScreen> {
                               children: [
                                 Text(
                                   context.tr('Загрузка...'),
-                                  style: const TextStyle(
-                                    color: Color(0xFF6B7280),
+                                  style: TextStyle(
+                                    color: context.secondaryTextColor,
                                     fontSize: 13,
                                   ),
                                 ),
                                 Text(
                                   '${(uploadProgress * 100).toInt()}%',
-                                  style: const TextStyle(
-                                    color: Color(0xFF2563EB),
+                                  style: TextStyle(
+                                    color: context.blueTintFg,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 14,
                                   ),
@@ -428,7 +428,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           }
                         },
                   child: isUploading
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
@@ -496,7 +496,7 @@ class _FilesScreenState extends State<FilesScreen> {
               ),
             ],
           ),
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -507,7 +507,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Text(
                 context.tr(
                   'Единый каталог материалов: файлы прикрепляются к классам и сразу видны в системе.',
@@ -519,7 +519,7 @@ class _FilesScreenState extends State<FilesScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
         Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -532,12 +532,12 @@ class _FilesScreenState extends State<FilesScreen> {
             _MetricCard(
               title: context.tr('Категорий'),
               value: '${categories.length}',
-              color: const Color(0xFF2563EB),
+              color: context.blueTintFg,
             ),
             _MetricCard(
               title: context.tr('Файлы по классам'),
               value: '$scopedFiles',
-              color: const Color(0xFF059669),
+              color: context.greenTintFg,
             ),
           ],
         ),
@@ -551,7 +551,7 @@ class _FilesScreenState extends State<FilesScreen> {
               decoration: InputDecoration(
                 hintText: context.tr('Поиск по файлам...'),
                 hintStyle:
-                    const TextStyle(color: Color(0xFF9CA3AF)),
+                    TextStyle(color: context.mutedTextColor),
                 prefixIcon: const Icon(Icons.search_rounded,
                     color: Color(0xFF9CA3AF)),
                 filled: true,
@@ -615,15 +615,15 @@ class _FilesScreenState extends State<FilesScreen> {
             );
           },
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
         Text(
           context.tr('История файлов'),
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
-            color: const Color(0xFF111827),
+            color: context.primaryTextColor,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         if (filteredFiles.isEmpty)
           _EmptyFilesState(
             title: _searchQuery.isNotEmpty || _filterCategory != null
@@ -652,12 +652,12 @@ class _FilesScreenState extends State<FilesScreen> {
             onPressed: _openAddFileDialog,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF10B981),
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            icon: const Icon(Icons.upload_file_rounded),
+            icon: Icon(Icons.upload_file_rounded),
             label: Text(context.tr('+ Загрузить файл')),
           ),
         ),
@@ -682,11 +682,11 @@ class _MetricCard extends StatelessWidget {
     return SizedBox(
       width: 220,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.cardColor,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFF3F4F6)),
+          border: Border.all(color: context.appBorderColor),
           boxShadow: const [
             BoxShadow(
               blurRadius: 24,
@@ -699,20 +699,20 @@ class _MetricCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(Icons.folder_copy_rounded, color: color),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF111827),
+                color: context.primaryTextColor,
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 4),
             Text(
               title,
-              style: const TextStyle(
-                color: Color(0xFF6B7280),
+              style: TextStyle(
+                color: context.secondaryTextColor,
                 fontSize: 13,
               ),
             ),
@@ -733,11 +733,11 @@ class _RecentFileTile extends StatelessWidget {
     final uploader = context.appState.userById(file.uploadedByUserId);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -767,42 +767,42 @@ class _RecentFileTile extends StatelessWidget {
               children: [
                 Text(
                   file.name,
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 if ((file.topic ?? '').isNotEmpty) ...[
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Text(
                     '${context.tr('Тема')}: ${file.topic}',
-                    style: const TextStyle(
-                      color: Color(0xFF2563EB),
+                    style: TextStyle(
+                      color: context.blueTintFg,
                       fontSize: 13,
                     ),
                   ),
                 ],
                 if ((file.description ?? '').isNotEmpty) ...[
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Text(
                     file.description!,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 12,
                     ),
                   ),
                 ],
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   [
                     context.tr(file.category),
                     if ((file.classId ?? '').isNotEmpty) file.classId!,
                     file.sizeLabel,
                   ].join(' • '),
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -813,8 +813,8 @@ class _RecentFileTile extends StatelessWidget {
                         .formatShortDate(file.uploadedAt),
                     if (uploader != null) uploader.fullName,
                   ].join(' • '),
-                  style: const TextStyle(
-                    color: Color(0xFF9CA3AF),
+                  style: TextStyle(
+                    color: context.mutedTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -840,11 +840,11 @@ class _EmptyFilesState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.all(22),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
@@ -853,20 +853,20 @@ class _EmptyFilesState extends StatelessWidget {
             color: Color(0xFFA855F7),
             size: 34,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF6B7280),
+            style: TextStyle(
+              color: context.secondaryTextColor,
             ),
           ),
         ],

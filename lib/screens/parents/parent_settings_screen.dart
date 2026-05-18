@@ -27,7 +27,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                 color: context.primaryTextColor,
               ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _InfoTile(
           icon: Icons.person_outline_rounded,
           title: context.tr('Профиль'),
@@ -36,7 +36,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
             'В профиле родителя хранятся имя, email, телефон и связь с учеником. Привязку к ребенку выполняет администратор.',
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         _InfoTile(
           icon: Icons.lock_outline_rounded,
           title: context.tr('Безопасность'),
@@ -45,7 +45,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
             'Вход выполняется по email, паролю и роли родителя. Если пароль потерян, обратитесь к администратору школы.',
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         _InfoTile(
           icon: Icons.shield_outlined,
           title: context.tr('Приватность'),
@@ -54,16 +54,16 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
             'Родитель видит только данные точно привязанного ученика: оценки, посещаемость, домашние задания, файлы и уведомления.',
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         const ThemeModeSelector(),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         _SettingTile(
           title: context.tr('settings.push'),
           subtitle: context.tr('settings.pushSubtitle'),
           value: _notifications,
           onChanged: (value) => setState(() => _notifications = value),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         _SettingTile(
           title: context.tr('settings.weeklyReport'),
           subtitle: context.tr('settings.weeklyReportSubtitle'),
@@ -94,7 +94,7 @@ class _InfoTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       onTap: () => _showInfo(context),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(18),
@@ -103,7 +103,7 @@ class _InfoTile extends StatelessWidget {
         child: Row(
           children: [
             Icon(icon, color: context.secondaryTextColor),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +112,7 @@ class _InfoTile extends StatelessWidget {
                       style: TextStyle(
                           color: context.primaryTextColor,
                           fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 3),
+                  SizedBox(height: 3),
                   Text(subtitle,
                       style: TextStyle(
                           color: context.secondaryTextColor, fontSize: 13)),
@@ -172,7 +172,7 @@ class _SettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(18),
@@ -198,7 +198,7 @@ class _SettingTile extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(

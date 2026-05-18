@@ -75,7 +75,7 @@ class _AdminAcademicsScreenState extends State<AdminAcademicsScreen> {
       showAppSnackBar(
         context,
         context.tr('Заполните все обязательные поля.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -150,7 +150,7 @@ class _AdminAcademicsScreenState extends State<AdminAcademicsScreen> {
                 label: context.tr('Уроки'),
                 value: '${lessons.length}',
                 icon: Icons.event_note_rounded,
-                color: const Color(0xFF2563EB),
+                color: context.blueTintFg,
               ),
               _MetricTile(
                 label: context.tr('Учителя'),
@@ -360,7 +360,7 @@ class _AcademicsTabButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           constraints: const BoxConstraints(minWidth: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
@@ -456,7 +456,7 @@ class _MetricTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(16),
@@ -537,12 +537,12 @@ class _CreateClassPanel extends StatelessWidget {
             onPressed: onCreate,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF0F766E),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            icon: const Icon(Icons.add_rounded),
+            icon: Icon(Icons.add_rounded),
             label: Text(context.tr('Добавить класс')),
           ),
         ),
@@ -610,7 +610,7 @@ class _ClassRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -622,7 +622,7 @@ class _ClassRow extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 context.tr('$students учеников • $lessons уроков'),
                 style: TextStyle(
@@ -636,7 +636,7 @@ class _ClassRow extends StatelessWidget {
         IconButton(
           tooltip: context.tr('Редактировать'),
           onPressed: () => _editClass(context),
-          icon: const Icon(Icons.edit_rounded),
+          icon: Icon(Icons.edit_rounded),
         ),
         IconButton(
           tooltip: context.tr('Удалить'),
@@ -829,7 +829,7 @@ class _CreateLessonPanel extends StatelessWidget {
               .toList(),
           onChanged: onClassChanged,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         AppSelectField<String>(
           value: teacherValue,
           label: context.tr('Учитель'),
@@ -844,14 +844,14 @@ class _CreateLessonPanel extends StatelessWidget {
               .toList(),
           onChanged: onTeacherChanged,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         TextField(
           controller: subjectController,
           style: TextStyle(color: context.primaryTextColor),
           cursorColor: const Color(0xFF0F766E),
           decoration: _inputDecoration(context, context.tr('Предмет')),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         AppSelectField<int>(
           value: selectedWeekdayIndex,
           label: context.tr('День недели'),
@@ -865,7 +865,7 @@ class _CreateLessonPanel extends StatelessWidget {
           ),
           onChanged: onWeekdayChanged,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         AppSelectField<String>(
           value: selectedTimeRange,
           label: context.tr('Время урока'),
@@ -880,7 +880,7 @@ class _CreateLessonPanel extends StatelessWidget {
               .toList(),
           onChanged: onTimeChanged,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         TextField(
           controller: roomController,
           style: TextStyle(color: context.primaryTextColor),
@@ -894,12 +894,12 @@ class _CreateLessonPanel extends StatelessWidget {
             onPressed: onCreate,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF2563EB),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            icon: const Icon(Icons.event_available_rounded),
+            icon: Icon(Icons.event_available_rounded),
             label: Text(context.tr('Добавить урок')),
           ),
         ),
@@ -945,7 +945,7 @@ class _LessonsListPanel extends StatelessWidget {
           hint: context.tr('Поиск по расписанию...'),
           onChanged: onSearchChanged,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         if (lessons.isEmpty)
           _EmptyState(
             icon: Icons.event_busy_rounded,
@@ -983,11 +983,11 @@ class _LessonRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: context.isDarkTheme
                 ? const Color(0xFF1E3A8A)
-                : const Color(0xFFEFF6FF),
+                : context.blueTintBg,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
@@ -1012,7 +1012,7 @@ class _LessonRow extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 '${context.tr(context.appState.weekdayLabel(lesson.weekdayIndex))} • ${lesson.timeRange} • ${lesson.room}',
                 style: TextStyle(
@@ -1021,7 +1021,7 @@ class _LessonRow extends StatelessWidget {
                 ),
               ),
               if (teacher != null) ...[
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   teacher.fullName,
                   style: TextStyle(
@@ -1077,7 +1077,7 @@ class _TeachingLoadPanel extends StatelessWidget {
           hint: context.tr('Поиск учителей...'),
           onChanged: onSearchChanged,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         if (teachers.isEmpty)
           _EmptyState(
             icon: Icons.person_off_rounded,
@@ -1125,7 +1125,7 @@ class _TeacherLoadCard extends StatelessWidget {
       ..sort();
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(14),
@@ -1150,7 +1150,7 @@ class _TeacherLoadCard extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   classes.isEmpty
                       ? context.tr('Уроки не назначены')
@@ -1183,7 +1183,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(14),
@@ -1192,7 +1192,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         children: [
           Icon(icon, color: const Color(0xFF94A3B8), size: 28),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Text(
             title,
             textAlign: TextAlign.center,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentScheduleScreen extends StatefulWidget {
   const StudentScheduleScreen({super.key});
@@ -45,7 +46,7 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
             selectedIndex: _selectedDay,
             onSelected: (index) => setState(() => _selectedDay = index),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           if (lessons.isEmpty)
             _EmptyState(
               title: context.tr('На этот день уроков нет'),
@@ -102,7 +103,7 @@ class _HeaderCard extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Text(
             [
               student.fullName,
@@ -192,11 +193,11 @@ class _LessonCard extends StatelessWidget {
     final teacher = context.appState.userById(lesson.teacherId);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -215,17 +216,17 @@ class _LessonCard extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(lesson.subject),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       teacher?.fullName ?? context.tr('Учитель не назначен'),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -252,19 +253,19 @@ class _LessonCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.location_on_outlined,
                 size: 16,
-                color: Color(0xFF4B5563),
+                color: context.tertiaryTextColor,
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               Text(
                 context.tr(lesson.room),
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.tertiaryTextColor,
                   fontSize: 13,
                 ),
               ),
@@ -289,11 +290,11 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.all(22),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
@@ -302,19 +303,19 @@ class _EmptyState extends StatelessWidget {
             color: Color(0xFF8B5CF6),
             size: 34,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),

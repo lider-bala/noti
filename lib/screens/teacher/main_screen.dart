@@ -127,7 +127,7 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           )
                         else
-                          const SizedBox(width: 40),
+                          SizedBox(width: 40),
                         Text(
                           _titleForSection(context, _section),
                           style: TextStyle(

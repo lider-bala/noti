@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/user_role.dart';
 import '../../widgets/side_menu.dart';
+import '../../widgets/app_theme.dart';
 
 class ScheduleScreen extends StatefulWidget {
   final ValueChanged<MainSection>? onOpenSection;
@@ -84,7 +85,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6),
                       Text(
                         context.tr(
                           'Ваше реальное расписание строится из уроков, назначенных администратором.',
@@ -100,10 +101,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(bottom: 4),
+          padding: EdgeInsets.only(bottom: 4),
           child: Row(
             children: List.generate(5, (index) {
               final isSelected = _selectedDay == index;
@@ -156,7 +157,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             }),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         if (lessons.isEmpty)
           _EmptyScheduleState(
             title: context.tr('На этот день уроков нет'),
@@ -202,11 +203,11 @@ class _ScheduleTile extends StatelessWidget {
     final studentsCount = appState.studentsForClass(lesson.classId).length;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 22,
@@ -228,17 +229,17 @@ class _ScheduleTile extends StatelessWidget {
                       context.tr(lesson.subject),
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: const Color(0xFF111827),
+                            color: context.primaryTextColor,
                           ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       context.trf(
                         'Класс {value}',
                         {'value': lesson.classId},
                       ),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: const Color(0xFF6B7280),
+                            color: context.secondaryTextColor,
                           ),
                     ),
                   ],
@@ -252,11 +253,11 @@ class _ScheduleTile extends StatelessWidget {
                     size: 18,
                     color: Color(0xFF10B981),
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6),
                   Text(
                     lesson.timeRange,
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
+                    style: TextStyle(
+                      color: context.primaryTextColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -277,7 +278,7 @@ class _ScheduleTile extends StatelessWidget {
                 label: context
                     .trf('{value} учеников', {'value': '$studentsCount'}),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               _InfoPill(
                 icon: Icons.fact_check_rounded,
                 label: latestSession == null
@@ -286,13 +287,13 @@ class _ScheduleTile extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () => onOpenAttendance?.call(lessonId),
-                  icon: const Icon(Icons.fact_check_rounded, size: 18),
+                  icon: Icon(Icons.fact_check_rounded, size: 18),
                   label: Text(context.tr('Проверить посещаемость')),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xFF0F766E),
@@ -303,11 +304,11 @@ class _ScheduleTile extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 child: FilledButton.icon(
                   onPressed: () => onOpenSection?.call(MainSection.grades),
-                  icon: const Icon(Icons.edit_note_rounded, size: 18),
+                  icon: Icon(Icons.edit_note_rounded, size: 18),
                   label: Text(context.tr('Поставить оценки')),
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),
@@ -338,23 +339,23 @@ class _InfoPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: const Color(0xFFF9FAFB),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE5E7EB)),
+          border: Border.all(color: context.appBorderColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 16, color: const Color(0xFF6B7280)),
-            const SizedBox(width: 6),
+            Icon(icon, size: 16, color: context.secondaryTextColor),
+            SizedBox(width: 6),
             Flexible(
               child: Text(
                 label,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.tertiaryTextColor,
                   fontSize: 13,
                 ),
               ),
@@ -379,11 +380,11 @@ class _EmptyScheduleState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
@@ -392,20 +393,20 @@ class _EmptyScheduleState extends StatelessWidget {
             color: Color(0xFF10B981),
             size: 36,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF6B7280),
+            style: TextStyle(
+              color: context.secondaryTextColor,
             ),
           ),
         ],

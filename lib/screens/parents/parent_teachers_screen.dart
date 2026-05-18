@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/user_role.dart';
 import '../../widgets/contact_actions.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentTeachersScreen extends StatelessWidget {
   const ParentTeachersScreen({super.key});
@@ -137,11 +138,11 @@ class _ChildInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 16,
@@ -173,14 +174,14 @@ class _ChildInfoCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 child?.fullName ?? context.tr('Ученик не найден'),
                 style: TextStyle(
-                  color: Color(0xFF111827),
+                  color: context.primaryTextColor,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -190,7 +191,7 @@ class _ChildInfoCard extends StatelessWidget {
                     ? context.tr('Класс не указан')
                     : context.tr('Класс ${child!.schoolClass}'),
                 style: TextStyle(
-                  color: Color(0xFF6B7280),
+                  color: context.secondaryTextColor,
                   fontSize: 13,
                 ),
               ),
@@ -243,11 +244,11 @@ class _TeacherCard extends StatelessWidget {
     final end = _subjectEndColor(teacher.subject);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 16,
@@ -273,33 +274,33 @@ class _TeacherCard extends StatelessWidget {
                   children: [
                     Text(
                       teacher.name,
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: 2),
                     Text(
                       context.tr(teacher.subject),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.mail_outline_rounded,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6),
                         Flexible(
                           child: Text(
                             teacher.email,
-                            style: const TextStyle(
-                              color: Color(0xFF4B5563),
+                            style: TextStyle(
+                              color: context.tertiaryTextColor,
                               fontSize: 13,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -307,50 +308,50 @@ class _TeacherCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.phone_outlined,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6),
                         Text(
                           teacher.phone,
-                          style: const TextStyle(
-                            color: Color(0xFF4B5563),
+                          style: TextStyle(
+                            color: context.tertiaryTextColor,
                             fontSize: 13,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.schedule_rounded,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             context.tr(teacher.consultationHours),
-                            style: const TextStyle(
-                              color: Color(0xFF4B5563),
+                            style: TextStyle(
+                              color: context.tertiaryTextColor,
                               fontSize: 13,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF3F4F6),
+                            color: context.appBorderColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -386,12 +387,12 @@ class _TeacherCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 child: _ActionButton(
                   label: context.tr('Позвонить'),
                   icon: Icons.phone_in_talk_outlined,
-                  bgColor: const Color(0xFFD1FAE5),
+                  bgColor: context.greenTintBg,
                   textColor: const Color(0xFF059669),
                   onTap: () => openPhoneDialer(context, teacher.phone),
                 ),
@@ -458,7 +459,7 @@ class _TeacherAvatar extends StatelessWidget {
             width: 22,
             height: 22,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.cardColor,
               borderRadius: BorderRadius.circular(999),
               boxShadow: const [
                 BoxShadow(
@@ -468,10 +469,10 @@ class _TeacherAvatar extends StatelessWidget {
                 ),
               ],
             ),
-            child: const Icon(
+            child: Icon(
               Icons.menu_book_rounded,
               size: 14,
-              color: Color(0xFF4B5563),
+              color: context.tertiaryTextColor,
             ),
           ),
         ),
@@ -538,9 +539,9 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFBEB),
+        color: context.orangeTintBg,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFFFDE68A)),
       ),

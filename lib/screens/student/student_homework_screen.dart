@@ -4,6 +4,7 @@ import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../services/file_upload_service.dart';
 import '../../widgets/app_feedback.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentHomeworkScreen extends StatefulWidget {
   const StudentHomeworkScreen({super.key});
@@ -64,7 +65,7 @@ class _StudentHomeworkScreenState extends State<StudentHomeworkScreen> {
       showAppSnackBar(
         context,
         context.tr('Не удалось загрузить файл. Проверьте Firebase Storage.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
     }
   }
@@ -103,7 +104,7 @@ class _StudentHomeworkScreenState extends State<StudentHomeworkScreen> {
             urgent: urgent,
             completed: submitted,
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           if (assignments.isEmpty)
             _EmptyState(
               title: context.tr('Заданий пока нет'),
@@ -161,7 +162,7 @@ class _HeaderCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -173,7 +174,7 @@ class _HeaderCard extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Text(
             context.tr('Твои задания, контрольные и реальные файлы сдачи'),
             style: const TextStyle(
@@ -229,7 +230,7 @@ class _StatsRow extends StatelessWidget {
               child: _StatCard(
                 value: '$urgent',
                 label: context.tr('Срочные'),
-                bgColor: const Color(0xFFEFF6FF),
+                bgColor: context.blueTintBg,
                 borderColor: const Color(0xFFDBEAFE),
                 textColor: const Color(0xFF2563EB),
               ),
@@ -240,7 +241,7 @@ class _StatsRow extends StatelessWidget {
                 value: '$completed',
                 label: context.tr('Выполнено'),
                 bgColor: const Color(0xFFECFDF5),
-                borderColor: const Color(0xFFD1FAE5),
+                borderColor: context.greenTintBg,
                 textColor: const Color(0xFF059669),
               ),
             ),
@@ -327,7 +328,7 @@ class _HomeworkCard extends StatelessWidget {
 
   Color get _iconBg {
     if (_isSubmitted) {
-      return const Color(0xFFD1FAE5);
+      return const Color(0xFFDCFCE7);
     }
     if (_isUrgent(item)) {
       return const Color(0xFFFFEDD5);
@@ -350,9 +351,9 @@ class _HomeworkCard extends StatelessWidget {
     final teacher = context.appState.userById(item.teacherId);
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: _borderColor,
@@ -401,8 +402,8 @@ class _HomeworkCard extends StatelessWidget {
                           child: Text(
                             context.tr(item.subject),
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Color(0xFF111827),
+                            style: TextStyle(
+                              color: context.primaryTextColor,
                               fontWeight: FontWeight.w700,
                               fontSize: 15,
                             ),
@@ -424,28 +425,28 @@ class _HomeworkCard extends StatelessWidget {
                           ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       context.tr(item.title),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xFF374151),
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: 2),
                     Text(
                       context.tr(item.description),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
                     if (teacher != null) ...[
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4),
                       Text(
                         teacher.fullName,
-                        style: const TextStyle(
-                          color: Color(0xFF6B7280),
+                        style: TextStyle(
+                          color: context.secondaryTextColor,
                           fontSize: 12,
                         ),
                       ),
@@ -523,7 +524,7 @@ class _HomeworkCard extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             )
-                          : const Icon(
+                          : Icon(
                               Icons.upload_rounded,
                               size: 18,
                               color: Colors.white,
@@ -581,11 +582,11 @@ class _InlineInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, size: 16, color: const Color(0xFF4B5563)),
-        const SizedBox(width: 4),
+        SizedBox(width: 4),
         Text(
           text,
-          style: const TextStyle(
-            color: Color(0xFF4B5563),
+          style: TextStyle(
+            color: context.tertiaryTextColor,
             fontSize: 13,
           ),
         ),
@@ -636,28 +637,28 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
-          const Icon(Icons.assignment_outlined, color: Color(0xFF6B7280)),
-          const SizedBox(height: 8),
+          Icon(Icons.assignment_outlined, color: context.secondaryTextColor),
+          SizedBox(height: 8),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),

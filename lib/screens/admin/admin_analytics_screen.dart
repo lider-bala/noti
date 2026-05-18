@@ -33,7 +33,7 @@ class AdminAnalyticsScreen extends StatelessWidget {
           title: context.tr('admin.analytics.title'),
           subtitle: context.tr('admin.analytics.subtitle'),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -54,9 +54,9 @@ class AdminAnalyticsScreen extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: context.panelColor,
             borderRadius: BorderRadius.circular(24),
@@ -73,7 +73,7 @@ class AdminAnalyticsScreen extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               for (final role in UserRole.values) ...[
                 _RoleProgress(
                   label: context.strings.role(role),
@@ -153,7 +153,7 @@ class _Metric extends StatelessWidget {
     return SizedBox(
       width: 250,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(24),
@@ -168,7 +168,7 @@ class _Metric extends StatelessWidget {
                 color: context.secondaryTextColor,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               value,
               style: TextStyle(
@@ -177,7 +177,7 @@ class _Metric extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: 6),
             Text(
               subtitle,
               style: TextStyle(
@@ -230,14 +230,14 @@ class _RoleProgress extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         ClipRRect(
           borderRadius: BorderRadius.circular(999),
           child: LinearProgressIndicator(
             value: factor,
             minHeight: 10,
             backgroundColor: context.appBorderColor,
-            color: const Color(0xFF2563EB),
+            color: context.blueTintFg,
           ),
         ),
       ],

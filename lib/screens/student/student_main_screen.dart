@@ -119,7 +119,7 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
                             ),
                           )
                         else
-                          const SizedBox(width: 40),
+                          SizedBox(width: 40),
                         Text(
                           _titleForSection(context, _section),
                           style: TextStyle(
@@ -189,8 +189,8 @@ class _StudentMainScreenState extends State<StudentMainScreen> {
                       color: Colors.transparent,
                       child: Container(
                         width: 280,
-                        margin: const EdgeInsets.only(top: 8, bottom: 8),
-                        padding: const EdgeInsets.all(12),
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: context.panelColor,
                           borderRadius: const BorderRadius.only(

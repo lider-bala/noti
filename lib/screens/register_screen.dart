@@ -136,7 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen>
       showAppSnackBar(
         context,
         context.tr(result.errorKey!),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -148,7 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen>
             ? 'Заявка отправлена администратору. Вход станет доступен после подтверждения.'
             : 'auth.accountCreated',
       ),
-      backgroundColor: const Color(0xFF047857),
+      backgroundColor: context.successSnackBg,
     );
     if (result.user != null) {
       widget.onRegistered(result.user!);
@@ -399,7 +399,7 @@ class _LogoHeader extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         Text(
           context.tr('auth.welcome'),
           style: const TextStyle(
@@ -408,7 +408,7 @@ class _LogoHeader extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4),
         Text(
           context.tr('auth.createAccount'),
           style: TextStyle(
@@ -612,7 +612,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: fullName,
                     focusNode: fullNameNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     validator: (value) =>
                         InputValidators.validateFullName(context, value),
                     decoration: inputDecoration(
@@ -632,7 +632,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: email,
                     focusNode: emailNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) =>
                         InputValidators.validateRequiredEmail(context, value),
@@ -653,7 +653,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: phone,
                     focusNode: phoneNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     keyboardType: TextInputType.phone,
                     inputFormatters: [AppInputFormatters.phoneDigitsOnly],
                     validator: (value) =>
@@ -725,7 +725,7 @@ class _GlassRegisterCard extends StatelessWidget {
                   child: TextFormField(
                     controller: password,
                     focusNode: passwordNode,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     obscureText: !showPassword,
                     inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
                     validator: (value) =>
@@ -793,7 +793,7 @@ class _GlassRegisterCard extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2ECC71),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -852,7 +852,7 @@ class _StudentParentFields extends StatelessWidget {
           children: [
             Expanded(child: Divider(color: Colors.white.withOpacity(0.28))),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 context.tr('Данные родителя'),
                 style: const TextStyle(
@@ -871,7 +871,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentFullName,
             focusNode: parentFullNameNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             validator: (value) =>
                 InputValidators.validateFullName(context, value),
             decoration: inputDecoration(
@@ -886,7 +886,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentEmail,
             focusNode: parentEmailNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             keyboardType: TextInputType.emailAddress,
             validator: (value) =>
                 InputValidators.validateRequiredEmail(context, value),
@@ -902,7 +902,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentPhone,
             focusNode: parentPhoneNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             keyboardType: TextInputType.phone,
             inputFormatters: [AppInputFormatters.phoneDigitsOnly],
             validator: (value) => InputValidators.validatePhone(context, value),
@@ -918,7 +918,7 @@ class _StudentParentFields extends StatelessWidget {
           child: TextFormField(
             controller: parentPassword,
             focusNode: parentPasswordNode,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
             obscureText: !showParentPassword,
             inputFormatters: [AppInputFormatters.latinAndNumbersOnly],
             validator: (value) =>

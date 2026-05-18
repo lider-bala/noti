@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
+import '../../widgets/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -64,8 +65,8 @@ class HomeScreen extends StatelessWidget {
           'time': MaterialLocalizations.of(context).formatShortDate(
             assignment.createdAt,
           ),
-          'bg': const Color(0xFFDCFCE7),
-          'fg': const Color(0xFF059669),
+          'bg': context.activityGreenBg,
+          'fg': context.greenTintFg,
           'icon': Icons.menu_book_rounded,
         },
       for (final grade in teacherGrades.take(2))
@@ -75,8 +76,8 @@ class HomeScreen extends StatelessWidget {
           'time': MaterialLocalizations.of(context).formatShortDate(
             grade.createdAt,
           ),
-          'bg': const Color(0xFFDBEAFE),
-          'fg': const Color(0xFF2563EB),
+          'bg': context.activityBlueBg,
+          'fg': context.blueTintFg,
           'icon': Icons.trending_up_rounded,
         },
       if (assignments.isEmpty && teacherGrades.isEmpty)
@@ -84,8 +85,8 @@ class HomeScreen extends StatelessWidget {
           'title': 'Активности пока нет',
           'class': classes.isEmpty ? '—' : classes.first.name,
           'time': formattedDate,
-          'bg': const Color(0xFFFFEDD5),
-          'fg': const Color(0xFFEA580C),
+          'bg': context.activityOrangeBg,
+          'fg': context.orangeTintFg,
           'icon': Icons.info_outline_rounded,
         },
     ];
@@ -104,7 +105,7 @@ class HomeScreen extends StatelessWidget {
             context.tr('common.upcomingLesson'),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF1F2933),
+              color: context.primaryTextColor,
             ),
           ),
           SizedBox(height: 10),
@@ -114,7 +115,7 @@ class HomeScreen extends StatelessWidget {
             context.tr('common.stats'),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF1F2933),
+              color: context.primaryTextColor,
             ),
           ),
           SizedBox(height: 10),
@@ -124,7 +125,7 @@ class HomeScreen extends StatelessWidget {
             context.tr('common.recentActivity'),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF1F2933),
+              color: context.primaryTextColor,
             ),
           ),
           SizedBox(height: 10),
@@ -247,9 +248,9 @@ class _UpcomingClassCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 24,
@@ -271,7 +272,7 @@ class _UpcomingClassCard extends StatelessWidget {
                       context.tr(upcomingClass['subject'] ?? ''),
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF111827),
+                        color: context.primaryTextColor,
                       ),
                     ),
                     SizedBox(height: 4),
@@ -281,7 +282,7 @@ class _UpcomingClassCard extends StatelessWidget {
                         {'value': upcomingClass['class'] ?? ''},
                       ),
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF4B5563),
+                        color: context.tertiaryTextColor,
                       ),
                     ),
                   ],
@@ -306,17 +307,17 @@ class _UpcomingClassCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.access_time_rounded,
                     size: 18,
-                    color: Color(0xFF6B7280),
+                    color: context.secondaryTextColor,
                   ),
                   SizedBox(width: 6),
                   Text(
                     upcomingClass['time'] ?? '',
                     style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
                   ),
                 ],
@@ -324,17 +325,17 @@ class _UpcomingClassCard extends StatelessWidget {
               SizedBox(width: 24),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.notifications_none_rounded,
                     size: 18,
-                    color: Color(0xFF6B7280),
+                    color: context.secondaryTextColor,
                   ),
                   SizedBox(width: 6),
                   Text(
                     context.tr(upcomingClass['room'] ?? ''),
                     style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
                   ),
                 ],
@@ -450,9 +451,9 @@ class _ActivityCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -484,7 +485,7 @@ class _ActivityCard extends StatelessWidget {
                 Text(
                   context.tr(data['title'] as String),
                   style: TextStyle(
-                    color: Color(0xFF111827),
+                    color: context.primaryTextColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -493,7 +494,7 @@ class _ActivityCard extends StatelessWidget {
                 Text(
                   '${context.tr(data['class'] as String)} • ${context.tr(data['time'] as String)}',
                   style: TextStyle(
-                    color: Color(0xFF6B7280),
+                    color: context.secondaryTextColor,
                     fontSize: 12,
                   ),
                 ),

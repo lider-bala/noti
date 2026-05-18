@@ -100,12 +100,12 @@ class _StudentsScreenState extends State<StudentsScreen> {
             });
           },
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         TextField(
           onChanged: (value) => setState(() => _searchQuery = value),
           decoration: InputDecoration(
             labelText: context.tr('Поиск учеников...'),
-            prefixIcon: const Icon(Icons.search_rounded),
+            prefixIcon: Icon(Icons.search_rounded),
             filled: true,
             fillColor: context.panelMutedColor,
             border: OutlineInputBorder(
@@ -124,7 +124,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
           lessons: lessons,
           teachers: classTeachers,
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         if (filteredStudents.isEmpty)
           _EmptyState(
             title: context.tr('Ученики не найдены'),
@@ -188,7 +188,7 @@ class _HeaderCard extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             context.tr(
               'Выберите класс, посмотрите список учеников и контакты учителей этого класса.',
@@ -197,7 +197,7 @@ class _HeaderCard extends StatelessWidget {
                   color: Colors.white.withOpacity(0.9),
                 ),
           ),
-          const SizedBox(height: 18),
+          SizedBox(height: 18),
           Wrap(
             spacing: 10,
             runSpacing: 10,
@@ -319,8 +319,8 @@ class _ClassTeachersCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      padding: EdgeInsets.all(18),
+      decoration: _cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -329,17 +329,17 @@ class _ClassTeachersCard extends StatelessWidget {
               'Учителя класса {value}',
               {'value': selectedClass.name},
             ),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontSize: 18,
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           if (teachers.isEmpty)
             Text(
               context.tr('Учителя для этого класса пока не назначены.'),
-              style: const TextStyle(color: Color(0xFF6B7280)),
+              style: TextStyle(color: context.secondaryTextColor),
             )
           else
             Wrap(
@@ -370,7 +370,7 @@ class _StudentDirectoryCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final compact = constraints.maxWidth < 620;
@@ -388,8 +388,8 @@ class _StudentDirectoryCard extends StatelessWidget {
             children: [
               Text(
                 student.fullName,
-                style: const TextStyle(
-                  color: Color(0xFF111827),
+                style: TextStyle(
+                  color: context.primaryTextColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                 ),
@@ -403,9 +403,9 @@ class _StudentDirectoryCard extends StatelessWidget {
                   if ((student.email ?? '').isNotEmpty) student.email!,
                   if ((student.phone ?? '').isNotEmpty) student.phone!,
                 ].join(' • '),
-                style: const TextStyle(color: Color(0xFF6B7280)),
+                style: TextStyle(color: context.secondaryTextColor),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -414,7 +414,7 @@ class _StudentDirectoryCard extends StatelessWidget {
                     icon: Icons.chat_bubble_outline_rounded,
                     title: context.tr('Написать'),
                     subtitle: student.email ?? context.tr('Чат с учеником'),
-                    color: const Color(0xFF2563EB),
+                    color: context.blueTintFg,
                     background: const Color(0xFFE0F2FE),
                     onTap: () => openContactChat(
                       context: context,
@@ -427,8 +427,8 @@ class _StudentDirectoryCard extends StatelessWidget {
                     icon: Icons.phone_outlined,
                     title: context.tr('Позвонить'),
                     subtitle: student.phone ?? context.tr('Телефон не указан'),
-                    color: const Color(0xFF059669),
-                    background: const Color(0xFFD1FAE5),
+                    color: context.greenTintFg,
+                    background: context.greenTintBg,
                     onTap: () => openPhoneDialer(context, student.phone ?? ''),
                   ),
                 ],
@@ -476,11 +476,11 @@ class _ContactChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(minWidth: 180, maxWidth: 320),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: const Color(0xFFF9FAFB),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -496,8 +496,8 @@ class _ContactChip extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -505,8 +505,8 @@ class _ContactChip extends StatelessWidget {
                   subtitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -570,8 +570,8 @@ class _ContactActionChip extends StatelessWidget {
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF4B5563),
+                      style: TextStyle(
+                        color: context.tertiaryTextColor,
                         fontSize: 12,
                       ),
                     ),
@@ -599,28 +599,28 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: _cardDecoration(),
+      padding: EdgeInsets.all(24),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.groups_rounded,
-            color: Color(0xFF2563EB),
+            color: context.blueTintFg,
             size: 36,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
@@ -644,11 +644,11 @@ String _teacherSubjects(
       : subjects.join(', ');
 }
 
-BoxDecoration _cardDecoration() {
+BoxDecoration _cardDecoration(BuildContext context) {
   return BoxDecoration(
-    color: Colors.white,
+    color: context.cardColor,
     borderRadius: BorderRadius.circular(24),
-    border: Border.all(color: const Color(0xFFE5E7EB)),
+    border: Border.all(color: context.appBorderColor),
     boxShadow: const [
       BoxShadow(
         blurRadius: 18,

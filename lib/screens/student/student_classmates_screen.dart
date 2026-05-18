@@ -5,6 +5,7 @@ import '../../models/user_role.dart';
 import '../../widgets/app_feedback.dart';
 import '../../widgets/contact_actions.dart';
 import '../../widgets/responsive.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentClassmatesScreen extends StatefulWidget {
   const StudentClassmatesScreen({super.key});
@@ -25,7 +26,7 @@ class _StudentClassmatesScreenState extends State<StudentClassmatesScreen> {
         '{name} добавлен в друзья.',
         {'name': classmate.name},
       ),
-      backgroundColor: const Color(0xFF047857),
+      backgroundColor: context.successSnackBg,
     );
   }
 
@@ -59,7 +60,7 @@ class _StudentClassmatesScreenState extends State<StudentClassmatesScreen> {
     );
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(8, 16, 8, 24),
+      padding: EdgeInsets.fromLTRB(8, 16, 8, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -74,7 +75,7 @@ class _StudentClassmatesScreenState extends State<StudentClassmatesScreen> {
                 students.length + (current?.role == UserRole.student ? 1 : 0),
             classAverage: classAverage,
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           if (classmates.isEmpty)
             _EmptyClassmatesState(
               message: classId == null
@@ -130,7 +131,7 @@ class _HeaderCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -205,11 +206,11 @@ class _StatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -229,11 +230,11 @@ class _StatTile extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 2),
+          SizedBox(height: 2),
           Text(
             label,
-            style: const TextStyle(
-              color: Color(0xFF4B5563),
+            style: TextStyle(
+              color: context.tertiaryTextColor,
               fontSize: 13,
             ),
           ),
@@ -270,17 +271,17 @@ class _EmptyClassmatesState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Text(
         message,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Color(0xFF6B7280),
+        style: TextStyle(
+          color: context.secondaryTextColor,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -305,11 +306,11 @@ class _ClassmateCard extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -353,8 +354,8 @@ class _ClassmateCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         classmate.name,
-                        style: const TextStyle(
-                          color: Color(0xFF111827),
+                        style: TextStyle(
+                          color: context.primaryTextColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                         ),
@@ -362,12 +363,12 @@ class _ClassmateCard extends StatelessWidget {
                     ),
                     if (classmate.isFriend)
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFDBEAFE),
+                          color: context.activityBlueBg,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -387,40 +388,40 @@ class _ClassmateCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.mail_outline,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             classmate.email,
-                            style: const TextStyle(
-                              color: Color(0xFF4B5563),
+                            style: TextStyle(
+                              color: context.tertiaryTextColor,
                               fontSize: 13,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.phone_outlined,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             classmate.phone.isEmpty
                                 ? context.tr('Телефон не указан')
                                 : classmate.phone,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Color(0xFF4B5563),
+                            style: TextStyle(
+                              color: context.tertiaryTextColor,
                               fontSize: 13,
                             ),
                           ),
@@ -440,15 +441,15 @@ class _ClassmateCard extends StatelessWidget {
                           name: classmate.name,
                           subtitle: context.tr('Одноклассник'),
                         ),
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.chat_bubble_outline_rounded,
                           size: 16,
-                          color: Color(0xFF2563EB),
+                          color: context.blueTintFg,
                         ),
                         label: Text(
                           context.tr('Написать'),
                           style: TextStyle(
-                            color: Color(0xFF2563EB),
+                            color: context.blueTintFg,
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
@@ -462,42 +463,42 @@ class _ClassmateCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     if (classmate.phone.isNotEmpty) ...[
                       Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD1FAE5),
+                          color: context.greenTintBg,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
                           onPressed: () =>
                               openPhoneDialer(context, classmate.phone),
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.phone_in_talk_outlined,
                             size: 20,
-                            color: Color(0xFF059669),
+                            color: context.greenTintFg,
                           ),
                           padding: EdgeInsets.zero,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                     ],
                     if (!classmate.isFriend)
                       Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD1FAE5),
+                          color: context.greenTintBg,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
                           onPressed: onAddFriend,
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.person_add_alt_1_rounded,
                             size: 20,
-                            color: Color(0xFF059669),
+                            color: context.greenTintFg,
                           ),
                           padding: EdgeInsets.zero,
                         ),

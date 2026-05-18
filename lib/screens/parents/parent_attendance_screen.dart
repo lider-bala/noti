@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentAttendanceScreen extends StatelessWidget {
   const ParentAttendanceScreen({super.key});
@@ -54,16 +55,16 @@ class ParentAttendanceScreen extends StatelessWidget {
             absent: absent,
             percent: percent,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
             context.tr('История посещаемости'),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           if (records.isEmpty)
             _EmptyState(
               title: context.tr('Записей пока нет'),
@@ -152,36 +153,36 @@ class _ChildInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration(),
+      padding: EdgeInsets.all(14),
+      decoration: _cardDecoration(context),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: const Color(0xFFD1FAE5),
+            backgroundColor: context.greenTintBg,
             foregroundColor: const Color(0xFF059669),
             child: Text(child?.initials ?? '—'),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   child?.fullName ?? context.tr('Ученик не найден'),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2),
                 Text(
                   child?.schoolClass == null
                       ? context.tr('Класс не указан')
                       : context.tr('Класс ${child!.schoolClass}'),
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -212,16 +213,16 @@ class _OverallStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      padding: EdgeInsets.all(18),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
           Row(
             children: [
               Text(
                 context.tr('Общая статистика'),
-                style: const TextStyle(
-                  color: Color(0xFF111827),
+                style: TextStyle(
+                  color: context.primaryTextColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -232,17 +233,17 @@ class _OverallStatsCard extends StatelessWidget {
                 children: [
                   Text(
                     total == 0 ? '—' : '$percent%',
-                    style: const TextStyle(
-                      color: Color(0xFF059669),
+                    style: TextStyle(
+                      color: context.greenTintFg,
                       fontSize: 26,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: 2),
                   Text(
                     context.tr('Посещаемость'),
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 12,
                     ),
                   ),
@@ -250,18 +251,18 @@ class _OverallStatsCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           Row(
             children: [
               Expanded(
                 child: _SmallStatCard(
                   icon: Icons.check_circle_rounded,
-                  color: const Color(0xFF059669),
+                  color: context.greenTintFg,
                   value: '$present',
                   label: context.tr('Был'),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 child: _SmallStatCard(
                   icon: Icons.access_time_rounded,
@@ -270,7 +271,7 @@ class _OverallStatsCard extends StatelessWidget {
                   label: context.tr('Опоздал'),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 child: _SmallStatCard(
                   icon: Icons.cancel_rounded,
@@ -349,14 +350,14 @@ class _AttendanceCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration().copyWith(
+      decoration: _cardDecoration(context).copyWith(
         border: Border.all(color: color.withOpacity(0.28)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(_statusIcon(status), color: color, size: 24),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,12 +366,12 @@ class _AttendanceCard extends StatelessWidget {
                   lesson == null
                       ? context.tr('Урок')
                       : context.tr(lesson.subject),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   [
                     MaterialLocalizations.of(context)
@@ -385,7 +386,7 @@ class _AttendanceCard extends StatelessWidget {
                   ),
                 ),
                 if (status == AttendanceStatusType.absent) ...[
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Text(
                     context.trf(
                       'Причина: {value}',
@@ -394,8 +395,8 @@ class _AttendanceCard extends StatelessWidget {
                             appState.absenceReasonLabel(record.entry.reason)
                       },
                     ),
-                    style: const TextStyle(
-                      color: Color(0xFF4B5563),
+                    style: TextStyle(
+                      color: context.tertiaryTextColor,
                       fontSize: 13,
                     ),
                   ),
@@ -431,7 +432,7 @@ class _AbsencesAlert extends StatelessWidget {
             color: Color(0xFFCA8A04),
             size: 22,
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Expanded(
             child: Text(
               context.trf(
@@ -464,24 +465,24 @@ class _EmptyState extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
-          const Icon(Icons.inbox_rounded, color: Color(0xFF94A3B8), size: 30),
-          const SizedBox(height: 10),
+          Icon(Icons.inbox_rounded, color: Color(0xFF94A3B8), size: 30),
+          SizedBox(height: 10),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
@@ -522,11 +523,11 @@ Color _statusColor(AttendanceStatusType status) {
   }
 }
 
-BoxDecoration _cardDecoration() {
+BoxDecoration _cardDecoration(BuildContext context) {
   return BoxDecoration(
-    color: Colors.white,
+    color: context.cardColor,
     borderRadius: BorderRadius.circular(22),
-    border: Border.all(color: const Color(0xFFE5E7EB)),
+    border: Border.all(color: context.appBorderColor),
     boxShadow: const [
       BoxShadow(
         blurRadius: 18,

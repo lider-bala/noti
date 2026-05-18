@@ -218,14 +218,14 @@ class _StatusPanel extends StatelessWidget {
             fontSize: 14,
           ),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24),
         _StatusRow(
           label: context.tr('Файлы в каталоге'),
           value: '$filesCount',
           badgeColor: const Color(0xFFDBEAFE),
           textColor: const Color(0xFF1D4ED8),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _StatusRow(
           label: context.tr('Сохранённые сессии посещаемости'),
           value: '$attendanceCount',
@@ -301,9 +301,9 @@ class _RequestsPanel extends StatelessWidget {
       children: [
         if (requests.isEmpty)
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: const Color(0xFFF0FDF4),
+              color: context.greenTintBg,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: const Color(0xFFDCFCE7)),
             ),
@@ -321,7 +321,7 @@ class _RequestsPanel extends StatelessWidget {
                     size: 20,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     context.tr(
@@ -341,7 +341,7 @@ class _RequestsPanel extends StatelessWidget {
             children: [
               for (int i = 0; i < requests.length; i++) ...[
                 if (i != 0) ...[
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   Container(height: 1, color: context.appBorderColor),
                   const SizedBox(height: 12),
                 ],
@@ -350,7 +350,7 @@ class _RequestsPanel extends StatelessWidget {
             ],
           ),
         if (requests.isNotEmpty) ...[
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: Material(
@@ -360,7 +360,7 @@ class _RequestsPanel extends StatelessWidget {
                 onTap: onShowAllRequests,
                 borderRadius: BorderRadius.circular(12),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -437,7 +437,7 @@ class _RequestCard extends StatelessWidget {
                   fontSize: 12,
                 ),
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: 2),
               Text(
                 request.email,
                 style: TextStyle(
@@ -452,7 +452,7 @@ class _RequestCard extends StatelessWidget {
         ),
         IconButton(
           icon:
-              const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981)),
+              Icon(Icons.check_circle_rounded, color: Color(0xFF10B981)),
           onPressed: () async {
             final result =
                 await appState.approveRegistrationRequest(request.id);

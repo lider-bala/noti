@@ -30,13 +30,13 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
             'Язык, регион и правила доступа отделены от списков пользователей и уроков.',
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         _SettingTile(
           icon: Icons.cloud_done_outlined,
           title: context.tr('admin.database.title'),
           subtitle: appState.databaseStatusLabel,
           trailing: appState.isDatabaseSyncing
-              ? const SizedBox(
+              ? SizedBox(
                   width: 22,
                   height: 22,
                   child: CircularProgressIndicator(strokeWidth: 2),
@@ -44,19 +44,19 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
               : IconButton(
                   tooltip: context.tr('admin.database.action'),
                   onPressed: appState.synchronizeDatabase,
-                  icon: const Icon(Icons.sync_rounded),
+                  icon: Icon(Icons.sync_rounded),
                 ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _SettingTile(
           icon: Icons.translate_rounded,
           title: context.tr('settings.language'),
           subtitle: context.strings.languageLabel(appState.language),
           trailing: const LanguageMenuButton(),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         const ThemeModeSelector(),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _SettingTile(
           icon: Icons.public_rounded,
           title: context.tr('admin.settings.kgRegion'),
@@ -69,7 +69,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
             },
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _SettingTile(
           icon: Icons.verified_user_rounded,
           title: context.tr('Ручное подтверждение регистраций'),
@@ -82,7 +82,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
             },
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _SettingTile(
           icon: Icons.lock_outline_rounded,
           title: context.tr('settings.security'),
@@ -164,7 +164,7 @@ class _SettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(16),
@@ -180,7 +180,7 @@ class _SettingTile extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: context.panelMutedColor,
               borderRadius: BorderRadius.circular(12),
@@ -199,7 +199,7 @@ class _SettingTile extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(

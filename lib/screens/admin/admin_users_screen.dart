@@ -67,7 +67,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       showAppSnackBar(
         context,
         context.tr('Заполните все обязательные поля.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -110,7 +110,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       showAppSnackBar(
         context,
         context.tr('Аккаунт с таким email или телефоном уже существует.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -135,7 +135,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             ? 'Созданы аккаунты ученика и родителя.'
             : 'Аккаунт создан и уже доступен для входа.',
       ),
-      backgroundColor: const Color(0xFF047857),
+      backgroundColor: context.successSnackBg,
     );
   }
 
@@ -202,7 +202,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             'Создание аккаунтов, заявки и списки по ролям разделены на отдельные панели.',
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -217,7 +217,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               label: context.tr('Заявки'),
               value: '${pendingRequests.length}',
               icon: Icons.mark_email_unread_rounded,
-              color: const Color(0xFF2563EB),
+              color: context.blueTintFg,
             ),
             _MetricTile(
               label: context.tr('Создано сегодня'),
@@ -298,7 +298,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             );
           },
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         LayoutBuilder(
           builder: (context, constraints) {
             final twoColumns = constraints.maxWidth >= 980;
@@ -451,7 +451,7 @@ class _MetricTile extends StatelessWidget {
     return SizedBox(
       width: 210,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(16),
@@ -568,27 +568,27 @@ class _CreateAccountPanel extends StatelessWidget {
             );
           }).toList(),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         _Field(
           controller: fullNameController,
           label: context.tr('Полное имя'),
           icon: Icons.person_rounded,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _Field(
           controller: emailController,
           label: context.tr('Email'),
           icon: Icons.email_rounded,
           keyboardType: TextInputType.emailAddress,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _Field(
           controller: phoneController,
           label: context.tr('Телефон'),
           icon: Icons.phone_rounded,
           keyboardType: TextInputType.phone,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _Field(
           controller: passwordController,
           label: context.tr('Временный пароль'),
@@ -596,7 +596,7 @@ class _CreateAccountPanel extends StatelessWidget {
         ),
         if (selectedRole == UserRole.student ||
             selectedRole == UserRole.parent) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           AppSelectField<String>(
             value: selectedClassId,
             label: context.tr(
@@ -617,7 +617,7 @@ class _CreateAccountPanel extends StatelessWidget {
           ),
         ],
         if (selectedRole == UserRole.parent) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           AppSelectField<String>(
             value: studentsForSelectedClass
                     .any((student) => student.id == selectedLinkedStudentId)
@@ -640,7 +640,7 @@ class _CreateAccountPanel extends StatelessWidget {
             onChanged: onLinkedStudentChanged,
           ),
           if (selectedClassId != null && studentsForSelectedClass.isEmpty) ...[
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text(
               context.tr('В выбранном классе пока нет учеников.'),
               style: const TextStyle(
@@ -651,29 +651,29 @@ class _CreateAccountPanel extends StatelessWidget {
           ],
         ],
         if (selectedRole == UserRole.student) ...[
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           _SectionLabel(text: context.tr('Данные родителя')),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _Field(
             controller: parentFullNameController,
             label: context.tr('ФИО родителя'),
             icon: Icons.family_restroom_rounded,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _Field(
             controller: parentEmailController,
             label: context.tr('Email родителя'),
             icon: Icons.email_rounded,
             keyboardType: TextInputType.emailAddress,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _Field(
             controller: parentPhoneController,
             label: context.tr('Телефон родителя'),
             icon: Icons.phone_rounded,
             keyboardType: TextInputType.phone,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _Field(
             controller: parentPasswordController,
             label: context.tr('Пароль родителя'),
@@ -687,12 +687,12 @@ class _CreateAccountPanel extends StatelessWidget {
             onPressed: onSubmit,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF0F766E),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            icon: const Icon(Icons.check_rounded),
+            icon: Icon(Icons.check_rounded),
             label: Text(context.tr('Создать аккаунт')),
           ),
         ),
@@ -841,7 +841,7 @@ class _SectionLabel extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xFF0F766E),
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -873,7 +873,7 @@ class _RequestRow extends StatelessWidget {
         Row(
           children: [
             CircleAvatar(
-              backgroundColor: const Color(0xFFEFF6FF),
+              backgroundColor: context.blueTintBg,
               foregroundColor: const Color(0xFF1D4ED8),
               child: Text(_safeInitials(request.fullName)),
             ),
@@ -889,7 +889,7 @@ class _RequestRow extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 3),
+                  SizedBox(height: 3),
                   Text(
                     _requestSubtitle(context, request),
                     style: TextStyle(
@@ -915,19 +915,19 @@ class _RequestRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              icon: const Icon(Icons.check_rounded, size: 18),
+              icon: Icon(Icons.check_rounded, size: 18),
               label: Text(context.tr('Одобрить')),
             ),
             OutlinedButton.icon(
               onPressed: onReject,
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFFB91C1C),
-                side: const BorderSide(color: Color(0xFFFCA5A5)),
+                side: BorderSide(color: Color(0xFFFCA5A5)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              icon: const Icon(Icons.close_rounded, size: 18),
+              icon: Icon(Icons.close_rounded, size: 18),
               label: Text(context.tr('Отклонить')),
             ),
           ],
@@ -1033,7 +1033,7 @@ class _UserRow extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 3),
+              SizedBox(height: 3),
               Text(
                 _userSubtitle(context, user),
                 style: TextStyle(
@@ -1044,7 +1044,7 @@ class _UserRow extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10),
         if (showRole)
           _RoleBadge(
             label: context.strings.role(user.role),
@@ -1101,14 +1101,14 @@ class _UserRow extends StatelessWidget {
                       label: context.tr('Полное имя'),
                       icon: Icons.person_rounded,
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     _Field(
                       controller: emailController,
                       label: context.tr('Email'),
                       icon: Icons.email_rounded,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     _Field(
                       controller: phoneController,
                       label: context.tr('Телефон'),
@@ -1117,7 +1117,7 @@ class _UserRow extends StatelessWidget {
                     ),
                     if (user.role == UserRole.student ||
                         user.role == UserRole.parent) ...[
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12),
                       AppSelectField<String>(
                         value: appState.schoolClasses
                                 .any((item) => item.id == selectedClassId)
@@ -1163,7 +1163,7 @@ class _UserRow extends StatelessWidget {
                       showAppSnackBar(
                         context,
                         context.tr('Не удалось сохранить изменения.'),
-                        backgroundColor: const Color(0xFFB91C1C),
+                        backgroundColor: context.errorSnackBg,
                       );
                       return;
                     }
@@ -1171,7 +1171,7 @@ class _UserRow extends StatelessWidget {
                     showAppSnackBar(
                       context,
                       context.tr('Данные пользователя сохранены.'),
-                      backgroundColor: const Color(0xFF047857),
+                      backgroundColor: context.successSnackBg,
                     );
                   },
                   child: Text(context.tr('Сохранить')),
@@ -1231,7 +1231,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(14),
@@ -1240,7 +1240,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         children: [
           Icon(icon, color: const Color(0xFF94A3B8), size: 28),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Text(
             title,
             textAlign: TextAlign.center,

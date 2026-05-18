@@ -34,7 +34,7 @@ class StudentSideMenu extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       width: 260,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -81,7 +81,7 @@ class StudentSideMenu extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +110,7 @@ class StudentSideMenu extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           _MenuTile(
             icon: Icons.home_filled,
             label: context.tr('section.home'),
@@ -162,7 +162,7 @@ class StudentSideMenu extends StatelessWidget {
           const Spacer(),
           OutlinedButton.icon(
             onPressed: onLogout,
-            icon: const Icon(Icons.logout, size: 18),
+            icon: Icon(Icons.logout, size: 18),
             label: Text(context.tr('common.logout')),
             style: OutlinedButton.styleFrom(
               minimumSize: const Size.fromHeight(46),
@@ -215,7 +215,7 @@ class _MenuTile extends StatelessWidget {
                     ? theme.colorScheme.primary
                     : context.secondaryTextColor,
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               Expanded(
                 child: Text(
                   label,

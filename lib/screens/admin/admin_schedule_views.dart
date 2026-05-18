@@ -153,7 +153,7 @@ class _ScheduleScaffold extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _Header(title: title, subtitle: subtitle),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         if (options.isEmpty)
           _EmptyState(title: emptyTitle)
         else ...[
@@ -179,7 +179,7 @@ class _ScheduleScaffold extends StatelessWidget {
                 selectedDay: selectedDay,
                 onChanged: onDayChanged,
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               AppSelectField<String>(
                 value: subjects.contains(subjectFilter) ? subjectFilter : 'all',
                 label: context.tr('Предмет'),
@@ -199,7 +199,7 @@ class _ScheduleScaffold extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           AdminPanel(
             title:
                 '${context.tr(context.appState.weekdayLabel(selectedDay))} • ${context.tr('Уроки')} (${filtered.length})',
@@ -284,12 +284,12 @@ class _LessonRow extends StatelessWidget {
       children: [
         Container(
           width: 64,
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: 8),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: context.isDarkTheme
                 ? const Color(0xFF1E3A8A)
-                : const Color(0xFFEFF6FF),
+                : context.blueTintBg,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
@@ -314,13 +314,13 @@ class _LessonRow extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4),
               Text(
                 '${lesson.classId} • ${lesson.timeRange} • ${lesson.room}',
                 style: TextStyle(color: context.secondaryTextColor),
               ),
               if (teacher != null) ...[
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   teacher.fullName,
                   style: TextStyle(
@@ -395,7 +395,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(14),

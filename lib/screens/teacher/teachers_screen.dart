@@ -216,7 +216,7 @@ class _EmptyTeachersState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
@@ -261,9 +261,9 @@ class _TeacherCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 24,
@@ -307,7 +307,7 @@ class _TeacherCard extends StatelessWidget {
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: context.cardColor,
                     borderRadius: BorderRadius.circular(999),
                     boxShadow: const [
                       BoxShadow(
@@ -318,10 +318,10 @@ class _TeacherCard extends StatelessWidget {
                     ],
                   ),
                   alignment: Alignment.center,
-                  child: const Icon(
+                  child: Icon(
                     Icons.menu_book_rounded,
                     size: 16,
-                    color: Color(0xFF4B5563),
+                    color: context.tertiaryTextColor,
                   ),
                 ),
               ),
@@ -335,7 +335,7 @@ class _TeacherCard extends StatelessWidget {
                 Text(
                   item.name,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    color: const Color(0xFF111827),
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -343,7 +343,7 @@ class _TeacherCard extends StatelessWidget {
                 Text(
                   context.tr(item.subject),
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF4B5563),
+                    color: context.tertiaryTextColor,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -352,10 +352,10 @@ class _TeacherCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.mail_outline_rounded,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
                         SizedBox(width: 6),
                         Expanded(
@@ -363,7 +363,7 @@ class _TeacherCard extends StatelessWidget {
                             item.email,
                             style: TextStyle(
                               fontSize: 13,
-                              color: Color(0xFF6B7280),
+                              color: context.secondaryTextColor,
                             ),
                           ),
                         ),
@@ -372,17 +372,17 @@ class _TeacherCard extends StatelessWidget {
                     SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.phone_rounded,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
                         SizedBox(width: 6),
                         Text(
                           item.phone,
                           style: TextStyle(
                             fontSize: 13,
-                            color: Color(0xFF6B7280),
+                            color: context.secondaryTextColor,
                           ),
                         ),
                       ],
@@ -390,10 +390,10 @@ class _TeacherCard extends StatelessWidget {
                     SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.schedule_rounded,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
                         SizedBox(width: 6),
                         Expanded(
@@ -404,7 +404,7 @@ class _TeacherCard extends StatelessWidget {
                             ),
                             style: TextStyle(
                               fontSize: 13,
-                              color: Color(0xFF6B7280),
+                              color: context.secondaryTextColor,
                             ),
                           ),
                         ),
@@ -427,7 +427,7 @@ class _TeacherCard extends StatelessWidget {
                           context.tr('Классы:'),
                           style: TextStyle(
                             fontSize: 13,
-                            color: Color(0xFF4B5563),
+                            color: context.tertiaryTextColor,
                           ),
                         ),
                         SizedBox(width: 8),
@@ -443,7 +443,7 @@ class _TeacherCard extends StatelessWidget {
                                       vertical: 6,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFFF3F4F6),
+                                      color: context.appBorderColor,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Text(
@@ -471,15 +471,15 @@ class _TeacherCard extends StatelessWidget {
                               name: item.name,
                               subtitle: context.tr(item.subject),
                             ),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.chat_bubble_outline_rounded,
                               size: 16,
-                              color: Color(0xFF2563EB),
+                              color: context.blueTintFg,
                             ),
                             label: Text(
                               context.tr('Написать'),
                               style: TextStyle(
-                                color: Color(0xFF2563EB),
+                                color: context.blueTintFg,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -497,21 +497,21 @@ class _TeacherCard extends StatelessWidget {
                           child: TextButton.icon(
                             onPressed: () =>
                                 openPhoneDialer(context, item.phone),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.phone_in_talk_outlined,
                               size: 16,
-                              color: Color(0xFF059669),
+                              color: context.greenTintFg,
                             ),
                             label: Text(
                               context.tr('Позвонить'),
                               style: TextStyle(
-                                color: Color(0xFF059669),
+                                color: context.greenTintFg,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFFD1FAE5),
+                              backgroundColor: context.greenTintBg,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),

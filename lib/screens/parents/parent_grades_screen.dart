@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentGradesScreen extends StatelessWidget {
   const ParentGradesScreen({super.key});
@@ -24,7 +25,7 @@ class ParentGradesScreen extends StatelessWidget {
           _Header(child: child),
           const SizedBox(height: 12),
           _ChildInfoCard(child: child),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Wrap(
             spacing: 12,
             runSpacing: 12,
@@ -33,13 +34,13 @@ class ParentGradesScreen extends StatelessWidget {
                 title: context.tr('Средний балл'),
                 value: grades.isEmpty ? '—' : average.toStringAsFixed(1),
                 icon: Icons.emoji_events_rounded,
-                color: const Color(0xFF059669),
+                color: context.greenTintFg,
               ),
               _StatCard(
                 title: context.tr('Предметов'),
                 value: '${subjects.length}',
                 icon: Icons.menu_book_rounded,
-                color: const Color(0xFF2563EB),
+                color: context.blueTintFg,
               ),
               _StatCard(
                 title: context.tr('Всего оценок'),
@@ -49,16 +50,16 @@ class ParentGradesScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
             context.tr('По предметам'),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           if (subjects.isEmpty)
             _EmptyState(
               title: context.tr('Оценок пока нет'),
@@ -68,21 +69,21 @@ class ParentGradesScreen extends StatelessWidget {
             Column(
               children: [
                 for (var i = 0; i < subjects.length; i++) ...[
-                  if (i != 0) const SizedBox(height: 10),
+                  if (i != 0) SizedBox(height: 10),
                   _SubjectCard(subject: subjects[i]),
                 ],
               ],
             ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
             context.tr('Последние оценки'),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           if (grades.isEmpty)
             _EmptyState(
               title: context.tr('Новых оценок нет'),
@@ -99,18 +100,18 @@ class ParentGradesScreen extends StatelessWidget {
               ],
             ),
           if (child != null) ...[
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             _QuarterGradesSection(studentId: child.id),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Text(
               context.tr('Полная история оценок'),
-              style: const TextStyle(
-                color: Color(0xFF111827),
+              style: TextStyle(
+                color: context.primaryTextColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             if (grades.isEmpty)
               _EmptyState(
                 title: context.tr('Оценок пока нет'),
@@ -218,36 +219,36 @@ class _ChildInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration(),
+      padding: EdgeInsets.all(14),
+      decoration: _cardDecoration(context),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: const Color(0xFFFFEDD5),
-            foregroundColor: const Color(0xFFEA580C),
+            backgroundColor: context.activityOrangeBg,
+            foregroundColor: context.orangeTintFg,
             child: Text(child?.initials ?? '—'),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   child?.fullName ?? context.tr('Ученик не найден'),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2),
                 Text(
                   child?.schoolClass == null
                       ? context.tr('Класс не указан')
                       : context.tr('Класс ${child!.schoolClass}'),
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -269,30 +270,30 @@ class _SubjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
           Row(
             children: [
               _AverageBadge(value: subject.avgGrade),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       context.tr(subject.name),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: 2),
                     Text(
                       context.tr('${subject.grades.length} оценок'),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -327,29 +328,29 @@ class _RecentGradeCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _GradeBadge(value: item.value),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   context.tr(item.subject),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                     fontSize: 15,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2),
                 Text(
                   context.tr(item.category),
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -370,8 +371,8 @@ class _RecentGradeCard extends StatelessWidget {
                         .formatShortDate(item.createdAt),
                     teacher?.fullName ?? '',
                   ].where((value) => value.isNotEmpty).join(' • '),
-                  style: const TextStyle(
-                    color: Color(0xFF9CA3AF),
+                  style: TextStyle(
+                    color: context.mutedTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -403,7 +404,7 @@ class _StatCard extends StatelessWidget {
       width: 210,
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: _cardDecoration(),
+        decoration: _cardDecoration(context),
         child: Row(
           children: [
             Container(
@@ -421,16 +422,16 @@ class _StatCard extends StatelessWidget {
                 children: [
                   Text(
                     value,
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
+                    style: TextStyle(
+                      color: context.primaryTextColor,
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 13,
                     ),
                   ),
@@ -518,13 +519,13 @@ class _QuarterGradesSection extends StatelessWidget {
       children: [
         Text(
           context.tr('Четвертные оценки'),
-          style: const TextStyle(
-            color: Color(0xFF111827),
+          style: TextStyle(
+            color: context.primaryTextColor,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         if (qGrades.isEmpty)
           _EmptyState(
             title: context.tr('Четвертных оценок пока нет'),
@@ -556,15 +557,15 @@ class _QuarterSubjectRow extends StatelessWidget {
       ..sort((a, b) => a.quarter.compareTo(b.quarter));
 
     return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration(),
+      padding: EdgeInsets.all(14),
+      decoration: _cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             context.tr(subject),
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
               fontSize: 15,
             ),
@@ -576,7 +577,7 @@ class _QuarterSubjectRow extends StatelessWidget {
             children: sorted.map((q) {
               return Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: _gradeColor(q.value).withOpacity(0.12),
                   borderRadius: BorderRadius.circular(12),
@@ -612,24 +613,24 @@ class _EmptyState extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
-          const Icon(Icons.inbox_rounded, color: Color(0xFF94A3B8), size: 30),
-          const SizedBox(height: 10),
+          Icon(Icons.inbox_rounded, color: Color(0xFF94A3B8), size: 30),
+          SizedBox(height: 10),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
@@ -648,11 +649,11 @@ String _childLabel(BuildContext context, AppUser? child) {
   ].join(' • ');
 }
 
-BoxDecoration _cardDecoration() {
+BoxDecoration _cardDecoration(BuildContext context) {
   return BoxDecoration(
-    color: Colors.white,
+    color: context.cardColor,
     borderRadius: BorderRadius.circular(22),
-    border: Border.all(color: const Color(0xFFE5E7EB)),
+    border: Border.all(color: context.appBorderColor),
     boxShadow: const [
       BoxShadow(
         blurRadius: 18,

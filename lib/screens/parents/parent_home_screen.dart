@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import 'parent_side_menu.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentHomeScreen extends StatelessWidget {
   final ValueChanged<ParentSection>? onNavigate;
@@ -132,16 +133,16 @@ class ParentHomeScreen extends StatelessWidget {
           _WelcomeCard(parentName: parentName),
           const SizedBox(height: 16),
           for (int i = 0; i < children.length; i++) ...[
-            if (i != 0) const SizedBox(height: 12),
+            if (i != 0) SizedBox(height: 12),
             _ChildCard(child: children[i]),
           ],
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           _QuickStatsRow(stats: stats),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
             context.tr('common.upcomingEvents'),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -150,16 +151,16 @@ class ParentHomeScreen extends StatelessWidget {
           Column(
             children: [
               for (int i = 0; i < upcomingEvents.length; i++) ...[
-                if (i != 0) const SizedBox(height: 10),
+                if (i != 0) SizedBox(height: 10),
                 _UpcomingEventCard(event: upcomingEvents[i]),
               ],
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
             context.tr('common.recentGrades'),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -255,7 +256,7 @@ class _WelcomeCard extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     '${context.tr('common.today')}: $formattedDate',
                     style: TextStyle(
@@ -297,11 +298,11 @@ class _ChildCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -341,23 +342,23 @@ class _ChildCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     child.name,
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
+                    style: TextStyle(
+                      color: context.primaryTextColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4),
                   Text(
                     context.trf('Класс {value}', {'value': child.klass}),
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 13,
                     ),
                   ),
@@ -365,23 +366,23 @@ class _ChildCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Row(
             children: [
               _ChildStatBox(
                 value: child.avgGrade.toStringAsFixed(1),
                 label: context.tr('Средний балл'),
-                bg: const Color(0xFFD1FAE5),
+                bg: context.greenTintBg,
                 text: const Color(0xFF059669),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               _ChildStatBox(
                 value: '${child.attendance}%',
                 label: context.tr('Посещаемость'),
                 bg: const Color(0xFFDBEAFE),
                 text: const Color(0xFF2563EB),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               _ChildStatBox(
                 value: '${child.pendingHomework}',
                 label: context.tr('Не сдано ДЗ'),
@@ -581,9 +582,9 @@ class _UpcomingEventCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: borderColor, width: 2),
         boxShadow: const [
@@ -609,41 +610,41 @@ class _UpcomingEventCard extends StatelessWidget {
               color: borderColor.withOpacity(0.9),
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   context.tr(event.title),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_month_rounded,
                       size: 14,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Text(
                       '${context.tr(event.date)} • ${event.time}',
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2),
                 Text(
                   context.tr(event.location),
-                  style: const TextStyle(
-                    color: Color(0xFF9CA3AF),
+                  style: TextStyle(
+                    color: context.mutedTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -676,11 +677,11 @@ class _RecentGradesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -709,7 +710,7 @@ class _RecentGradeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isFive = grade.grade == 5;
-    final Color bg = isFive ? const Color(0xFFD1FAE5) : const Color(0xFFDBEAFE);
+    final Color bg = isFive ? context.greenTintBg : const Color(0xFFDBEAFE);
     final Color textColor =
         isFive ? const Color(0xFF059669) : const Color(0xFF2563EB);
 
@@ -733,22 +734,22 @@ class _RecentGradeRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               context.tr(grade.subject),
-              style: const TextStyle(
-                color: Color(0xFF111827),
+              style: TextStyle(
+                color: context.primaryTextColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 2),
+            SizedBox(height: 2),
             Text(
               context.tr(grade.date),
-              style: const TextStyle(
-                color: Color(0xFF6B7280),
+              style: TextStyle(
+                color: context.secondaryTextColor,
                 fontSize: 12,
               ),
             ),

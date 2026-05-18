@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import 'student_side_menu.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentHomeScreen extends StatelessWidget {
   final ValueChanged<StudentSection>? onNavigate;
@@ -114,26 +115,26 @@ class StudentHomeScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _WelcomeCard(today: today, studentName: studentName),
-        const SizedBox(height: 24),
+        SizedBox(height: 24),
         _SectionTitle(context.tr('common.stats')),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _StatsGrid(stats: stats),
-        const SizedBox(height: 24),
+        SizedBox(height: 24),
         _SectionTitle(context.tr('common.upcomingLesson')),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
         _UpcomingLessonCard(lesson: upcomingLesson),
-        const SizedBox(height: 24),
+        SizedBox(height: 24),
         _SectionTitle(context.tr('section.homework')),
         const SizedBox(height: 12),
         Column(
           children: [
             for (int i = 0; i < homeworks.length; i++) ...[
-              if (i != 0) const SizedBox(height: 10),
+              if (i != 0) SizedBox(height: 10),
               _HomeworkCard(item: homeworks[i]),
             ],
           ],
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24),
         _SectionTitle(context.tr('common.quickActions')),
         const SizedBox(height: 12),
         _QuickActionsRow(onNavigate: onNavigate),
@@ -215,7 +216,7 @@ class _WelcomeCard extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Text(
                     '${context.tr('common.today')}: $today',
                     style: TextStyle(
@@ -241,8 +242,8 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: const TextStyle(
-        color: Color(0xFF111827),
+      style: TextStyle(
+        color: context.primaryTextColor,
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
@@ -381,9 +382,9 @@ class _UpcomingLessonCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 20,
@@ -403,17 +404,17 @@ class _UpcomingLessonCard extends StatelessWidget {
                   children: [
                     Text(
                       lesson.subject,
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       lesson.teacher,
-                      style: const TextStyle(
-                        color: Color(0xFF4B5563),
+                      style: TextStyle(
+                        color: context.tertiaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -435,33 +436,33 @@ class _UpcomingLessonCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.access_time_rounded,
                 size: 16,
-                color: Color(0xFF4B5563),
+                color: context.tertiaryTextColor,
               ),
-              const SizedBox(width: 6),
+              SizedBox(width: 6),
               Text(
                 lesson.time,
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.tertiaryTextColor,
                   fontSize: 13,
                 ),
               ),
-              const SizedBox(width: 18),
-              const Icon(
+              SizedBox(width: 18),
+              Icon(
                 Icons.meeting_room_outlined,
                 size: 16,
-                color: Color(0xFF4B5563),
+                color: context.tertiaryTextColor,
               ),
-              const SizedBox(width: 6),
+              SizedBox(width: 6),
               Text(
                 lesson.room,
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.tertiaryTextColor,
                   fontSize: 13,
                 ),
               ),
@@ -522,9 +523,9 @@ class _HomeworkCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: borderColor.withOpacity(0.7), width: 2),
         boxShadow: const [
@@ -545,20 +546,20 @@ class _HomeworkCard extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(item.subject),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     if (item.urgent) ...[
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 3,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFEDD5),
+                          color: context.activityOrangeBg,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -573,27 +574,27 @@ class _HomeworkCard extends StatelessWidget {
                     ],
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   context.tr(item.title),
-                  style: const TextStyle(
-                    color: Color(0xFF4B5563),
+                  style: TextStyle(
+                    color: context.tertiaryTextColor,
                     fontSize: 13,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_month_rounded,
                       size: 14,
-                      color: Color(0xFF6B7280),
+                      color: context.secondaryTextColor,
                     ),
-                    const SizedBox(width: 6),
+                    SizedBox(width: 6),
                     Text(
                       context.trf('Сдать до {value}', {'value': item.dueDate}),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
