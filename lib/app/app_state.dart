@@ -391,6 +391,9 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Map<String, List<AppChatMessage>> get allChatConversations =>
+      Map.unmodifiable(_chatMessagesByContact);
+
   void setThemePreference(AppThemePreference value) {
     if (themePreference == value) {
       return;

@@ -9,6 +9,7 @@ enum AdminSection {
   academics,
   classSchedule,
   teacherSchedule,
+  chat,
   analytics,
   settings,
 }
@@ -123,6 +124,12 @@ class AdminSideMenu extends StatelessWidget {
             label: context.tr('Расписание учителей'),
             isActive: current == AdminSection.teacherSchedule,
             onTap: () => onSelect(AdminSection.teacherSchedule),
+          ),
+          _MenuTile(
+            icon: Icons.chat_rounded,
+            label: context.tr('Чат'),
+            isActive: current == AdminSection.chat,
+            onTap: () => onSelect(AdminSection.chat),
           ),
           _MenuTile(
             icon: Icons.insights_rounded,
