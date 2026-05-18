@@ -391,7 +391,7 @@ class _RecentGradeCard extends StatelessWidget {
                   Text(
                     item.comment,
                     style: const TextStyle(
-                      color: Color(0xFF1D4ED8),
+                      color: Color(0xFF60A5FA),
                       fontSize: 13,
                     ),
                   ),

@@ -450,7 +450,7 @@ class _TeacherCard extends StatelessWidget {
                                       cls,
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Color(0xFF374151),
+                                        color: context.primaryTextColor,
                                       ),
                                     ),
                                   ),

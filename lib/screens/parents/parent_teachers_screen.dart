@@ -356,8 +356,8 @@ class _TeacherCard extends StatelessWidget {
                           ),
                           child: Text(
                             context.tr(teacher.room),
-                            style: const TextStyle(
-                              color: Color(0xFF374151),
+                            style: TextStyle(
+                              color: context.primaryTextColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),

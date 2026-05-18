@@ -374,7 +374,7 @@ class _ClassmateCard extends StatelessWidget {
                         child: Text(
                           context.tr('Друг'),
                           style: TextStyle(
-                            color: Color(0xFF1D4ED8),
+                            color: Color(0xFF60A5FA),
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                           ),
