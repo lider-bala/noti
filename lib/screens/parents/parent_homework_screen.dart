@@ -390,7 +390,7 @@ class _HomeworkCard extends StatelessWidget {
                     Text(
                       context.tr(item.title),
                       style: TextStyle(
-                        color: Color(0xFF374151),
+                        color: context.primaryTextColor,
                         fontSize: 14,
                       ),
                     ),
@@ -523,26 +523,29 @@ class _InfoAlert extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.isDarkTheme;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFE0F2FE),
+        color: isDark ? const Color(0xFF1E3A5C) : const Color(0xFFE0F2FE),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFBFDBFE)),
+        border: Border.all(
+          color: isDark ? const Color(0xFF2563EB).withOpacity(0.4) : const Color(0xFFBFDBFE),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
+          Icon(
             Icons.info_outline_rounded,
-            color: Color(0xFF2563EB),
+            color: isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
           ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
-                color: Color(0xFF1E3A8A),
+              style: TextStyle(
+                color: isDark ? const Color(0xFFBFDBFE) : const Color(0xFF1E3A8A),
                 fontSize: 13,
                 height: 1.35,
               ),

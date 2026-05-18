@@ -746,7 +746,7 @@ class _HomeworkCardState extends State<_HomeworkCard> {
             child: Text(
               context.tr(item.title),
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: const Color(0xFF374151),
+                color: context.primaryTextColor,
               ),
             ),
           ),

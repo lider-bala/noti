@@ -1060,9 +1060,15 @@ Future<String?> _showClassPicker(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 420, maxHeight: 420),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.92),
+              color: context.isDarkTheme
+                  ? const Color(0xFF1E293B).withOpacity(0.97)
+                  : Colors.white.withOpacity(0.92),
               borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: Colors.white.withOpacity(0.7)),
+              border: Border.all(
+                color: context.isDarkTheme
+                    ? const Color(0xFF475569)
+                    : Colors.white.withOpacity(0.7),
+              ),
               boxShadow: const [
                 BoxShadow(
                   blurRadius: 24,
@@ -1097,8 +1103,8 @@ Future<String?> _showClassPicker(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               item,
-                              style: const TextStyle(
-                                color: Color(0xFF1F2937),
+                              style: TextStyle(
+                                color: context.primaryTextColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),

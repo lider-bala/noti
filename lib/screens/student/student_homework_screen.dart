@@ -429,7 +429,7 @@ class _HomeworkCard extends StatelessWidget {
                     Text(
                       context.tr(item.title),
                       style: TextStyle(
-                        color: Color(0xFF374151),
+                        color: context.primaryTextColor,
                         fontSize: 13,
                       ),
                     ),

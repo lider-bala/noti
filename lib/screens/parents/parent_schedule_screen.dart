@@ -246,7 +246,7 @@ class _ParentScheduleScreenState extends State<ParentScheduleScreen> {
                     Text(
                       context.tr('Информация'),
                       style: TextStyle(
-                        color: Color(0xFF1D4ED8),
+                        color: Color(0xFF60A5FA),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -256,7 +256,7 @@ class _ParentScheduleScreenState extends State<ParentScheduleScreen> {
                         'Расписание может меняться. Проверяйте актуальную информацию в приложении.',
                       ),
                       style: TextStyle(
-                        color: Color(0xFF1D4ED8),
+                        color: Color(0xFF60A5FA),
                         fontSize: 13,
                       ),
                     ),
