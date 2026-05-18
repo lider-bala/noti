@@ -1077,16 +1077,16 @@ Future<String?> _showClassPicker(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 itemCount: classes.length,
-                separatorBuilder: (_, __) => const Divider(
+                separatorBuilder: (_, __) => Divider(
                   height: 1,
-                  color: Color(0xFFE5E7EB),
+                  color: context.appBorderColor,
                 ),
                 itemBuilder: (context, index) {
                   final item = classes[index];
                   final selected = item == selectedClass;
                   return Material(
                     color:
-                        selected ? const Color(0xFFE5E7EB) : Colors.transparent,
+                        selected ? context.appBorderColor : Colors.transparent,
                     child: InkWell(
                       onTap: () => Navigator.of(sheetContext).pop(item),
                       child: SizedBox(

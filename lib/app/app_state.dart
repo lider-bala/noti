@@ -346,11 +346,17 @@ class AppState extends ChangeNotifier {
   }
 
   void setLanguage(AppLanguage value) {
-    value = AppLanguage.russian;
     if (language == value) {
       return;
     }
     language = value;
+    notifyListeners();
+  }
+
+  void toggleLanguage() {
+    language = language == AppLanguage.russian
+        ? AppLanguage.kyrgyz
+        : AppLanguage.russian;
     notifyListeners();
   }
 

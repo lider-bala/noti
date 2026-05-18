@@ -5,6 +5,7 @@ import '../../models/user_role.dart';
 import '../../widgets/app_feedback.dart';
 import '../../widgets/contact_actions.dart';
 import '../../widgets/responsive.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentClassmatesScreen extends StatefulWidget {
   const StudentClassmatesScreen({super.key});
@@ -179,7 +180,7 @@ class _StatsCard extends StatelessWidget {
         _StatTile(
           value: '$total',
           label: context.tr('Всего учеников'),
-          valueColor: const Color(0xFF111827),
+          valueColor: context.primaryTextColor,
         ),
         _StatTile(
           value: classAverage == 0 ? '—' : classAverage.toStringAsFixed(1),
@@ -207,9 +208,9 @@ class _StatTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -232,8 +233,8 @@ class _StatTile extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             label,
-            style: const TextStyle(
-              color: Color(0xFF4B5563),
+            style: TextStyle(
+              color: context.secondaryTextColor,
               fontSize: 13,
             ),
           ),
@@ -272,15 +273,15 @@ class _EmptyClassmatesState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Text(
         message,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Color(0xFF6B7280),
+        style: TextStyle(
+          color: context.secondaryTextColor,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -307,9 +308,9 @@ class _ClassmateCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -353,8 +354,8 @@ class _ClassmateCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         classmate.name,
-                        style: const TextStyle(
-                          color: Color(0xFF111827),
+                        style: TextStyle(
+                          color: context.primaryTextColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                         ),
@@ -387,17 +388,17 @@ class _ClassmateCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.mail_outline,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
                             classmate.email,
-                            style: const TextStyle(
-                              color: Color(0xFF4B5563),
+                            style: TextStyle(
+                              color: context.secondaryTextColor,
                               fontSize: 13,
                             ),
                           ),
@@ -410,7 +411,7 @@ class _ClassmateCard extends StatelessWidget {
                         Icon(
                           Icons.phone_outlined,
                           size: 16,
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                         ),
                         const SizedBox(width: 6),
                         Expanded(
@@ -419,8 +420,8 @@ class _ClassmateCard extends StatelessWidget {
                                 ? context.tr('Телефон не указан')
                                 : classmate.phone,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Color(0xFF4B5563),
+                            style: TextStyle(
+                              color: context.secondaryTextColor,
                               fontSize: 13,
                             ),
                           ),

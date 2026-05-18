@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentAttendanceScreen extends StatelessWidget {
   const ParentAttendanceScreen({super.key});
@@ -58,7 +59,7 @@ class ParentAttendanceScreen extends StatelessWidget {
           Text(
             context.tr('История посещаемости'),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -153,7 +154,7 @@ class _ChildInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Row(
         children: [
           CircleAvatar(
@@ -170,7 +171,7 @@ class _ChildInfoCard extends StatelessWidget {
                 Text(
                   child?.fullName ?? context.tr('Ученик не найден'),
                   style: TextStyle(
-                    color: Color(0xFF111827),
+                    color: context.primaryTextColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),
@@ -180,8 +181,8 @@ class _ChildInfoCard extends StatelessWidget {
                   child?.schoolClass == null
                       ? context.tr('Класс не указан')
                       : context.tr('Класс ${child!.schoolClass}'),
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -213,15 +214,15 @@ class _OverallStatsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
           Row(
             children: [
               Text(
                 context.tr('Общая статистика'),
-                style: const TextStyle(
-                  color: Color(0xFF111827),
+                style: TextStyle(
+                  color: context.primaryTextColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
@@ -241,8 +242,8 @@ class _OverallStatsCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     context.tr('Посещаемость'),
-                    style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 12,
                     ),
                   ),
@@ -349,7 +350,7 @@ class _AttendanceCard extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: _cardDecoration().copyWith(
+      decoration: _cardDecoration(context).copyWith(
         border: Border.all(color: color.withOpacity(0.28)),
       ),
       child: Row(
@@ -365,8 +366,8 @@ class _AttendanceCard extends StatelessWidget {
                   lesson == null
                       ? context.tr('Урок')
                       : context.tr(lesson.subject),
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -394,8 +395,8 @@ class _AttendanceCard extends StatelessWidget {
                             appState.absenceReasonLabel(record.entry.reason)
                       },
                     ),
-                    style: const TextStyle(
-                      color: Color(0xFF4B5563),
+                    style: TextStyle(
+                      color: context.secondaryTextColor,
                       fontSize: 13,
                     ),
                   ),
@@ -464,16 +465,16 @@ class _EmptyState extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
-          const Icon(Icons.inbox_rounded, color: Color(0xFF94A3B8), size: 30),
+          Icon(Icons.inbox_rounded, color: Color(0xFF94A3B8), size: 30),
           const SizedBox(height: 10),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -481,7 +482,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
@@ -522,11 +523,11 @@ Color _statusColor(AttendanceStatusType status) {
   }
 }
 
-BoxDecoration _cardDecoration() {
+BoxDecoration _cardDecoration(BuildContext context) {
   return BoxDecoration(
-    color: Colors.white,
+    color: context.panelColor,
     borderRadius: BorderRadius.circular(22),
-    border: Border.all(color: const Color(0xFFE5E7EB)),
+    border: Border.all(color: context.appBorderColor),
     boxShadow: const [
       BoxShadow(
         blurRadius: 18,

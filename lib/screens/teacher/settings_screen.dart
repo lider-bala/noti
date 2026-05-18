@@ -111,7 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             gradient: const LinearGradient(
               colors: [
                 Color(0xFF94A3B8),
-                Color(0xFF6B7280),
+                Color(0xFF64748B),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -209,9 +209,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
-                color: Color(0xFF9CA3AF),
+                color: context.secondaryTextColor,
               ),
             ],
           ),
@@ -483,7 +483,7 @@ class _SettingsSwitch extends StatelessWidget {
         width: 18,
         height: 18,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.panelColor,
           borderRadius: BorderRadius.circular(999),
           boxShadow: const [
             BoxShadow(

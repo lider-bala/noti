@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../widgets/app_feedback.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentFilesScreen extends StatelessWidget {
   const StudentFilesScreen({super.key});
@@ -28,7 +29,7 @@ class StudentFilesScreen extends StatelessWidget {
         Text(
           context.tr('По предметам'),
           style: TextStyle(
-            color: Color(0xFF111827),
+            color: context.primaryTextColor,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -39,7 +40,7 @@ class StudentFilesScreen extends StatelessWidget {
         Text(
           context.tr('Недавние файлы'),
           style: TextStyle(
-            color: Color(0xFF111827),
+            color: context.primaryTextColor,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -124,9 +125,9 @@ class _StorageCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -143,14 +144,14 @@ class _StorageCard extends StatelessWidget {
               Text(
                 context.tr('Использовано хранилище'),
                 style: TextStyle(
-                  color: Color(0xFF4B5563),
+                  color: context.secondaryTextColor,
                   fontSize: 13,
                 ),
               ),
               Text(
                 context.trf('{value} файлов', {'value': '$filesCount'}),
                 style: TextStyle(
-                  color: Color(0xFF111827),
+                  color: context.primaryTextColor,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
@@ -162,7 +163,7 @@ class _StorageCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(999),
             child: Container(
               height: 12,
-              color: const Color(0xFFF3F4F6),
+              color: context.appBorderColor,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: FractionallySizedBox(
@@ -244,9 +245,9 @@ class _FolderCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -279,7 +280,7 @@ class _FolderCard extends StatelessWidget {
           Text(
             context.tr(folder.name),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontSize: 15,
               fontWeight: FontWeight.w700,
             ),
@@ -287,8 +288,8 @@ class _FolderCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             context.trf('{value} файлов', {'value': '${folder.filesCount}'}),
-            style: const TextStyle(
-              color: Color(0xFF6B7280),
+            style: TextStyle(
+              color: context.secondaryTextColor,
               fontSize: 13,
             ),
           ),
@@ -331,9 +332,9 @@ class _RecentFileCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 16,
@@ -366,8 +367,8 @@ class _RecentFileCard extends StatelessWidget {
                   context.tr(file.name),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -381,31 +382,31 @@ class _RecentFileCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF3F4F6),
+                        color: context.appBorderColor,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         context.tr(file.subject),
-                        style: const TextStyle(
-                          color: Color(0xFF4B5563),
+                        style: TextStyle(
+                          color: context.secondaryTextColor,
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Text(
+                    Text(
                       '•',
                       style: TextStyle(
-                        color: Color(0xFF9CA3AF),
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
                     const SizedBox(width: 6),
                     Text(
                       file.size,
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
@@ -523,18 +524,18 @@ class _EmptyFilesState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
-          Icon(Icons.folder_open_rounded, color: Color(0xFF6B7280)),
+          Icon(Icons.folder_open_rounded, color: context.secondaryTextColor),
           const SizedBox(height: 8),
           Text(
             context.tr('Файлы пока не добавлены'),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -543,7 +544,7 @@ class _EmptyFilesState extends StatelessWidget {
             context.tr(
                 'Когда учитель загрузит файл для класса, он появится здесь.'),
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),

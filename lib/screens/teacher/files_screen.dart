@@ -279,12 +279,16 @@ class _FilesScreenState extends State<FilesScreen> {
                                 }
                               }
 
+                              setDialogState(() => uploadProgress = 0.05);
+
                               uploadTask.snapshotEvents.listen((event) {
                                 if (mounted && dialogContext.mounted) {
-                                  final progress =
-                                      event.bytesTransferred / event.totalBytes;
+                                  final total = event.totalBytes;
+                                  final progress = total > 0
+                                      ? event.bytesTransferred / total
+                                      : 0.0;
                                   setDialogState(
-                                      () => uploadProgress = progress);
+                                      () => uploadProgress = progress.clamp(0.0, 1.0));
                                 }
                               });
 
@@ -330,14 +334,29 @@ class _FilesScreenState extends State<FilesScreen> {
                                 uploadComplete = true;
                                 uploadProgress = 1.0;
                               });
-                            } catch (_) {
+                            } on FirebaseException catch (e) {
+                              if (!mounted || !dialogContext.mounted) {
+                                return;
+                              }
+                              setDialogState(() => isUploading = false);
+                              final msg = e.code == 'unauthorized' || e.code == 'permission-denied'
+                                  ? context.tr('Нет доступа к Firebase Storage. Проверьте правила безопасности.')
+                                  : e.code == 'object-not-found'
+                                      ? context.tr('Firebase Storage не настроен. Создайте Storage в Firebase Console.')
+                                      : '$uploadFailedText (${e.code})';
+                              showAppSnackBar(
+                                context,
+                                msg,
+                                backgroundColor: const Color(0xFFB91C1C),
+                              );
+                            } catch (e) {
                               if (!mounted || !dialogContext.mounted) {
                                 return;
                               }
                               setDialogState(() => isUploading = false);
                               showAppSnackBar(
                                 context,
-                                uploadFailedText,
+                                '$uploadFailedText\n$e',
                                 backgroundColor: const Color(0xFFB91C1C),
                               );
                             }

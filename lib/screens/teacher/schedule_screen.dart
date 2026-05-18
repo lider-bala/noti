@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/user_role.dart';
 import '../../widgets/side_menu.dart';
+import '../../widgets/app_theme.dart';
 
 class ScheduleScreen extends StatefulWidget {
   final ValueChanged<MainSection>? onOpenSection;
@@ -130,7 +131,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       border: Border.all(
                         color: isSelected
                             ? Colors.transparent
-                            : const Color(0xFFE5E7EB),
+                            : context.appBorderColor,
                       ),
                       boxShadow: isSelected
                           ? const [
@@ -146,7 +147,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       label,
                       style: TextStyle(
                         color:
-                            isSelected ? Colors.white : const Color(0xFF4B5563),
+                            isSelected ? Colors.white : context.secondaryTextColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -204,9 +205,9 @@ class _ScheduleTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 22,
@@ -228,7 +229,7 @@ class _ScheduleTile extends StatelessWidget {
                       context.tr(lesson.subject),
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: const Color(0xFF111827),
+                            color: context.primaryTextColor,
                           ),
                     ),
                     const SizedBox(height: 4),
@@ -238,7 +239,7 @@ class _ScheduleTile extends StatelessWidget {
                         {'value': lesson.classId},
                       ),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: const Color(0xFF6B7280),
+                            color: context.secondaryTextColor,
                           ),
                     ),
                   ],
@@ -247,7 +248,7 @@ class _ScheduleTile extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.access_time_rounded,
                     size: 18,
                     color: Color(0xFF10B981),
@@ -255,8 +256,8 @@ class _ScheduleTile extends StatelessWidget {
                   const SizedBox(width: 6),
                   Text(
                     lesson.timeRange,
-                    style: const TextStyle(
-                      color: Color(0xFF111827),
+                    style: TextStyle(
+                      color: context.primaryTextColor,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -342,19 +343,19 @@ class _InfoPill extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFF9FAFB),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE5E7EB)),
+          border: Border.all(color: context.appBorderColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 16, color: const Color(0xFF6B7280)),
+            Icon(icon, size: 16, color: context.secondaryTextColor),
             const SizedBox(width: 6),
             Flexible(
               child: Text(
                 label,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.secondaryTextColor,
                   fontSize: 13,
                 ),
               ),
@@ -381,13 +382,13 @@ class _EmptyScheduleState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.event_note_rounded,
             color: Color(0xFF10B981),
             size: 36,
@@ -395,8 +396,8 @@ class _EmptyScheduleState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -404,8 +405,8 @@ class _EmptyScheduleState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF6B7280),
+            style: TextStyle(
+              color: context.secondaryTextColor,
             ),
           ),
         ],

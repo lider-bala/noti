@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
+import '../../widgets/app_theme.dart';
 
 class StudentScheduleScreen extends StatefulWidget {
   const StudentScheduleScreen({super.key});
@@ -152,7 +153,7 @@ class _DaySelector extends StatelessWidget {
                 color: isSelected ? const Color(0xFF3B82F6) : Colors.white,
                 border: Border.all(
                   color:
-                      isSelected ? Colors.transparent : const Color(0xFFE5E7EB),
+                      isSelected ? Colors.transparent : context.appBorderColor,
                 ),
                 boxShadow: isSelected
                     ? const [
@@ -168,7 +169,7 @@ class _DaySelector extends StatelessWidget {
                 child: Text(
                   context.tr(appState.weekdayLabel(index)),
                   style: TextStyle(
-                    color: isSelected ? Colors.white : const Color(0xFF4B5563),
+                    color: isSelected ? Colors.white : context.secondaryTextColor,
                     fontWeight: FontWeight.w700,
                     fontSize: 13,
                   ),
@@ -194,9 +195,9 @@ class _LessonCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
         boxShadow: const [
           BoxShadow(
             blurRadius: 18,
@@ -216,7 +217,7 @@ class _LessonCard extends StatelessWidget {
                     Text(
                       context.tr(lesson.subject),
                       style: TextStyle(
-                        color: Color(0xFF111827),
+                        color: context.primaryTextColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
@@ -224,8 +225,8 @@ class _LessonCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       teacher?.fullName ?? context.tr('Учитель не назначен'),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -258,13 +259,13 @@ class _LessonCard extends StatelessWidget {
               Icon(
                 Icons.location_on_outlined,
                 size: 16,
-                color: Color(0xFF4B5563),
+                color: context.secondaryTextColor,
               ),
               const SizedBox(width: 4),
               Text(
                 context.tr(lesson.room),
-                style: const TextStyle(
-                  color: Color(0xFF4B5563),
+                style: TextStyle(
+                  color: context.secondaryTextColor,
                   fontSize: 13,
                 ),
               ),
@@ -291,13 +292,13 @@ class _EmptyState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.event_note_rounded,
             color: Color(0xFF8B5CF6),
             size: 34,
@@ -305,8 +306,8 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -314,7 +315,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),

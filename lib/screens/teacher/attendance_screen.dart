@@ -4,6 +4,7 @@ import '../../app/app_state.dart';
 import '../../models/school_models.dart';
 import '../../models/user_role.dart';
 import '../../widgets/app_feedback.dart';
+import '../../widgets/app_theme.dart';
 
 class AttendanceScreen extends StatefulWidget {
   final String? initialLessonId;
@@ -222,7 +223,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             _MetricChip(
               title: context.tr('Всего учеников'),
               value: '${students.length}',
-              color: const Color(0xFF111827),
+              color: context.primaryTextColor,
             ),
             _MetricChip(
               title: context.tr('Был'),
@@ -319,7 +320,7 @@ class _StudentAttendanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -337,8 +338,8 @@ class _StudentAttendanceCard extends StatelessWidget {
                   children: [
                     Text(
                       student.fullName,
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -349,8 +350,8 @@ class _StudentAttendanceCard extends StatelessWidget {
                           student.schoolClass!,
                         student.email ?? '',
                       ].join(' • '),
-                      style: const TextStyle(
-                        color: Color(0xFF6B7280),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 13,
                       ),
                     ),
@@ -383,8 +384,8 @@ class _StudentAttendanceCard extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               context.tr('Причина отсутствия'),
-              style: const TextStyle(
-                color: Color(0xFF111827),
+              style: TextStyle(
+                color: context.primaryTextColor,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -454,8 +455,8 @@ class _MetricChip extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF4B5563),
+            style: TextStyle(
+              color: context.secondaryTextColor,
               fontSize: 13,
             ),
           ),
@@ -479,10 +480,10 @@ class _EmptyState extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.event_note_rounded,
             color: Color(0xFF6366F1),
             size: 36,
@@ -490,8 +491,8 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -499,7 +500,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
@@ -518,11 +519,11 @@ Color _statusColor(AttendanceStatusType status) {
   }
 }
 
-BoxDecoration _cardDecoration() {
+BoxDecoration _cardDecoration(BuildContext context) {
   return BoxDecoration(
-    color: Colors.white,
+    color: context.panelColor,
     borderRadius: BorderRadius.circular(24),
-    border: Border.all(color: const Color(0xFFE5E7EB)),
+    border: Border.all(color: context.appBorderColor),
     boxShadow: const [
       BoxShadow(
         blurRadius: 18,
