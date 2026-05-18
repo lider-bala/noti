@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/app_state.dart';
 import '../../models/school_models.dart';
+import '../../widgets/app_theme.dart';
 
 class ParentNotificationsScreen extends StatefulWidget {
   const ParentNotificationsScreen({super.key});
@@ -313,9 +314,9 @@ class _StatsRow extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.panelColor,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFFE5E7EB)),
+              border: Border.all(color: context.appBorderColor),
               boxShadow: const [
                 BoxShadow(
                   blurRadius: 16,
@@ -346,7 +347,7 @@ class _StatsRow extends StatelessWidget {
                       Text(
                         '$unreadCount',
                         style: TextStyle(
-                          color: Color(0xFF111827),
+                          color: context.primaryTextColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
                         ),
@@ -355,7 +356,7 @@ class _StatsRow extends StatelessWidget {
                       Text(
                         context.tr('Непрочитанных'),
                         style: TextStyle(
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                           fontSize: 13,
                         ),
                         softWrap: true,
@@ -372,9 +373,9 @@ class _StatsRow extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: context.panelColor,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFFE5E7EB)),
+              border: Border.all(color: context.appBorderColor),
               boxShadow: const [
                 BoxShadow(
                   blurRadius: 16,
@@ -405,7 +406,7 @@ class _StatsRow extends StatelessWidget {
                       Text(
                         '$total',
                         style: TextStyle(
-                          color: Color(0xFF111827),
+                          color: context.primaryTextColor,
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
                         ),
@@ -414,7 +415,7 @@ class _StatsRow extends StatelessWidget {
                       Text(
                         context.tr('Всего'),
                         style: TextStyle(
-                          color: Color(0xFF6B7280),
+                          color: context.secondaryTextColor,
                           fontSize: 13,
                         ),
                       ),
@@ -494,7 +495,7 @@ class _FilterChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: isPrimary ? const Color(0xFFEC4899) : Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: isPrimary ? null : Border.all(color: const Color(0xFFE5E7EB)),
+        border: isPrimary ? null : Border.all(color: context.appBorderColor),
         boxShadow: isPrimary
             ? const [
                 BoxShadow(
@@ -508,7 +509,7 @@ class _FilterChip extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          color: isPrimary ? Colors.white : const Color(0xFF4B5563),
+          color: isPrimary ? Colors.white : context.secondaryTextColor,
           fontSize: 13,
           fontWeight: isPrimary ? FontWeight.w600 : FontWeight.w400,
         ),
@@ -593,7 +594,7 @@ class _NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderColor =
-        notification.read ? const Color(0xFFE5E7EB) : _borderColor;
+        notification.read ? context.appBorderColor : _borderColor;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -636,8 +637,8 @@ class _NotificationCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         context.tr(notification.title),
-                        style: const TextStyle(
-                          color: Color(0xFF111827),
+                        style: TextStyle(
+                          color: context.primaryTextColor,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -658,7 +659,7 @@ class _NotificationCard extends StatelessWidget {
                 Text(
                   context.tr(notification.message),
                   style: TextStyle(
-                    color: Color(0xFF4B5563),
+                    color: context.secondaryTextColor,
                     fontSize: 13,
                   ),
                 ),
@@ -667,8 +668,8 @@ class _NotificationCard extends StatelessWidget {
                   children: [
                     Text(
                       context.tr(notification.time),
-                      style: const TextStyle(
-                        color: Color(0xFF9CA3AF),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 11,
                       ),
                     ),
@@ -715,15 +716,15 @@ class _EmptyNotificationsState extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Text(
         message,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Color(0xFF6B7280),
+        style: TextStyle(
+          color: context.secondaryTextColor,
           fontWeight: FontWeight.w600,
         ),
       ),

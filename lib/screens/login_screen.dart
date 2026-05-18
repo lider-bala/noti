@@ -554,8 +554,8 @@ class _GlassLoginCard extends StatelessWidget {
                     ),
                     child: Text(
                       context.tr('auth.login'),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
                       ),

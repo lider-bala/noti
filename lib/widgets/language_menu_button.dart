@@ -22,7 +22,7 @@ class LanguageMenuButton extends StatelessWidget {
       builder: (_) {
         return InkWell(
           borderRadius: BorderRadius.circular(18),
-          onTap: () => appState.setLanguage(appState.language),
+          onTap: () => appState.toggleLanguage(),
           child: Container(
             constraints: const BoxConstraints(minHeight: 44, minWidth: 86),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),

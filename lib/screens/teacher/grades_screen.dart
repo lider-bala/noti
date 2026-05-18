@@ -875,8 +875,8 @@ class _StudentGradeRow extends StatelessWidget {
               IconButton(
                 tooltip: context.tr('Очистить оценку'),
                 onPressed: () => onChanged(null),
-                icon: const Icon(Icons.close_rounded),
-                color: const Color(0xFF9CA3AF),
+                icon: Icon(Icons.close_rounded),
+                color: context.secondaryTextColor,
               ),
           ],
         ),

@@ -114,7 +114,7 @@ class HomeScreen extends StatelessWidget {
             context.tr('common.upcomingLesson'),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF1F2933),
+              color: context.primaryTextColor,
             ),
           ),
           SizedBox(height: 10),
@@ -124,7 +124,7 @@ class HomeScreen extends StatelessWidget {
             context.tr('common.stats'),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF1F2933),
+              color: context.primaryTextColor,
             ),
           ),
           SizedBox(height: 10),
@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
             context.tr('common.recentActivity'),
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: const Color(0xFF1F2933),
+              color: context.primaryTextColor,
             ),
           ),
           SizedBox(height: 10),

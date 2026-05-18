@@ -288,10 +288,10 @@ class _ClassSelector extends StatelessWidget {
                 labelStyle: TextStyle(
                   color: schoolClass.id == selectedClassId
                       ? Colors.white
-                      : const Color(0xFF4B5563),
+                      : context.secondaryTextColor,
                   fontWeight: FontWeight.w700,
                 ),
-                side: const BorderSide(color: Color(0xFFE5E7EB)),
+                side: BorderSide(color: context.appBorderColor),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 10,
@@ -320,7 +320,7 @@ class _ClassTeachersCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -330,7 +330,7 @@ class _ClassTeachersCard extends StatelessWidget {
               {'value': selectedClass.name},
             ),
             style: TextStyle(
-              color: Color(0xFF111827),
+              color: context.primaryTextColor,
               fontSize: 18,
               fontWeight: FontWeight.w800,
             ),
@@ -339,7 +339,7 @@ class _ClassTeachersCard extends StatelessWidget {
           if (teachers.isEmpty)
             Text(
               context.tr('Учителя для этого класса пока не назначены.'),
-              style: const TextStyle(color: Color(0xFF6B7280)),
+              style: TextStyle(color: context.secondaryTextColor),
             )
           else
             Wrap(
@@ -370,7 +370,7 @@ class _StudentDirectoryCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(18),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final compact = constraints.maxWidth < 620;
@@ -380,7 +380,7 @@ class _StudentDirectoryCard extends StatelessWidget {
             foregroundColor: const Color(0xFF4338CA),
             child: Text(
               student.initials,
-              style: const TextStyle(fontWeight: FontWeight.w800),
+              style: TextStyle(fontWeight: FontWeight.w800),
             ),
           );
           final details = Column(
@@ -388,8 +388,8 @@ class _StudentDirectoryCard extends StatelessWidget {
             children: [
               Text(
                 student.fullName,
-                style: const TextStyle(
-                  color: Color(0xFF111827),
+                style: TextStyle(
+                  color: context.primaryTextColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                 ),
@@ -403,7 +403,7 @@ class _StudentDirectoryCard extends StatelessWidget {
                   if ((student.email ?? '').isNotEmpty) student.email!,
                   if ((student.phone ?? '').isNotEmpty) student.phone!,
                 ].join(' • '),
-                style: TextStyle(color: Color(0xFF6B7280)),
+                style: TextStyle(color: context.secondaryTextColor),
               ),
               const SizedBox(height: 12),
               Wrap(
@@ -480,7 +480,7 @@ class _ContactChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF9FAFB),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: context.appBorderColor),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -496,8 +496,8 @@ class _ContactChip extends StatelessWidget {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF111827),
+                  style: TextStyle(
+                    color: context.primaryTextColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -505,8 +505,8 @@ class _ContactChip extends StatelessWidget {
                   subtitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF6B7280),
+                  style: TextStyle(
+                    color: context.secondaryTextColor,
                     fontSize: 12,
                   ),
                 ),
@@ -570,8 +570,8 @@ class _ContactActionChip extends StatelessWidget {
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF4B5563),
+                      style: TextStyle(
+                        color: context.secondaryTextColor,
                         fontSize: 12,
                       ),
                     ),
@@ -600,10 +600,10 @@ class _EmptyState extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
-      decoration: _cardDecoration(),
+      decoration: _cardDecoration(context),
       child: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.groups_rounded,
             color: Color(0xFF2563EB),
             size: 36,
@@ -611,8 +611,8 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             title,
-            style: const TextStyle(
-              color: Color(0xFF111827),
+            style: TextStyle(
+              color: context.primaryTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -620,7 +620,7 @@ class _EmptyState extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF6B7280)),
+            style: TextStyle(color: context.secondaryTextColor),
           ),
         ],
       ),
@@ -644,11 +644,11 @@ String _teacherSubjects(
       : subjects.join(', ');
 }
 
-BoxDecoration _cardDecoration() {
+BoxDecoration _cardDecoration(BuildContext context) {
   return BoxDecoration(
-    color: Colors.white,
+    color: context.panelColor,
     borderRadius: BorderRadius.circular(24),
-    border: Border.all(color: const Color(0xFFE5E7EB)),
+    border: Border.all(color: context.appBorderColor),
     boxShadow: const [
       BoxShadow(
         blurRadius: 18,
