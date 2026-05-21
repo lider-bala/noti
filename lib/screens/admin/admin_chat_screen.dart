@@ -59,16 +59,17 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
     }
   }
 
-  Color _roleColor(UserRole role) {
+  Color _roleColor(BuildContext context, UserRole role) {
+    final dark = context.isDarkTheme;
     switch (role) {
       case UserRole.teacher:
-        return const Color(0xFF2563EB);
+        return dark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
       case UserRole.student:
-        return const Color(0xFF7C3AED);
+        return dark ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED);
       case UserRole.parent:
-        return const Color(0xFF059669);
+        return dark ? const Color(0xFF6EE7B7) : const Color(0xFF059669);
       case UserRole.admin:
-        return const Color(0xFF475569);
+        return dark ? const Color(0xFF94A3B8) : const Color(0xFF475569);
       default:
         return const Color(0xFF94A3B8);
     }
@@ -231,11 +232,11 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
                                 CircleAvatar(
                                   radius: 22,
                                   backgroundColor:
-                                      _roleColor(user.role).withOpacity(0.15),
+                                      _roleColor(context, user.role).withOpacity(0.15),
                                   child: Text(
                                     user.initials,
                                     style: TextStyle(
-                                      color: _roleColor(user.role),
+                                      color: _roleColor(context, user.role),
                                       fontWeight: FontWeight.w700,
                                       fontSize: 14,
                                     ),
@@ -333,12 +334,12 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
                 CircleAvatar(
                   radius: 20,
                   backgroundColor:
-                      _roleColor(user?.role ?? UserRole.student)
+                      _roleColor(context, user?.role ?? UserRole.student)
                           .withOpacity(0.15),
                   child: Text(
                     user?.initials ?? '?',
                     style: TextStyle(
-                      color: _roleColor(user?.role ?? UserRole.student),
+                      color: _roleColor(context, user?.role ?? UserRole.student),
                       fontWeight: FontWeight.w700,
                     ),
                   ),

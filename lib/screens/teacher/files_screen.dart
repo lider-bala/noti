@@ -430,15 +430,15 @@ class _FilesScreenState extends State<FilesScreen> {
             _MetricCard(
                 title: context.tr('Всего файлов'),
                 value: '${allFiles.length}',
-                color: const Color(0xFF9333EA)),
+                color: context.isDarkTheme ? const Color(0xFFC4B5FD) : const Color(0xFF9333EA)),
             _MetricCard(
                 title: context.tr('Категорий'),
                 value: '${categories.length}',
-                color: const Color(0xFF2563EB)),
+                color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB)),
             _MetricCard(
                 title: context.tr('Файлы по классам'),
                 value: '$scopedFiles',
-                color: const Color(0xFF059669)),
+                color: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669)),
           ],
         ),
         const SizedBox(height: 20),
@@ -632,7 +632,7 @@ class _RecentFileTile extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: const Color(0xFFF3E8FF),
+              color: context.isDarkTheme ? const Color(0xFF3B0764) : const Color(0xFFF3E8FF),
               borderRadius: BorderRadius.circular(18),
             ),
             child: const Icon(Icons.insert_drive_file_rounded,

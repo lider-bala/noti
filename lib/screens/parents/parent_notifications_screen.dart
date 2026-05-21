@@ -390,7 +390,7 @@ class _StatsRow extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFDBEAFE),
+                    color: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
@@ -493,7 +493,7 @@ class _FilterChip extends StatelessWidget {
       duration: const Duration(milliseconds: 160),
       padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: isPrimary ? const Color(0xFFEC4899) : Colors.white,
+        color: isPrimary ? const Color(0xFFEC4899) : context.cardColor,
         borderRadius: BorderRadius.circular(16),
         border: isPrimary ? null : Border.all(color: context.appBorderColor),
         boxShadow: isPrimary
@@ -539,42 +539,45 @@ class _NotificationCard extends StatelessWidget {
     required this.onMarkRead,
   });
 
-  Color get _bgColor {
+  Color _bgColor(BuildContext context) {
+    final dark = context.isDarkTheme;
     switch (notification.color) {
       case _NotificationColor.emerald:
-        return const Color(0xFFD1FAE5);
+        return dark ? const Color(0xFF14532D) : const Color(0xFFD1FAE5);
       case _NotificationColor.blue:
-        return const Color(0xFFDBEAFE);
+        return dark ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE);
       case _NotificationColor.purple:
-        return const Color(0xFFEDE9FE);
+        return dark ? const Color(0xFF3B0764) : const Color(0xFFEDE9FE);
       case _NotificationColor.orange:
-        return const Color(0xFFFFEDD5);
+        return dark ? const Color(0xFF78350F) : const Color(0xFFFFEDD5);
     }
   }
 
-  Color get _textColor {
+  Color _textColor(BuildContext context) {
+    final dark = context.isDarkTheme;
     switch (notification.color) {
       case _NotificationColor.emerald:
-        return const Color(0xFF059669);
+        return dark ? const Color(0xFF6EE7B7) : const Color(0xFF059669);
       case _NotificationColor.blue:
-        return const Color(0xFF2563EB);
+        return dark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
       case _NotificationColor.purple:
-        return const Color(0xFF7C3AED);
+        return dark ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED);
       case _NotificationColor.orange:
-        return const Color(0xFFEA580C);
+        return dark ? const Color(0xFFFBBF24) : const Color(0xFFEA580C);
     }
   }
 
-  Color get _borderColor {
+  Color _borderColor(BuildContext context) {
+    final dark = context.isDarkTheme;
     switch (notification.color) {
       case _NotificationColor.emerald:
-        return const Color(0xFFA7F3D0);
+        return dark ? const Color(0xFF065F46) : const Color(0xFFA7F3D0);
       case _NotificationColor.blue:
-        return const Color(0xFFBFDBFE);
+        return dark ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE);
       case _NotificationColor.purple:
-        return const Color(0xFFDDD6FE);
+        return dark ? const Color(0xFF5B21B6) : const Color(0xFFDDD6FE);
       case _NotificationColor.orange:
-        return const Color(0xFFFCD9BD);
+        return dark ? const Color(0xFF92400E) : const Color(0xFFFCD9BD);
     }
   }
 
@@ -594,7 +597,7 @@ class _NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderColor =
-        notification.read ? context.appBorderColor : _borderColor;
+        notification.read ? context.appBorderColor : _borderColor(context);
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -617,12 +620,12 @@ class _NotificationCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: _bgColor,
+              color: _bgColor(context),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               _icon,
-              color: _textColor,
+              color: _textColor(context),
               size: 26,
             ),
           ),

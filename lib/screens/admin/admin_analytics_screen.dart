@@ -237,7 +237,7 @@ class _RoleProgress extends StatelessWidget {
             value: factor,
             minHeight: 10,
             backgroundColor: context.appBorderColor,
-            color: const Color(0xFF2563EB),
+            color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
           ),
         ),
       ],

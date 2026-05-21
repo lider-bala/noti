@@ -220,9 +220,9 @@ class _StatsRow extends StatelessWidget {
               child: _StatCard(
                 value: '$notSubmitted',
                 label: context.tr('Не сдано'),
-                bgColor: const Color(0xFFFFF7ED),
-                borderColor: const Color(0xFFFFEDD5),
-                textColor: const Color(0xFFEA580C),
+                bgColor: context.isDarkTheme ? const Color(0xFF78350F) : const Color(0xFFFFF7ED),
+                borderColor: context.isDarkTheme ? const Color(0xFF78350F) : const Color(0xFFFFEDD5),
+                textColor: context.isDarkTheme ? const Color(0xFFFBBF24) : const Color(0xFFEA580C),
               ),
             ),
             SizedBox(
@@ -230,9 +230,9 @@ class _StatsRow extends StatelessWidget {
               child: _StatCard(
                 value: '$urgent',
                 label: context.tr('Срочные'),
-                bgColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
-                borderColor: const Color(0xFFDBEAFE),
-                textColor: const Color(0xFF2563EB),
+                bgColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
+                borderColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE),
+                textColor: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
               ),
             ),
             SizedBox(
@@ -242,7 +242,7 @@ class _StatsRow extends StatelessWidget {
                 label: context.tr('Выполнено'),
                 bgColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
                 borderColor: context.isDarkTheme ? const Color(0xFF065F46) : const Color(0xFFD1FAE5),
-                textColor: const Color(0xFF059669),
+                textColor: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
               ),
             ),
           ],
@@ -317,33 +317,36 @@ class _HomeworkCard extends StatelessWidget {
   bool get _isSubmitted => submission != null;
 
   Color _borderColor(BuildContext context) {
+    final dark = context.isDarkTheme;
     if (_isSubmitted) {
-      return const Color(0xFFA7F3D0);
+      return dark ? const Color(0xFF065F46) : const Color(0xFFA7F3D0);
     }
     if (_isUrgent(item)) {
-      return const Color(0xFFFED7AA);
+      return dark ? const Color(0xFF92400E) : const Color(0xFFFED7AA);
     }
     return context.appBorderColor;
   }
 
-  Color get _iconBg {
+  Color _iconBg(BuildContext context) {
+    final dark = context.isDarkTheme;
     if (_isSubmitted) {
-      return const Color(0xFFD1FAE5);
+      return dark ? const Color(0xFF14532D) : const Color(0xFFD1FAE5);
     }
     if (_isUrgent(item)) {
-      return const Color(0xFFFFEDD5);
+      return dark ? const Color(0xFF78350F) : const Color(0xFFFFEDD5);
     }
-    return const Color(0xFFDBEAFE);
+    return dark ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE);
   }
 
-  Color get _iconColor {
+  Color _iconColor(BuildContext context) {
+    final dark = context.isDarkTheme;
     if (_isSubmitted) {
-      return const Color(0xFF059669);
+      return dark ? const Color(0xFF6EE7B7) : const Color(0xFF059669);
     }
     if (_isUrgent(item)) {
-      return const Color(0xFFEA580C);
+      return dark ? const Color(0xFFFBBF24) : const Color(0xFFEA580C);
     }
-    return const Color(0xFF2563EB);
+    return dark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
   }
 
   @override
@@ -376,14 +379,14 @@ class _HomeworkCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: _iconBg,
+                  color: _iconBg(context),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   item.kind == AssignmentKind.testWork
                       ? Icons.quiz_rounded
                       : Icons.menu_book_rounded,
-                  color: _iconColor,
+                  color: _iconColor(context),
                   size: 22,
                 ),
               ),
@@ -412,7 +415,7 @@ class _HomeworkCard extends StatelessWidget {
                         if (item.kind == AssignmentKind.testWork)
                           _Badge(
                             text: context.tr('Контрольная работа'),
-                            color: const Color(0xFF7C3AED),
+                            color: context.isDarkTheme ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED),
                           ),
                         if (_isUrgent(item) && !_isSubmitted)
                           Text(

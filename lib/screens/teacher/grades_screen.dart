@@ -306,12 +306,12 @@ class _GradesScreenState extends State<GradesScreen>
               _MetricChip(
                 title: context.tr('Учеников в классе'),
                 value: '${students.length}',
-                color: const Color(0xFF2563EB),
+                color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
               ),
               _MetricChip(
                 title: context.tr('Оценок выбрано'),
                 value: '${_selectedGrades.length}',
-                color: const Color(0xFF0F766E),
+                color: context.isDarkTheme ? const Color(0xFF5EEAD4) : const Color(0xFF0F766E),
               ),
             ],
           ),
@@ -589,13 +589,13 @@ class _QuarterStudentRow extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: _gradeColor(currentQuarterGrade).withValues(alpha: 0.12),
+              color: _gradeColor(currentQuarterGrade, context).withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               '$currentQuarterGrade',
               style: TextStyle(
-                color: _gradeColor(currentQuarterGrade),
+                color: _gradeColor(currentQuarterGrade, context),
                 fontWeight: FontWeight.w800,
                 fontSize: 18,
               ),
@@ -676,15 +676,15 @@ class _StudentAttendanceCard extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w600)),
           ),
           _AttendanceBadge(
-              label: context.tr('Был'), count: present, color: const Color(0xFF059669)),
+              label: context.tr('Был'), count: present, color: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669)),
           const SizedBox(width: 6),
           _AttendanceBadge(
               label: context.tr('Опоздал'),
               count: late,
-              color: const Color(0xFFD97706)),
+              color: context.isDarkTheme ? const Color(0xFFFBBF24) : const Color(0xFFD97706)),
           const SizedBox(width: 6),
           _AttendanceBadge(
-              label: context.tr('НБ'), count: absent, color: const Color(0xFFDC2626)),
+              label: context.tr('НБ'), count: absent, color: context.isDarkTheme ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626)),
         ],
       ),
     );
@@ -863,10 +863,10 @@ class _StudentGradeRow extends StatelessWidget {
                 label: Text('$value'),
                 selected: grade == value,
                 onSelected: (_) => onChanged(value),
-                selectedColor: _gradeColor(value),
-                backgroundColor: _gradeColor(value).withValues(alpha: 0.12),
+                selectedColor: _gradeColor(value, context),
+                backgroundColor: _gradeColor(value, context).withValues(alpha: 0.12),
                 labelStyle: TextStyle(
-                  color: grade == value ? Colors.white : _gradeColor(value),
+                  color: grade == value ? Colors.white : _gradeColor(value, context),
                   fontWeight: FontWeight.w700,
                 ),
                 side: BorderSide.none,
@@ -940,12 +940,12 @@ class _RecentGradeRow extends StatelessWidget {
           height: 42,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: _gradeColor(grade.value).withValues(alpha: 0.12),
+            color: _gradeColor(grade.value, context).withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(14),
           ),
           child: Text('${grade.value}',
               style: TextStyle(
-                  color: _gradeColor(grade.value),
+                  color: _gradeColor(grade.value, context),
                   fontSize: 20,
                   fontWeight: FontWeight.w800)),
         ),
@@ -1031,11 +1031,12 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-Color _gradeColor(int grade) {
-  if (grade >= 5) return const Color(0xFF059669);
-  if (grade == 4) return const Color(0xFF2563EB);
-  if (grade == 3) return const Color(0xFFD97706);
-  return const Color(0xFFDC2626);
+Color _gradeColor(int grade, [BuildContext? ctx]) {
+  final dark = ctx?.isDarkTheme ?? false;
+  if (grade >= 5) return dark ? const Color(0xFF6EE7B7) : const Color(0xFF059669);
+  if (grade == 4) return dark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
+  if (grade == 3) return dark ? const Color(0xFFFBBF24) : const Color(0xFFD97706);
+  return dark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626);
 }
 
 InputDecoration _inputDecoration(BuildContext context, String label) {

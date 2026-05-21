@@ -39,19 +39,19 @@ class StudentGradesScreen extends StatelessWidget {
                 title: context.tr('Средний балл'),
                 value: grades.isEmpty ? '—' : average.toStringAsFixed(1),
                 icon: Icons.emoji_events_rounded,
-                color: const Color(0xFF059669),
+                color: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
               ),
               _StatCard(
                 title: context.tr('Предметов'),
                 value: '${subjects.length}',
                 icon: Icons.menu_book_rounded,
-                color: const Color(0xFF2563EB),
+                color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
               ),
               _StatCard(
                 title: context.tr('Всего оценок'),
                 value: '${grades.length}',
                 icon: Icons.assignment_turned_in_rounded,
-                color: const Color(0xFF7C3AED),
+                color: context.isDarkTheme ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED),
               ),
             ],
           ),
@@ -577,15 +577,10 @@ BoxDecoration _cardDecoration(BuildContext context) {
   );
 }
 
-Color _gradeColor(int grade) {
-  if (grade >= 5) {
-    return const Color(0xFF059669);
-  }
-  if (grade == 4) {
-    return const Color(0xFF2563EB);
-  }
-  if (grade == 3) {
-    return const Color(0xFFD97706);
-  }
-  return const Color(0xFFDC2626);
+Color _gradeColor(int grade, [BuildContext? ctx]) {
+  final dark = ctx?.isDarkTheme ?? false;
+  if (grade >= 5) return dark ? const Color(0xFF6EE7B7) : const Color(0xFF059669);
+  if (grade == 4) return dark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
+  if (grade == 3) return dark ? const Color(0xFFFBBF24) : const Color(0xFFD97706);
+  return dark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626);
 }

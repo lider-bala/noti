@@ -150,7 +150,7 @@ class _DaySelector extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: isSelected ? const Color(0xFF3B82F6) : Colors.white,
+                color: isSelected ? const Color(0xFF3B82F6) : context.cardColor,
                 border: Border.all(
                   color:
                       isSelected ? Colors.transparent : context.appBorderColor,

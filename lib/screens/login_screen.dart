@@ -550,7 +550,7 @@ class _GlassLoginCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      backgroundColor: Colors.white,
+                      backgroundColor: context.cardColor,
                       foregroundColor: const Color(0xFF111827),
                     ),
                     child: Text(

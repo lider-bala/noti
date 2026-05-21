@@ -160,7 +160,7 @@ class _ChildInfoCard extends StatelessWidget {
           CircleAvatar(
             radius: 24,
             backgroundColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
-            foregroundColor: const Color(0xFF059669),
+            foregroundColor: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
             child: Text(child?.initials ?? '—'),
           ),
           const SizedBox(width: 12),
@@ -257,7 +257,7 @@ class _OverallStatsCard extends StatelessWidget {
               Expanded(
                 child: _SmallStatCard(
                   icon: Icons.check_circle_rounded,
-                  color: const Color(0xFF059669),
+                  color: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
                   value: '$present',
                   label: context.tr('Был'),
                 ),
@@ -266,7 +266,7 @@ class _OverallStatsCard extends StatelessWidget {
               Expanded(
                 child: _SmallStatCard(
                   icon: Icons.access_time_rounded,
-                  color: const Color(0xFFD97706),
+                  color: context.isDarkTheme ? const Color(0xFFFBBF24) : const Color(0xFFD97706),
                   value: '$late',
                   label: context.tr('Опоздал'),
                 ),
@@ -275,7 +275,7 @@ class _OverallStatsCard extends StatelessWidget {
               Expanded(
                 child: _SmallStatCard(
                   icon: Icons.cancel_rounded,
-                  color: const Color(0xFFDC2626),
+                  color: context.isDarkTheme ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626),
                   value: '$absent',
                   label: context.tr('НБ'),
                 ),
@@ -512,14 +512,15 @@ IconData _statusIcon(AttendanceStatusType status) {
   }
 }
 
-Color _statusColor(AttendanceStatusType status) {
+Color _statusColor(AttendanceStatusType status, [BuildContext? ctx]) {
+  final dark = ctx?.isDarkTheme ?? false;
   switch (status) {
     case AttendanceStatusType.present:
-      return const Color(0xFF059669);
+      return dark ? const Color(0xFF6EE7B7) : const Color(0xFF059669);
     case AttendanceStatusType.late:
-      return const Color(0xFFD97706);
+      return dark ? const Color(0xFFFBBF24) : const Color(0xFFD97706);
     case AttendanceStatusType.absent:
-      return const Color(0xFFDC2626);
+      return dark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626);
   }
 }
 

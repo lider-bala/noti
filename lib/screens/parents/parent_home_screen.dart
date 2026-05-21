@@ -406,14 +406,14 @@ class _ChildCard extends StatelessWidget {
               _ChildStatBox(
                 value: '${child.attendance}%',
                 label: context.tr('Посещаемость'),
-                bg: const Color(0xFFDBEAFE),
-                text: const Color(0xFF2563EB),
+                bg: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE),
+                text: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
               ),
               const SizedBox(width: 8),
               _ChildStatBox(
                 value: '${child.pendingHomework}',
                 label: context.tr('Не сдано ДЗ'),
-                bg: const Color(0xFFFFEDD5),
+                bg: context.isDarkTheme ? const Color(0xFF78350F) : const Color(0xFFFFEDD5),
                 text: const Color(0xFFF97316),
               ),
             ],
@@ -592,18 +592,18 @@ class _UpcomingEventCard extends StatelessWidget {
 
     switch (event.type) {
       case _EventType.meeting:
-        borderColor = const Color(0xFFE9D5FF);
-        bgColor = const Color(0xFFF3E8FF);
+        borderColor = context.isDarkTheme ? const Color(0xFF5B21B6) : const Color(0xFFE9D5FF);
+        bgColor = context.isDarkTheme ? const Color(0xFF3B0764) : const Color(0xFFF3E8FF);
         icon = Icons.person_outline;
         break;
       case _EventType.exam:
         borderColor = const Color(0xFFFCD34D);
-        bgColor = const Color(0xFFFFEDD5);
+        bgColor = context.isDarkTheme ? const Color(0xFF78350F) : const Color(0xFFFFEDD5);
         icon = Icons.menu_book_rounded;
         break;
       case _EventType.event:
         borderColor = context.isDarkTheme ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE);
-        bgColor = const Color(0xFFDBEAFE);
+        bgColor = context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE);
         icon = Icons.notifications_active_rounded;
         break;
     }

@@ -74,8 +74,8 @@ class HomeScreen extends StatelessWidget {
           'time': MaterialLocalizations.of(context).formatShortDate(
             assignment.createdAt,
           ),
-          'bg': const Color(0xFFDCFCE7),
-          'fg': const Color(0xFF059669),
+          'bg': context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFDCFCE7),
+          'fg': context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
           'icon': Icons.menu_book_rounded,
         },
       for (final grade in teacherGrades.take(2))
@@ -85,8 +85,8 @@ class HomeScreen extends StatelessWidget {
           'time': MaterialLocalizations.of(context).formatShortDate(
             grade.createdAt,
           ),
-          'bg': const Color(0xFFDBEAFE),
-          'fg': const Color(0xFF2563EB),
+          'bg': context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE),
+          'fg': context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
           'icon': Icons.trending_up_rounded,
         },
       if (assignments.isEmpty && teacherGrades.isEmpty)
@@ -94,8 +94,8 @@ class HomeScreen extends StatelessWidget {
           'title': 'Активности пока нет',
           'class': classes.isEmpty ? '—' : classes.first.name,
           'time': formattedDate,
-          'bg': const Color(0xFFFFEDD5),
-          'fg': const Color(0xFFEA580C),
+          'bg': context.isDarkTheme ? const Color(0xFF78350F) : const Color(0xFFFFEDD5),
+          'fg': context.isDarkTheme ? const Color(0xFFFBBF24) : const Color(0xFFEA580C),
           'icon': Icons.info_outline_rounded,
         },
     ];

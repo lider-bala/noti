@@ -378,7 +378,7 @@ class _TeacherCard extends StatelessWidget {
                   label: 'Написать',
                   icon: Icons.chat_bubble_outline_rounded,
                   bgColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
-                  textColor: const Color(0xFF2563EB),
+                  textColor: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
                   onTap: () => openContactChat(
                     context: context,
                     contactId: teacher.id,
@@ -393,7 +393,7 @@ class _TeacherCard extends StatelessWidget {
                   label: context.tr('Позвонить'),
                   icon: Icons.phone_in_talk_outlined,
                   bgColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
-                  textColor: const Color(0xFF059669),
+                  textColor: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
                   onTap: () => openPhoneDialer(context, teacher.phone),
                 ),
               ),
@@ -541,9 +541,9 @@ class _InfoCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFBEB),
+        color: context.isDarkTheme ? const Color(0xFF78350F) : const Color(0xFFFFFBEB),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFFDE68A)),
+        border: Border.all(color: context.isDarkTheme ? const Color(0xFF92400E) : const Color(0xFFFDE68A)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
