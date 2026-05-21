@@ -120,13 +120,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeOut,
-                    padding: const EdgeInsets.symmetric(
+                    padding: EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 10,
                     ),
                     decoration: BoxDecoration(
                       color:
-                          isSelected ? const Color(0xFF2ECC71) : Colors.white,
+                          isSelected ? const Color(0xFF2ECC71) : context.cardColor,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: isSelected
@@ -296,7 +296,7 @@ class _ScheduleTile extends StatelessWidget {
                   icon: Icon(Icons.fact_check_rounded, size: 18),
                   label: Text(context.tr('Проверить посещаемость')),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF0F766E),
+                    foregroundColor: context.isDarkTheme ? const Color(0xFF5EEAD4) : const Color(0xFF0F766E),
                     side: BorderSide(color: context.isDarkTheme ? const Color(0xFF2DD4BF).withOpacity(0.4) : const Color(0xFF99F6E4)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),

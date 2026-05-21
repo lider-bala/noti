@@ -211,25 +211,25 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
               label: context.tr('Всего аккаунтов'),
               value: '${accounts.length}',
               icon: Icons.groups_rounded,
-              color: const Color(0xFF0F766E),
+              color: context.isDarkTheme ? const Color(0xFF5EEAD4) : const Color(0xFF0F766E),
             ),
             _MetricTile(
               label: context.tr('Заявки'),
               value: '${pendingRequests.length}',
               icon: Icons.mark_email_unread_rounded,
-              color: const Color(0xFF2563EB),
+              color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
             ),
             _MetricTile(
               label: context.tr('Создано сегодня'),
               value: '$createdToday',
               icon: Icons.today_rounded,
-              color: const Color(0xFF7C3AED),
+              color: context.isDarkTheme ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED),
             ),
             _MetricTile(
               label: context.tr('Ученики'),
               value: '${students.length}',
               icon: Icons.school_rounded,
-              color: const Color(0xFFD97706),
+              color: context.isDarkTheme ? const Color(0xFFFBBF24) : const Color(0xFFD97706),
             ),
           ],
         ),
@@ -1340,15 +1340,16 @@ String _accountSearchText(BuildContext context, AppAccount account) {
   ].join(' ');
 }
 
-Color _roleColor(UserRole role) {
+Color _roleColor(UserRole role, [BuildContext? ctx]) {
+  final dark = ctx?.isDarkTheme ?? false;
   switch (role) {
     case UserRole.teacher:
-      return const Color(0xFF0F766E);
+      return dark ? const Color(0xFF5EEAD4) : const Color(0xFF0F766E);
     case UserRole.student:
-      return const Color(0xFF2563EB);
+      return dark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB);
     case UserRole.parent:
-      return const Color(0xFFD97706);
+      return dark ? const Color(0xFFFBBF24) : const Color(0xFFD97706);
     case UserRole.admin:
-      return const Color(0xFF7C3AED);
+      return dark ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED);
   }
 }

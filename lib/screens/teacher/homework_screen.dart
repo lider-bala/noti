@@ -518,7 +518,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 value: '$completed',
                 label: context.tr('Завершено'),
                 bg: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
-                border: const Color(0xFFDBEAFE),
+                border: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE),
                 valueColor: const Color(0xFF2563EB),
                 labelColor: const Color(0xFF1D4ED8),
               ),
@@ -685,8 +685,8 @@ class _HomeworkCardState extends State<_HomeworkCard> {
                 height: 40,
                 decoration: BoxDecoration(
                   color: item.kind == AssignmentKind.testWork
-                      ? const Color(0xFFF3E8FF)
-                      : const Color(0xFFDBEAFE),
+                      ? (context.isDarkTheme ? const Color(0xFF3B0764) : const Color(0xFFF3E8FF))
+                      : (context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE)),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
@@ -718,7 +718,7 @@ class _HomeworkCardState extends State<_HomeworkCard> {
                         if (item.kind == AssignmentKind.testWork)
                           _Badge(
                             text: context.tr('Контрольная работа'),
-                            color: const Color(0xFF7C3AED),
+                            color: context.isDarkTheme ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED),
                           ),
                       ],
                     ),
@@ -805,7 +805,7 @@ class _HomeworkCardState extends State<_HomeworkCard> {
                         borderRadius: BorderRadius.circular(999),
                         child: LinearProgressIndicator(
                           value: progress,
-                          backgroundColor: const Color(0xFFE5E7EB),
+                          backgroundColor: context.appBorderColor,
                           valueColor: const AlwaysStoppedAnimation<Color>(
                             Color(0xFF3B82F6),
                           ),
@@ -925,7 +925,7 @@ class _SubmissionsList extends StatelessWidget {
                     else
                       Icon(
                         Icons.cancel_rounded,
-                        color: const Color(0xFFDC2626),
+                        color: context.isDarkTheme ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626),
                         size: 20,
                       ),
                   ],

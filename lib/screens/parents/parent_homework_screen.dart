@@ -344,8 +344,8 @@ class _HomeworkCard extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   color: item.kind == AssignmentKind.testWork
-                      ? const Color(0xFFF3E8FF)
-                      : const Color(0xFFDBEAFE),
+                      ? (context.isDarkTheme ? const Color(0xFF3B0764) : const Color(0xFFF3E8FF))
+                      : (context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE)),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
@@ -440,7 +440,7 @@ class _HomeworkCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: submitted
                       ? (context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5))
-                      : const Color(0xFFFFEDD5),
+                      : (context.isDarkTheme ? const Color(0xFF78350F) : const Color(0xFFFFEDD5)),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(

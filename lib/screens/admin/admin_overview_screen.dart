@@ -215,15 +215,15 @@ class _StatusPanel extends StatelessWidget {
         _StatusRow(
           label: context.tr('Файлы в каталоге'),
           value: '$filesCount',
-          badgeColor: const Color(0xFFDBEAFE),
-          textColor: const Color(0xFF1D4ED8),
+          badgeColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE),
+          textColor: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF1D4ED8),
         ),
         const SizedBox(height: 12),
         _StatusRow(
           label: context.tr('Сохранённые сессии посещаемости'),
           value: '$attendanceCount',
-          badgeColor: const Color(0xFFDCFCE7),
-          textColor: const Color(0xFF047857),
+          badgeColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFDCFCE7),
+          textColor: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF047857),
         ),
       ],
     );
@@ -294,11 +294,11 @@ class _RequestsPanel extends StatelessWidget {
       children: [
         if (requests.isEmpty)
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: const Color(0xFFF0FDF4),
+              color: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFF0FDF4),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFDCFCE7)),
+              border: Border.all(color: context.isDarkTheme ? const Color(0xFF065F46) : const Color(0xFFDCFCE7)),
             ),
             child: Row(
               children: [

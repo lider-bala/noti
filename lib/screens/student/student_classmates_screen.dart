@@ -363,12 +363,12 @@ class _ClassmateCard extends StatelessWidget {
                     ),
                     if (classmate.isFriend)
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFDBEAFE),
+                          color: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -469,7 +469,7 @@ class _ClassmateCard extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD1FAE5),
+                          color: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
@@ -490,7 +490,7 @@ class _ClassmateCard extends StatelessWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD1FAE5),
+                          color: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(

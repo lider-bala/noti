@@ -414,7 +414,7 @@ class _StudentDirectoryCard extends StatelessWidget {
                     icon: Icons.chat_bubble_outline_rounded,
                     title: context.tr('Написать'),
                     subtitle: student.email ?? context.tr('Чат с учеником'),
-                    color: const Color(0xFF2563EB),
+                    color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
                     background: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
                     onTap: () => openContactChat(
                       context: context,
@@ -427,7 +427,7 @@ class _StudentDirectoryCard extends StatelessWidget {
                     icon: Icons.phone_outlined,
                     title: context.tr('Позвонить'),
                     subtitle: student.phone ?? context.tr('Телефон не указан'),
-                    color: const Color(0xFF059669),
+                    color: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
                     background: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                     onTap: () => openPhoneDialer(context, student.phone ?? ''),
                   ),
@@ -485,7 +485,7 @@ class _ContactChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 18, color: const Color(0xFF2563EB)),
+          Icon(icon, size: 18, color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB)),
           const SizedBox(width: 8),
           Flexible(
             child: Column(

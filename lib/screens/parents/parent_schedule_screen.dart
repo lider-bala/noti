@@ -174,7 +174,7 @@ class _ParentScheduleScreenState extends State<ParentScheduleScreen> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                    color: isSelected ? const Color(0xFFF97316) : Colors.white,
+                    color: isSelected ? const Color(0xFFF97316) : context.cardColor,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: isSelected
@@ -228,7 +228,7 @@ class _ParentScheduleScreenState extends State<ParentScheduleScreen> {
           decoration: BoxDecoration(
             color: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFBFDBFE)),
+            border: Border.all(color: context.isDarkTheme ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE)),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -455,7 +455,7 @@ class _ScheduleCard extends StatelessWidget {
               ],
             ),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFFED7AA)),
+            border: Border.all(color: context.isDarkTheme ? const Color(0xFF92400E) : const Color(0xFFFED7AA)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

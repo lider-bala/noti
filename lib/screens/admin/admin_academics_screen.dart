@@ -144,25 +144,25 @@ class _AdminAcademicsScreenState extends State<AdminAcademicsScreen> {
                 label: context.tr('Классы'),
                 value: '${classes.length}',
                 icon: Icons.meeting_room_rounded,
-                color: const Color(0xFF0F766E),
+                color: context.isDarkTheme ? const Color(0xFF5EEAD4) : const Color(0xFF0F766E),
               ),
               _MetricTile(
                 label: context.tr('Уроки'),
                 value: '${lessons.length}',
                 icon: Icons.event_note_rounded,
-                color: const Color(0xFF2563EB),
+                color: context.isDarkTheme ? const Color(0xFF93C5FD) : const Color(0xFF2563EB),
               ),
               _MetricTile(
                 label: context.tr('Учителя'),
                 value: '${teachers.length}',
                 icon: Icons.person_outline_rounded,
-                color: const Color(0xFF7C3AED),
+                color: context.isDarkTheme ? const Color(0xFFC4B5FD) : const Color(0xFF7C3AED),
               ),
               _MetricTile(
                 label: context.tr('Ученики'),
                 value: '${appState.students.length}',
                 icon: Icons.school_rounded,
-                color: const Color(0xFFD97706),
+                color: context.isDarkTheme ? const Color(0xFFFBBF24) : const Color(0xFFD97706),
               ),
             ];
 
@@ -1134,7 +1134,7 @@ class _TeacherLoadCard extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: const Color(0xFFEDE9FE),
+            backgroundColor: context.isDarkTheme ? const Color(0xFF3B0764) : const Color(0xFFEDE9FE),
             foregroundColor: const Color(0xFF6D28D9),
             child: Text(teacher.initials),
           ),

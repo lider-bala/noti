@@ -228,17 +228,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             _MetricChip(
               title: context.tr('Был'),
               value: '$presentCount',
-              color: const Color(0xFF059669),
+              color: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF059669),
             ),
             _MetricChip(
               title: context.tr('Опоздал'),
               value: '$lateCount',
-              color: const Color(0xFFD97706),
+              color: context.isDarkTheme ? const Color(0xFFFBBF24) : const Color(0xFFD97706),
             ),
             _MetricChip(
               title: context.tr('Не был'),
               value: '$absentCount',
-              color: const Color(0xFFDC2626),
+              color: context.isDarkTheme ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626),
             ),
           ],
         ),
@@ -406,7 +406,7 @@ class _StudentAttendanceCard extends StatelessWidget {
                   selected: isSelected,
                   onSelected: (_) => onReasonChanged(item),
                   selectedColor: const Color(0xFFDC2626),
-                  backgroundColor: const Color(0xFFFEE2E2),
+                  backgroundColor: context.isDarkTheme ? const Color(0xFF7F1D1D) : const Color(0xFFFEE2E2),
                   labelStyle: TextStyle(
                     color: isSelected ? Colors.white : const Color(0xFFDC2626),
                     fontWeight: FontWeight.w600,
@@ -508,14 +508,15 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-Color _statusColor(AttendanceStatusType status) {
+Color _statusColor(AttendanceStatusType status, [BuildContext? ctx]) {
+  final dark = ctx?.isDarkTheme ?? false;
   switch (status) {
     case AttendanceStatusType.present:
-      return const Color(0xFF059669);
+      return dark ? const Color(0xFF6EE7B7) : const Color(0xFF059669);
     case AttendanceStatusType.late:
-      return const Color(0xFFD97706);
+      return dark ? const Color(0xFFFBBF24) : const Color(0xFFD97706);
     case AttendanceStatusType.absent:
-      return const Color(0xFFDC2626);
+      return dark ? const Color(0xFFFCA5A5) : const Color(0xFFDC2626);
   }
 }
 
