@@ -104,7 +104,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         const SizedBox(height: 20),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(bottom: 4),
+          padding: EdgeInsets.only(bottom: 4),
           child: Row(
             children: List.generate(5, (index) {
               final isSelected = _selectedDay == index;
@@ -203,7 +203,7 @@ class _ScheduleTile extends StatelessWidget {
     final studentsCount = appState.studentsForClass(lesson.classId).length;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -339,7 +339,7 @@ class _InfoPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: const Color(0xFFF9FAFB),
           borderRadius: BorderRadius.circular(16),
@@ -380,7 +380,7 @@ class _EmptyScheduleState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),

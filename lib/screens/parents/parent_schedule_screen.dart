@@ -64,7 +64,7 @@ class _ParentScheduleScreenState extends State<ParentScheduleScreen> {
               ),
             ],
           ),
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -172,7 +172,7 @@ class _ParentScheduleScreenState extends State<ParentScheduleScreen> {
                 },
                 child: Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
                     color: isSelected ? const Color(0xFFF97316) : Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -284,7 +284,7 @@ class _EmptyScheduleState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.all(22),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
@@ -480,7 +480,7 @@ class _ScheduleCard extends StatelessWidget {
 
       case _ScheduleItemType.breakTime:
         return Container(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: const Color(0xFFF9FAFB),
             borderRadius: BorderRadius.circular(20),

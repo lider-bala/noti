@@ -312,7 +312,7 @@ class _StatsRow extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: context.panelColor,
               borderRadius: BorderRadius.circular(20),
@@ -371,7 +371,7 @@ class _StatsRow extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: context.panelColor,
               borderRadius: BorderRadius.circular(20),
@@ -444,7 +444,7 @@ class _FilterRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
           _FilterChip(
@@ -491,7 +491,7 @@ class _FilterChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final child = AnimatedContainer(
       duration: const Duration(milliseconds: 160),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
         color: isPrimary ? const Color(0xFFEC4899) : Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -714,7 +714,7 @@ class _EmptyNotificationsState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),

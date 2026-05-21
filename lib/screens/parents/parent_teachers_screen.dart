@@ -138,7 +138,7 @@ class _ChildInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -244,7 +244,7 @@ class _TeacherCard extends StatelessWidget {
     final end = _subjectEndColor(teacher.subject, context);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -346,7 +346,7 @@ class _TeacherCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 10,
                             vertical: 6,
                           ),

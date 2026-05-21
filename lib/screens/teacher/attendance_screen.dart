@@ -101,7 +101,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       showAppSnackBar(
         context,
         context.tr('Сначала выберите урок.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -287,7 +287,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             onPressed: _saveAttendance,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF10B981),
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

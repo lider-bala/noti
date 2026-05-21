@@ -87,7 +87,7 @@ class _HeaderCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -123,7 +123,7 @@ class _StorageCard extends StatelessWidget {
     final usageFactor =
         filesCount == 0 ? 0.0 : (filesCount / 20).clamp(0.05, 1.0);
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -243,7 +243,7 @@ class _FolderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -330,7 +330,7 @@ class _RecentFileCard extends StatelessWidget {
     final iconData = _typeIcon(file.type);
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
@@ -377,7 +377,7 @@ class _RecentFileCard extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
                       ),
@@ -425,7 +425,7 @@ class _RecentFileCard extends StatelessWidget {
                   showAppSnackBar(
                     context,
                     context.tr('Ссылка на файл повреждена.'),
-                    backgroundColor: const Color(0xFFB91C1C),
+                    backgroundColor: context.errorSnackBg,
                   );
                   return;
                 }
@@ -437,7 +437,7 @@ class _RecentFileCard extends StatelessWidget {
                   showAppSnackBar(
                     context,
                     context.tr('Не удалось открыть файл.'),
-                    backgroundColor: const Color(0xFFB91C1C),
+                    backgroundColor: context.errorSnackBg,
                   );
                 }
                 return;
@@ -445,7 +445,7 @@ class _RecentFileCard extends StatelessWidget {
               showAppSnackBar(
                 context,
                 context.tr('У этого файла нет ссылки для скачивания.'),
-                backgroundColor: const Color(0xFFB91C1C),
+                backgroundColor: context.errorSnackBg,
               );
             },
             borderRadius: BorderRadius.circular(12),
@@ -522,7 +522,7 @@ class _EmptyFilesState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(20),

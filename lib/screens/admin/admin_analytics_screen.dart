@@ -56,7 +56,7 @@ class AdminAnalyticsScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: context.panelColor,
             borderRadius: BorderRadius.circular(24),
@@ -153,7 +153,7 @@ class _Metric extends StatelessWidget {
     return SizedBox(
       width: 250,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(24),

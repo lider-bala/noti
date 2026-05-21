@@ -213,7 +213,7 @@ class _OverallStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: _cardDecoration(context),
       child: Column(
         children: [

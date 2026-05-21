@@ -172,7 +172,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12),
             child: TextField(
               onChanged: (v) => setState(() => _searchQuery = v),
               style: TextStyle(color: context.primaryTextColor),
@@ -188,7 +188,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
                   borderSide: BorderSide.none,
                 ),
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               ),
             ),
           ),
@@ -315,7 +315,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
         children: [
           // Header
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(color: context.appBorderColor),
@@ -413,8 +413,8 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
                             : Alignment.centerLeft,
                         child: Container(
                           constraints: const BoxConstraints(maxWidth: 340),
-                          margin: const EdgeInsets.only(bottom: 10),
-                          padding: const EdgeInsets.symmetric(
+                          margin: EdgeInsets.only(bottom: 10),
+                          padding: EdgeInsets.symmetric(
                               horizontal: 14, vertical: 10),
                           decoration: BoxDecoration(
                             color: isMine
@@ -459,7 +459,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
           ),
           // Input
           Container(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(color: context.appBorderColor),

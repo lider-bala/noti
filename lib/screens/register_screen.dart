@@ -136,7 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen>
       showAppSnackBar(
         context,
         context.tr(result.errorKey!),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -148,7 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen>
             ? 'Заявка отправлена администратору. Вход станет доступен после подтверждения.'
             : 'auth.accountCreated',
       ),
-      backgroundColor: const Color(0xFF047857),
+      backgroundColor: context.successSnackBg,
     );
     if (result.user != null) {
       widget.onRegistered(result.user!);
@@ -793,7 +793,7 @@ class _GlassRegisterCard extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2ECC71),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -852,7 +852,7 @@ class _StudentParentFields extends StatelessWidget {
           children: [
             Expanded(child: Divider(color: Colors.white.withOpacity(0.28))),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 context.tr('Данные родителя'),
                 style: const TextStyle(
@@ -1054,7 +1054,7 @@ Future<String?> _showClassPicker(
     isScrollControlled: true,
     builder: (sheetContext) {
       return SafeArea(
-        minimum: const EdgeInsets.all(20),
+        minimum: EdgeInsets.all(20),
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -1081,7 +1081,7 @@ Future<String?> _showClassPicker(
               borderRadius: BorderRadius.circular(22),
               child: ListView.separated(
                 shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: EdgeInsets.symmetric(vertical: 8),
                 itemCount: classes.length,
                 separatorBuilder: (_, __) => Divider(
                   height: 1,
@@ -1098,7 +1098,7 @@ Future<String?> _showClassPicker(
                       child: SizedBox(
                         height: 56,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 22),
+                          padding: EdgeInsets.symmetric(horizontal: 22),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(

@@ -216,7 +216,7 @@ class _EmptyTeachersState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(20),

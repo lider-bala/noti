@@ -342,7 +342,7 @@ class _GradesScreenState extends State<GradesScreen>
               onPressed: _saveGrades,
               style: FilledButton.styleFrom(
                 backgroundColor: const Color(0xFF2563EB),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
               ),
@@ -480,7 +480,7 @@ class _QuarterSubjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
@@ -565,8 +565,8 @@ class _QuarterStudentRow extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 16,
-          backgroundColor: const Color(0xFFFFEDD5),
-          foregroundColor: const Color(0xFFEA580C),
+          backgroundColor: context.activityOrangeBg,
+          foregroundColor: context.orangeTintFg,
           child: Text(student.initials, style: const TextStyle(fontSize: 12)),
         ),
         const SizedBox(width: 10),
@@ -656,7 +656,7 @@ class _StudentAttendanceCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(16),
@@ -666,8 +666,8 @@ class _StudentAttendanceCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundColor: const Color(0xFFFFEDD5),
-            foregroundColor: const Color(0xFFEA580C),
+            backgroundColor: context.activityOrangeBg,
+            foregroundColor: context.orangeTintFg,
             child: Text(student.initials, style: TextStyle(fontSize: 13)),
           ),
           const SizedBox(width: 12),
@@ -774,7 +774,7 @@ class _GradebookPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
@@ -829,8 +829,8 @@ class _StudentGradeRow extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          backgroundColor: const Color(0xFFFFEDD5),
-          foregroundColor: const Color(0xFFEA580C),
+          backgroundColor: context.activityOrangeBg,
+          foregroundColor: context.orangeTintFg,
           child: Text(student.initials),
         ),
         const SizedBox(width: 12),
@@ -892,7 +892,7 @@ class _RecentGradesPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
@@ -1011,7 +1011,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(24),

@@ -163,7 +163,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF3B82F6),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                   ),

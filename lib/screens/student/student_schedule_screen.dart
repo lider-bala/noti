@@ -147,7 +147,7 @@ class _DaySelector extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: isSelected ? const Color(0xFF3B82F6) : Colors.white,
@@ -193,7 +193,7 @@ class _LessonCard extends StatelessWidget {
     final teacher = context.appState.userById(lesson.teacherId);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
@@ -290,7 +290,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.all(22),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),

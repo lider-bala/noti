@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen>
       showAppSnackBar(
         context,
         context.tr(result.errorKey!),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -546,7 +546,7 @@ class _GlassLoginCard extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: onLogin,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -554,8 +554,8 @@ class _GlassLoginCard extends StatelessWidget {
                     ),
                     child: Text(
                       context.tr('auth.login'),
-                      style: const TextStyle(
-                        color: Color(0xFF111827),
+                      style: TextStyle(
+                        color: context.primaryTextColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
                       ),

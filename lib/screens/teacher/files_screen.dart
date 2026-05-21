@@ -197,7 +197,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               showAppSnackBar(
                                 context,
                                 context.tr('Выберите категорию файла.'),
-                                backgroundColor: const Color(0xFFB91C1C),
+                                backgroundColor: context.errorSnackBg,
                               );
                               return;
                             }
@@ -242,7 +242,7 @@ class _FilesScreenState extends State<FilesScreen> {
                                     context,
                                     context.tr(
                                         'Файл слишком большой. Максимум 5 МБ.'),
-                                    backgroundColor: const Color(0xFFB91C1C),
+                                    backgroundColor: context.errorSnackBg,
                                   );
                                   setDialogState(() => isUploading = false);
                                 }
@@ -325,7 +325,7 @@ class _FilesScreenState extends State<FilesScreen> {
                                 showAppSnackBar(
                                   context,
                                   addFailedText,
-                                  backgroundColor: const Color(0xFFB91C1C),
+                                  backgroundColor: context.errorSnackBg,
                                 );
                                 setDialogState(() => isUploading = false);
                                 return;
@@ -347,7 +347,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               showAppSnackBar(
                                 context,
                                 msg,
-                                backgroundColor: const Color(0xFFB91C1C),
+                                backgroundColor: context.errorSnackBg,
                               );
                             } catch (e) {
                               if (!mounted || !dialogContext.mounted) {
@@ -357,7 +357,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               showAppSnackBar(
                                 context,
                                 '$uploadFailedText\n$e',
-                                backgroundColor: const Color(0xFFB91C1C),
+                                backgroundColor: context.errorSnackBg,
                               );
                             }
                           },
@@ -405,7 +405,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   color: Color(0x33000000)),
             ],
           ),
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -495,7 +495,7 @@ class _FilesScreenState extends State<FilesScreen> {
             onPressed: _openAddFileDialog,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF10B981),
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
             ),
@@ -521,7 +521,7 @@ class _MetricCard extends StatelessWidget {
     return SizedBox(
       width: 220,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(24),
@@ -614,7 +614,7 @@ class _RecentFileTile extends StatelessWidget {
     final uploader = context.appState.userById(file.uploadedByUserId);
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),
@@ -697,7 +697,7 @@ class _EmptyFilesState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.all(22),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(22),

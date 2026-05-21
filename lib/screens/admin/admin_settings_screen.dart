@@ -164,7 +164,7 @@ class _SettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(16),
@@ -180,7 +180,7 @@ class _SettingTile extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: context.panelMutedColor,
               borderRadius: BorderRadius.circular(12),
