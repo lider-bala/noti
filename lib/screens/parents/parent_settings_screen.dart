@@ -94,7 +94,7 @@ class _InfoTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       onTap: () => _showInfo(context),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(18),
@@ -172,7 +172,7 @@ class _SettingTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(18),

@@ -43,7 +43,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       showAppSnackBar(
         context,
         context.tr('Сначала назначьте учителю класс и урок.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -203,7 +203,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                       showAppSnackBar(
                         context,
                         context.tr('Заполните название задания.'),
-                        backgroundColor: const Color(0xFFB91C1C),
+                        backgroundColor: context.errorSnackBg,
                       );
                       return;
                     }
@@ -229,7 +229,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                         context.tr(
                           'Не удалось создать задание. Проверьте класс и роль учителя.',
                         ),
-                        backgroundColor: const Color(0xFFB91C1C),
+                        backgroundColor: context.errorSnackBg,
                       );
                       return;
                     }
@@ -239,7 +239,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                       selectedKind == AssignmentKind.testWork
                           ? context.tr('Контрольная работа назначена классу.')
                           : context.tr('Задание назначено классу.'),
-                      backgroundColor: const Color(0xFF047857),
+                      backgroundColor: context.successSnackBg,
                     );
                   },
                   child: Text(context.tr('Создать')),
@@ -262,7 +262,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       showAppSnackBar(
         context,
         context.tr('Сначала назначьте учителю класс и урок.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -369,7 +369,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                       showAppSnackBar(
                         context,
                         context.tr('Не удалось создать собрание.'),
-                        backgroundColor: const Color(0xFFB91C1C),
+                        backgroundColor: context.errorSnackBg,
                       );
                       return;
                     }
@@ -377,7 +377,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                     showAppSnackBar(
                       context,
                       context.tr('Родительское собрание назначено.'),
-                      backgroundColor: const Color(0xFF047857),
+                      backgroundColor: context.successSnackBg,
                     );
                   },
                   child: Text(context.tr('Назначить')),
@@ -465,7 +465,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               ),
             ],
           ),
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -554,7 +554,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 backgroundColor: const Color(0xFF2ECC71),
                 foregroundColor: Colors.white,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                    EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -568,7 +568,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 backgroundColor: const Color(0xFF7C3AED),
                 foregroundColor: Colors.white,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                    EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -657,7 +657,7 @@ class _HomeworkCardState extends State<_HomeworkCard> {
     final progress = total == 0 ? 0.0 : submitted / total.toDouble();
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -864,13 +864,13 @@ class _SubmissionsList extends StatelessWidget {
                   .toList();
               final sub = submission.isNotEmpty ? submission.first : null;
               return Container(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: EdgeInsets.symmetric(vertical: 8),
                 child: Row(
                   children: [
                     CircleAvatar(
                       radius: 14,
-                      backgroundColor: const Color(0xFFFFEDD5),
-                      foregroundColor: const Color(0xFFEA580C),
+                      backgroundColor: context.activityOrangeBg,
+                      foregroundColor: context.orangeTintFg,
                       child: Text(student.initials,
                           style: const TextStyle(fontSize: 10)),
                     ),
@@ -1006,7 +1006,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),

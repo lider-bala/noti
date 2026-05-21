@@ -75,7 +75,7 @@ class _AdminAcademicsScreenState extends State<AdminAcademicsScreen> {
       showAppSnackBar(
         context,
         context.tr('Заполните все обязательные поля.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -360,7 +360,7 @@ class _AcademicsTabButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           constraints: const BoxConstraints(minWidth: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
@@ -456,7 +456,7 @@ class _MetricTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(16),
@@ -537,7 +537,7 @@ class _CreateClassPanel extends StatelessWidget {
             onPressed: onCreate,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF0F766E),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -894,7 +894,7 @@ class _CreateLessonPanel extends StatelessWidget {
             onPressed: onCreate,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF2563EB),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -983,7 +983,7 @@ class _LessonRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: context.isDarkTheme
                 ? const Color(0xFF1E3A8A)
@@ -1125,7 +1125,7 @@ class _TeacherLoadCard extends StatelessWidget {
       ..sort();
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(14),
@@ -1183,7 +1183,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(14),

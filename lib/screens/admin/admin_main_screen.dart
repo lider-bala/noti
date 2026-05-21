@@ -168,8 +168,8 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
                     bottom: 0,
                     child: Container(
                       width: 292,
-                      margin: const EdgeInsets.only(top: 8, bottom: 8),
-                      padding: const EdgeInsets.all(12),
+                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: context.panelColor,
                         borderRadius: const BorderRadius.only(

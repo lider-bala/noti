@@ -26,7 +26,7 @@ class _StudentClassmatesScreenState extends State<StudentClassmatesScreen> {
         '{name} добавлен в друзья.',
         {'name': classmate.name},
       ),
-      backgroundColor: const Color(0xFF047857),
+      backgroundColor: context.successSnackBg,
     );
   }
 
@@ -60,7 +60,7 @@ class _StudentClassmatesScreenState extends State<StudentClassmatesScreen> {
     );
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(8, 16, 8, 24),
+      padding: EdgeInsets.fromLTRB(8, 16, 8, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -131,7 +131,7 @@ class _HeaderCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -206,7 +206,7 @@ class _StatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -271,7 +271,7 @@ class _EmptyClassmatesState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),
@@ -306,7 +306,7 @@ class _ClassmateCard extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),

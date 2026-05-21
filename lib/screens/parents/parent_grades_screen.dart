@@ -98,8 +98,8 @@ class ParentGradesScreen extends StatelessWidget {
                 children: [
                   for (final qg in quarterGrades)
                     Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.all(12),
+                      margin: EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: context.panelColor,
                         borderRadius: BorderRadius.circular(16),
@@ -270,14 +270,14 @@ class _ChildInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: _cardDecoration(context),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: const Color(0xFFFFEDD5),
-            foregroundColor: const Color(0xFFEA580C),
+            backgroundColor: context.activityOrangeBg,
+            foregroundColor: context.orangeTintFg,
             child: Text(child?.initials ?? '—'),
           ),
           const SizedBox(width: 12),

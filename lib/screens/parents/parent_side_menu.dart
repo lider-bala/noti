@@ -34,7 +34,7 @@ class ParentSideMenu extends StatelessWidget {
     final theme = Theme.of(context);
     return Container(
       width: 260,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(24),

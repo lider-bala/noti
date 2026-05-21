@@ -103,8 +103,8 @@ class StudentGradesScreen extends StatelessWidget {
                 children: [
                   for (final qg in quarterGrades) ...[  
                     Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      padding: const EdgeInsets.all(12),
+                      margin: EdgeInsets.only(bottom: 8),
+                      padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: context.panelColor,
                         borderRadius: BorderRadius.circular(16),

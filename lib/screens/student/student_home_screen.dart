@@ -155,7 +155,7 @@ class StudentHomeScreen extends StatelessWidget {
                 ),
                 style: FilledButton.styleFrom(
                   backgroundColor: const Color(0xFF3B82F6),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                 ),
@@ -550,7 +550,7 @@ class _HomeworkCard extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.panelColor,
         borderRadius: BorderRadius.circular(20),
@@ -581,12 +581,12 @@ class _HomeworkCard extends StatelessWidget {
                     if (item.urgent) ...[
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 3,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFEDD5),
+                          color: context.activityOrangeBg,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(

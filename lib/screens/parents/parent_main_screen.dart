@@ -189,8 +189,8 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
                       color: Colors.transparent,
                       child: Container(
                         width: 280,
-                        margin: const EdgeInsets.only(top: 8, bottom: 8),
-                        padding: const EdgeInsets.all(12),
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: context.panelColor,
                           borderRadius: const BorderRadius.only(

@@ -67,7 +67,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       showAppSnackBar(
         context,
         context.tr('Заполните все обязательные поля.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -110,7 +110,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
       showAppSnackBar(
         context,
         context.tr('Аккаунт с таким email или телефоном уже существует.'),
-        backgroundColor: const Color(0xFFB91C1C),
+        backgroundColor: context.errorSnackBg,
       );
       return;
     }
@@ -135,7 +135,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
             ? 'Созданы аккаунты ученика и родителя.'
             : 'Аккаунт создан и уже доступен для входа.',
       ),
-      backgroundColor: const Color(0xFF047857),
+      backgroundColor: context.successSnackBg,
     );
   }
 
@@ -451,7 +451,7 @@ class _MetricTile extends StatelessWidget {
     return SizedBox(
       width: 210,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
           color: context.panelColor,
           borderRadius: BorderRadius.circular(16),
@@ -687,7 +687,7 @@ class _CreateAccountPanel extends StatelessWidget {
             onPressed: onSubmit,
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF0F766E),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -922,7 +922,7 @@ class _RequestRow extends StatelessWidget {
               onPressed: onReject,
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFFB91C1C),
-                side: const BorderSide(color: Color(0xFFFCA5A5)),
+                side: BorderSide(color: Color(0xFFFCA5A5)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -1163,7 +1163,7 @@ class _UserRow extends StatelessWidget {
                       showAppSnackBar(
                         context,
                         context.tr('Не удалось сохранить изменения.'),
-                        backgroundColor: const Color(0xFFB91C1C),
+                        backgroundColor: context.errorSnackBg,
                       );
                       return;
                     }
@@ -1171,7 +1171,7 @@ class _UserRow extends StatelessWidget {
                     showAppSnackBar(
                       context,
                       context.tr('Данные пользователя сохранены.'),
-                      backgroundColor: const Color(0xFF047857),
+                      backgroundColor: context.successSnackBg,
                     );
                   },
                   child: Text(context.tr('Сохранить')),
@@ -1231,7 +1231,7 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(14),
