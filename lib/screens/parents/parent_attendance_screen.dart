@@ -153,13 +153,13 @@ class _ChildInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: _cardDecoration(context),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: const Color(0xFFD1FAE5),
+            backgroundColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
             foregroundColor: const Color(0xFF059669),
             child: Text(child?.initials ?? '—'),
           ),

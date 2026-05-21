@@ -296,8 +296,8 @@ class _ScheduleTile extends StatelessWidget {
                   icon: Icon(Icons.fact_check_rounded, size: 18),
                   label: Text(context.tr('Проверить посещаемость')),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF0F766E),
-                    side: const BorderSide(color: Color(0xFF99F6E4)),
+                    foregroundColor: context.isDarkTheme ? const Color(0xFF6EE7B7) : const Color(0xFF0F766E),
+                    side: BorderSide(color: context.isDarkTheme ? const Color(0xFF2DD4BF).withOpacity(0.4) : const Color(0xFF99F6E4)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -341,7 +341,7 @@ class _InfoPill extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: const Color(0xFFF9FAFB),
+          color: context.panelMutedColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: context.appBorderColor),
         ),

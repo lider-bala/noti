@@ -599,7 +599,7 @@ class _ClassRow extends StatelessWidget {
           height: 48,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: const Color(0xFFECFDF5),
+            color: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
             borderRadius: BorderRadius.circular(14),
           ),
           child: Text(
@@ -987,14 +987,14 @@ class _LessonRow extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.isDarkTheme
                 ? const Color(0xFF1E3A8A)
-                : const Color(0xFFEFF6FF),
+                : context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             lesson.classId,
             style: TextStyle(
               color: context.isDarkTheme
-                  ? const Color(0xFFBFDBFE)
+                  ? (context.isDarkTheme ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE))
                   : const Color(0xFF1D4ED8),
               fontWeight: FontWeight.w800,
             ),

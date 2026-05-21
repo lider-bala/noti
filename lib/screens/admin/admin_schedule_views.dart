@@ -289,14 +289,14 @@ class _LessonRow extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.isDarkTheme
                 ? const Color(0xFF1E3A8A)
-                : const Color(0xFFEFF6FF),
+                : context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             lesson.timeRange.split(' ').first,
             style: TextStyle(
               color: context.isDarkTheme
-                  ? const Color(0xFFBFDBFE)
+                  ? (context.isDarkTheme ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE))
                   : const Color(0xFF1D4ED8),
               fontWeight: FontWeight.w800,
             ),

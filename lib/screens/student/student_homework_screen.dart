@@ -230,7 +230,7 @@ class _StatsRow extends StatelessWidget {
               child: _StatCard(
                 value: '$urgent',
                 label: context.tr('Срочные'),
-                bgColor: const Color(0xFFEFF6FF),
+                bgColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
                 borderColor: const Color(0xFFDBEAFE),
                 textColor: const Color(0xFF2563EB),
               ),
@@ -240,8 +240,8 @@ class _StatsRow extends StatelessWidget {
               child: _StatCard(
                 value: '$completed',
                 label: context.tr('Выполнено'),
-                bgColor: const Color(0xFFECFDF5),
-                borderColor: const Color(0xFFD1FAE5),
+                bgColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
+                borderColor: context.isDarkTheme ? const Color(0xFF065F46) : const Color(0xFFD1FAE5),
                 textColor: const Color(0xFF059669),
               ),
             ),

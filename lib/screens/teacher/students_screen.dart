@@ -278,13 +278,13 @@ class _ClassSelector extends StatelessWidget {
         children: [
           for (final schoolClass in classes)
             Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: EdgeInsets.only(right: 8),
               child: ChoiceChip(
                 label: Text(schoolClass.name),
                 selected: schoolClass.id == selectedClassId,
                 onSelected: (_) => onSelected(schoolClass.id),
                 selectedColor: const Color(0xFF2ECC71),
-                backgroundColor: Colors.white,
+                backgroundColor: context.cardColor,
                 labelStyle: TextStyle(
                   color: schoolClass.id == selectedClassId
                       ? Colors.white
@@ -369,15 +369,15 @@ class _StudentDirectoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18),
       decoration: _cardDecoration(context),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final compact = constraints.maxWidth < 620;
           final avatar = CircleAvatar(
             radius: 28,
-            backgroundColor: const Color(0xFFEEF2FF),
-            foregroundColor: const Color(0xFF4338CA),
+            backgroundColor: context.isDarkTheme ? const Color(0xFF312E81) : const Color(0xFFEEF2FF),
+            foregroundColor: context.isDarkTheme ? const Color(0xFFA5B4FC) : const Color(0xFF4338CA),
             child: Text(
               student.initials,
               style: TextStyle(fontWeight: FontWeight.w800),
@@ -415,7 +415,7 @@ class _StudentDirectoryCard extends StatelessWidget {
                     title: context.tr('Написать'),
                     subtitle: student.email ?? context.tr('Чат с учеником'),
                     color: const Color(0xFF2563EB),
-                    background: const Color(0xFFE0F2FE),
+                    background: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
                     onTap: () => openContactChat(
                       context: context,
                       contactId: student.id,
@@ -428,7 +428,7 @@ class _StudentDirectoryCard extends StatelessWidget {
                     title: context.tr('Позвонить'),
                     subtitle: student.phone ?? context.tr('Телефон не указан'),
                     color: const Color(0xFF059669),
-                    background: const Color(0xFFD1FAE5),
+                    background: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                     onTap: () => openPhoneDialer(context, student.phone ?? ''),
                   ),
                 ],
@@ -478,7 +478,7 @@ class _ContactChip extends StatelessWidget {
       constraints: const BoxConstraints(minWidth: 180, maxWidth: 320),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
+        color: context.panelMutedColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: context.appBorderColor),
       ),

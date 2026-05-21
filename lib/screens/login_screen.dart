@@ -441,15 +441,15 @@ class _GlassLoginCard extends StatelessWidget {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Colors.white, width: 1.2),
+        borderSide: BorderSide(color: context.cardColor, width: 1.2),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Color(0xFFFECACA)),
+        borderSide: BorderSide(color: context.isDarkTheme ? const Color(0xFF991B1B) : const Color(0xFFFECACA)),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Color(0xFFFECACA)),
+        borderSide: BorderSide(color: context.isDarkTheme ? const Color(0xFF991B1B) : const Color(0xFFFECACA)),
       ),
       contentPadding:
           const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -551,11 +551,12 @@ class _GlassLoginCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF111827),
                     ),
                     child: Text(
                       context.tr('auth.login'),
-                      style: TextStyle(
-                        color: context.primaryTextColor,
+                      style: const TextStyle(
+                        color: Color(0xFF111827),
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
                       ),

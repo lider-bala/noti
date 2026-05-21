@@ -399,7 +399,7 @@ class _ChildCard extends StatelessWidget {
               _ChildStatBox(
                 value: child.avgGrade.toStringAsFixed(1),
                 label: context.tr('Средний балл'),
-                bg: const Color(0xFFD1FAE5),
+                bg: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                 text: const Color(0xFF059669),
               ),
               const SizedBox(width: 8),
@@ -602,7 +602,7 @@ class _UpcomingEventCard extends StatelessWidget {
         icon = Icons.menu_book_rounded;
         break;
       case _EventType.event:
-        borderColor = const Color(0xFFBFDBFE);
+        borderColor = context.isDarkTheme ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE);
         bgColor = const Color(0xFFDBEAFE);
         icon = Icons.notifications_active_rounded;
         break;
@@ -737,7 +737,7 @@ class _RecentGradeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isFive = grade.grade == 5;
-    final Color bg = isFive ? const Color(0xFFD1FAE5) : const Color(0xFFDBEAFE);
+    final Color bg = isFive ? (context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5)) : (context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFDBEAFE));
     final Color textColor =
         isFive ? const Color(0xFF059669) : const Color(0xFF2563EB);
 

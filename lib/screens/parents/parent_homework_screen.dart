@@ -230,8 +230,8 @@ class _StatsRow extends StatelessWidget {
           child: _StatCard(
             value: '$urgent',
             label: context.tr('Срочные'),
-            bgColor: const Color(0xFFFEF2F2),
-            borderColor: const Color(0xFFFECACA),
+            bgColor: context.isDarkTheme ? const Color(0xFF7F1D1D) : const Color(0xFFFEF2F2),
+            borderColor: context.isDarkTheme ? const Color(0xFF991B1B) : const Color(0xFFFECACA),
             textColor: const Color(0xFFDC2626),
           ),
         ),
@@ -240,8 +240,8 @@ class _StatsRow extends StatelessWidget {
           child: _StatCard(
             value: '$submitted',
             label: context.tr('Выполнено'),
-            bgColor: const Color(0xFFECFDF5),
-            borderColor: const Color(0xFFD1FAE5),
+            bgColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
+            borderColor: context.isDarkTheme ? const Color(0xFF065F46) : const Color(0xFFD1FAE5),
             textColor: const Color(0xFF059669),
           ),
         ),
@@ -436,10 +436,10 @@ class _HomeworkCard extends StatelessWidget {
                 ),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: submitted
-                      ? const Color(0xFFD1FAE5)
+                      ? (context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5))
                       : const Color(0xFFFFEDD5),
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -463,7 +463,7 @@ class _HomeworkCard extends StatelessWidget {
                   padding:
                       EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFECFDF5),
+                    color: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
@@ -545,7 +545,7 @@ class _InfoAlert extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                color: isDark ? const Color(0xFFBFDBFE) : const Color(0xFF1E3A8A),
+                color: isDark ? (context.isDarkTheme ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE)) : const Color(0xFF1E3A8A),
                 fontSize: 13,
                 height: 1.35,
               ),
