@@ -152,9 +152,9 @@ class _TeachersScreenState extends State<TeachersScreen> {
               child: _StatBox(
                 value: '${teachers.length}',
                 label: context.tr('Всего учителей'),
-                startColor: Color(0xFFEFF6FF),
+                startColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
                 endColor: Color(0xFFDBEAFE),
-                borderColor: Color(0xFFBFDBFE),
+                borderColor: context.isDarkTheme ? const Color(0xFF1E40AF) : const Color(0xFFBFDBFE),
                 valueColor: Color(0xFF2563EB),
                 labelColor: Color(0xFF1D4ED8),
               ),
@@ -165,8 +165,8 @@ class _TeachersScreenState extends State<TeachersScreen> {
                 value:
                     '${teachers.expand((item) => item.subject.split(', ')).where((item) => item.trim().isNotEmpty && item != context.tr('Предмет не назначен')).toSet().length}',
                 label: context.tr('Предметов'),
-                startColor: Color(0xFFECFDF5),
-                endColor: Color(0xFFD1FAE5),
+                startColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
+                endColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                 borderColor: Color(0xFFA7F3D0),
                 valueColor: Color(0xFF059669),
                 labelColor: Color(0xFF047857),
@@ -485,7 +485,7 @@ class _TeacherCard extends StatelessWidget {
                               ),
                             ),
                             style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFFE0F2FE),
+                              backgroundColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -511,7 +511,7 @@ class _TeacherCard extends StatelessWidget {
                               ),
                             ),
                             style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFFD1FAE5),
+                              backgroundColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),

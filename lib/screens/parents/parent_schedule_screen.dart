@@ -224,9 +224,9 @@ class _ParentScheduleScreenState extends State<ParentScheduleScreen> {
           ),
         const SizedBox(height: 16),
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFFE0F2FE),
+            color: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: const Color(0xFFBFDBFE)),
           ),
@@ -482,7 +482,7 @@ class _ScheduleCard extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: const Color(0xFFF9FAFB),
+            color: context.panelMutedColor,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: context.appBorderColor),
           ),

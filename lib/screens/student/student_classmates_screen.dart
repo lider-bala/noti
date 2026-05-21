@@ -455,8 +455,8 @@ class _ClassmateCard extends StatelessWidget {
                           ),
                         ),
                         style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          backgroundColor: const Color(0xFFE0F2FE),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          backgroundColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),

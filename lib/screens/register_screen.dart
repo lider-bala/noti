@@ -567,15 +567,15 @@ class _GlassRegisterCard extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(color: Colors.white, width: 1.2),
+          borderSide: BorderSide(color: context.cardColor, width: 1.2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(color: Color(0xFFFECACA)),
+          borderSide: BorderSide(color: context.isDarkTheme ? const Color(0xFF991B1B) : const Color(0xFFFECACA)),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(color: Color(0xFFFECACA)),
+          borderSide: BorderSide(color: context.isDarkTheme ? const Color(0xFF991B1B) : const Color(0xFFFECACA)),
         ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -965,7 +965,7 @@ class _GlassSelectField extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderColor = errorText == null
         ? Colors.white.withOpacity(0.3)
-        : const Color(0xFFFECACA);
+        : context.isDarkTheme ? const Color(0xFF991B1B) : const Color(0xFFFECACA);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1027,11 +1027,11 @@ class _GlassSelectField extends StatelessWidget {
         if (errorText != null) ...[
           const SizedBox(height: 6),
           Padding(
-            padding: const EdgeInsets.only(left: 14),
+            padding: EdgeInsets.only(left: 14),
             child: Text(
               errorText!,
-              style: const TextStyle(
-                color: Color(0xFFFECACA),
+              style: TextStyle(
+                color: context.isDarkTheme ? const Color(0xFF991B1B) : const Color(0xFFFECACA),
                 fontSize: 12,
               ),
             ),

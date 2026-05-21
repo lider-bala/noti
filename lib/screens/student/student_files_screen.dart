@@ -453,7 +453,7 @@ class _RecentFileCard extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: const Color(0xFFE0F2FE),
+                color: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(

@@ -377,7 +377,7 @@ class _TeacherCard extends StatelessWidget {
                 child: _ActionButton(
                   label: 'Написать',
                   icon: Icons.chat_bubble_outline_rounded,
-                  bgColor: const Color(0xFFE0F2FE),
+                  bgColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFE0F2FE),
                   textColor: const Color(0xFF2563EB),
                   onTap: () => openContactChat(
                     context: context,
@@ -392,7 +392,7 @@ class _TeacherCard extends StatelessWidget {
                 child: _ActionButton(
                   label: context.tr('Позвонить'),
                   icon: Icons.phone_in_talk_outlined,
-                  bgColor: const Color(0xFFD1FAE5),
+                  bgColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFD1FAE5),
                   textColor: const Color(0xFF059669),
                   onTap: () => openPhoneDialer(context, teacher.phone),
                 ),

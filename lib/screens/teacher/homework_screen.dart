@@ -495,8 +495,8 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               child: _StatCard(
                 value: '$active',
                 label: context.tr('Активных'),
-                bg: const Color(0xFFECFDF5),
-                border: const Color(0xFFD1FAE5),
+                bg: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
+                border: context.isDarkTheme ? const Color(0xFF065F46) : const Color(0xFFD1FAE5),
                 valueColor: const Color(0xFF059669),
                 labelColor: const Color(0xFF047857),
               ),
@@ -517,7 +517,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               child: _StatCard(
                 value: '$completed',
                 label: context.tr('Завершено'),
-                bg: const Color(0xFFEFF6FF),
+                bg: context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
                 border: const Color(0xFFDBEAFE),
                 valueColor: const Color(0xFF2563EB),
                 labelColor: const Color(0xFF1D4ED8),

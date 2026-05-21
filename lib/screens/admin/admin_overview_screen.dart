@@ -394,7 +394,7 @@ class _RequestCard extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
-          backgroundColor: const Color(0xFFECFDF5),
+          backgroundColor: context.isDarkTheme ? const Color(0xFF14532D) : const Color(0xFFECFDF5),
           foregroundColor: const Color(0xFF047857),
           radius: 24,
           child: Text(

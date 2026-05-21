@@ -327,8 +327,8 @@ class _StudentAttendanceCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundColor: const Color(0xFFEEF2FF),
-                foregroundColor: const Color(0xFF4338CA),
+                backgroundColor: context.isDarkTheme ? const Color(0xFF312E81) : const Color(0xFFEEF2FF),
+                foregroundColor: context.isDarkTheme ? const Color(0xFFA5B4FC) : const Color(0xFF4338CA),
                 child: Text(student.initials),
               ),
               const SizedBox(width: 12),

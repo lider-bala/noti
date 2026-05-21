@@ -873,7 +873,7 @@ class _RequestRow extends StatelessWidget {
         Row(
           children: [
             CircleAvatar(
-              backgroundColor: const Color(0xFFEFF6FF),
+              backgroundColor: context.isDarkTheme ? const Color(0xFF1E3A5F) : context.isDarkTheme ? const Color(0xFF1E3A5F) : const Color(0xFFEFF6FF),
               foregroundColor: const Color(0xFF1D4ED8),
               child: Text(_safeInitials(request.fullName)),
             ),

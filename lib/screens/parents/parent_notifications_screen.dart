@@ -597,9 +597,9 @@ class _NotificationCard extends StatelessWidget {
         notification.read ? context.appBorderColor : _borderColor;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: notification.read ? Colors.white : const Color(0xFFF9FAFB),
+        color: notification.read ? context.cardColor : context.panelMutedColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: borderColor, width: 1.8),
         boxShadow: const [
